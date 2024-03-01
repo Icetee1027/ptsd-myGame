@@ -15,12 +15,12 @@ void App::Start() {
     m_Giraffe->SetZIndex(5);
     m_Giraffe->Start();
 
-    //m_Mouse->Start();
-   // m_Mouse->SetZIndex(4);
+    m_Mouse->Start();
+    m_Mouse->SetZIndex(4);
 
     m_Root.AddChild(m_Giraffe);
 
-    //m_Root.AddChild(m_Mouse);
+    m_Root.AddChild(m_Mouse);
 
     m_CurrentState = State::UPDATE;
 }
@@ -28,13 +28,15 @@ void App::Start() {
 void App::Update() {
 
     if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
-    //    m_Mouse->ClickDown();
+        m_Mouse->ClickDown();
+        m_Mouse->ObjectBind(m_Camera);
         LOG_DEBUG("Right button down");
     }
-    //if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
-    //    m_Mouse->ClickUp();
-    //    LOG_DEBUG("Right button up");
-    //}
+    if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
+        m_Mouse->ClickUp();
+        m_Mouse->ObjectUmBind();
+        LOG_DEBUG("Right button up");
+    }
 
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit()) {
@@ -68,7 +70,7 @@ void App::Update() {
         m_Camera->MoveCamera(8, 0, 0);
     }
     m_Camera->Update();
-    //m_Mouse->Update();
+    m_Mouse->Update();
     m_Giraffe->Update();
 
     m_Root.Update();

@@ -12,5 +12,5 @@ void GiraffeText::Start() {
 void GiraffeText::Update() {
     m_Text->SetText(fmt::format("{:.02f}", 1.0F / Util::Time::GetDeltaTime()));
 
-    m_Text->SetColor(Util::Color::FromName(Util::Colors::RED));
+    //m_Text->SetColor(Util::Color::FromName(Util::Colors::RED));
 }

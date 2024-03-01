@@ -5,7 +5,7 @@
 
 #include "Util/Logger.hpp"
 
-constexpr const char *TITLE = "Practical Tools for Simple Design";
+constexpr const char *TITLE = "StackLand";
 
 constexpr int WINDOW_POS_X = SDL_WINDOWPOS_UNDEFINED;
 constexpr int WINDOW_POS_Y = SDL_WINDOWPOS_UNDEFINED;
@@ -21,6 +21,6 @@ constexpr Util::Logger::Level DEFAULT_LOG_LEVEL = Util::Logger::Level::DEBUG;
  *
  * Set value to 0 to turn off FPS cap
  */
-constexpr unsigned int FPS_CAP =0;
+constexpr unsigned int FPS_CAP =1600;
 
 #endif

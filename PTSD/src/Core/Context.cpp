@@ -98,6 +98,7 @@ Context::~Context() {
 }
 
 void Context::Update() {
+    glClearColor(0.65627f, 0.85411f, 0.65411f, 1.0f);
     Util::Time::Update();
     Util::Input::Update();
     SDL_GL_SwapWindow(m_Window);
@@ -106,6 +107,7 @@ void Context::Update() {
     constexpr double frameTime =
         FPS_CAP != 0 ? 1000 / static_cast<double>(FPS_CAP) : 0;
     SDL_Delay(static_cast<Uint32>(frameTime - Util::Time::GetDeltaTime()));
+    //好像會卡
 }
 
 std::shared_ptr<Context> Context::GetInstance() {

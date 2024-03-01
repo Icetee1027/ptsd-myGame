@@ -122,7 +122,11 @@ public:
     void AddChild(const std::shared_ptr<GameObject> &child) {
         m_Children.push_back(child);
     }
-
+    void MoveObject(const glm::vec3 translation) {
+        if (m_Moveable) {
+            m_Transform.translation += translation;
+        }
+    }
     /**
      * @brief Remove a child from the game object.
      *
@@ -141,7 +145,7 @@ protected:
 
     std::shared_ptr<Core::Drawable> m_Drawable = nullptr;
     std::vector<std::shared_ptr<GameObject>> m_Children;
-
+    bool m_Moveable = false;
     float m_ZIndex = 0;
     bool m_Visible = true;
 };

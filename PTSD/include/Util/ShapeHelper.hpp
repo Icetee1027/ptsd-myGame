@@ -4,7 +4,7 @@
 namespace Util {
 class ShapeHelper {
 public:
-    static glm::vec2 GetCursorPositionWorld();
+    static float CursorPositionWorldTr(const float z);
    /* static bool IsBoxOverlap(const std::shared_ptr<Util::GameObject> object1,
                              const std::shared_ptr<Util::GameObject> object2);
     static bool IsBoxOverlap_x(const std::shared_ptr<Util::GameObject> object1,
