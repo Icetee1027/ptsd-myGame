@@ -8,9 +8,9 @@ class GiraffeText : public Util::GameObject {
 public:
     GiraffeText() = default;
 
-    GiraffeText(std::string font, const int size)
+   /* GiraffeText(std::string font, const int size)
         : m_Font(std::move(font)),
-          m_Size(size) {}
+          m_Size(size) {}*/
 
     ~GiraffeText() override = default;
 
@@ -19,9 +19,7 @@ public:
     void Update();
 
 private:
-    std::string m_Font;
-    int m_Size;
-    std::shared_ptr<Util::Text> m_Text;
+    
 };
 
 #endif

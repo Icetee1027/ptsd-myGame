@@ -15,7 +15,6 @@ public:
     void Start();
 
 private:
-    std::shared_ptr<GiraffeText> m_GiraffeText;
 };
 
 #endif

@@ -3,14 +3,16 @@
 #include "Util/Color.hpp"
 #include "Util/Time.hpp"
 
+
 void GiraffeText::Start() {
-    m_Text = std::make_unique<Util::Text>(m_Font, m_Size, "0",
-                                          Util::Color::FromRGB(255, 255, 255));
-    SetDrawable(m_Text);
+    m_Drawable = std::make_shared<Util::Text>(RESOURCE_DIR"/fonts/Inter.ttf", 75, "PAUSE",
+                                          Util::Color::FromRGB(255, 225, 255));
+    m_Drawable->SetWorld(Core::Drawable::World::UI);
+    m_Visible = false;
 }
 
 void GiraffeText::Update() {
-    m_Text->SetText(fmt::format("{:.02f}", 1.0F / Util::Time::GetDeltaTime()));
+    
 
-    //m_Text->SetColor(Util::Color::FromName(Util::Colors::RED));
+    
 }
