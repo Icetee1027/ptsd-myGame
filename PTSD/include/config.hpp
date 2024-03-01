@@ -5,7 +5,7 @@
 
 #include "Util/Logger.hpp"
 
-constexpr const char *TITLE = "StackLnad";
+constexpr const char *TITLE = "StackLnad!";
 
 constexpr int WINDOW_POS_X = SDL_WINDOWPOS_UNDEFINED;
 constexpr int WINDOW_POS_Y = SDL_WINDOWPOS_UNDEFINED;
