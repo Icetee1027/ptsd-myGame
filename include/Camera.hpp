@@ -8,6 +8,8 @@ private:
 
 
 public:
+    Camera();
+    ~Camera() override = default;
     void MoveCamera(float x, float y, float z);
     void Update();
 };

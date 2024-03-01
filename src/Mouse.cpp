@@ -35,6 +35,7 @@ void Mouse::ObjectUmBind() {
 void Mouse::ObjectDrag() {
     if (typeid(*m_BindObject) == typeid(Camera)) {
         m_BindObject->MoveObject(glm::vec3(m_Distance * Util::ShapeHelper::CursorPositionWorldTr(0), 0));
+      
     }
     else {
 

@@ -15,18 +15,35 @@ void App::Start() {
     m_Giraffe->SetZIndex(5);
     m_Giraffe->Start();
 
+    m_GiraffeText->SetZIndex(0);
+    m_GiraffeText->Start();
+
     m_Mouse->Start();
     m_Mouse->SetZIndex(4);
 
     m_Root.AddChild(m_Giraffe);
-
+    m_Root.AddChild(m_GiraffeText);
     m_Root.AddChild(m_Mouse);
 
     m_CurrentState = State::UPDATE;
 }
 
 void App::Update() {
-
+    if (Util::Input::IsKeyUp(Util::Keycode::SPACE)) {
+        m_IsPlayButton = m_IsPlayButton== App::PauseOrPlay::Pause? App::PauseOrPlay::Play: App::PauseOrPlay::Pause;
+        m_GiraffeText->SetVisible(!m_GiraffeText->GetVisible());
+        m_Mouse->ObjectUmBind();
+    }
+    switch (m_IsPlayButton)
+    {
+    case App::PauseOrPlay::Pause:
+        Pause();
+        break;
+    case App::PauseOrPlay::Play:
+        Play();
+        break;
+    }
+    //------------------------------------------------------------
     if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
         m_Mouse->ClickDown();
         m_Mouse->ObjectBind(m_Camera);
@@ -36,22 +53,6 @@ void App::Update() {
         m_Mouse->ClickUp();
         m_Mouse->ObjectUmBind();
         LOG_DEBUG("Right button up");
-    }
-
-
-    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit()) {
-        m_CurrentState = State::END;
-    }
-
-
-    if (Util::Input::IsKeyPressed(Util::Keycode::B)) {
-        //LOG_DEBUG("IsKeyPressed  B");
-    }
-    if (Util::Input::IsKeyDown(Util::Keycode::B)) {
-        LOG_DEBUG("IsKeyDown  B");
-    }
-    if (Util::Input::IsKeyUp(Util::Keycode::B)) {
-        LOG_DEBUG("IsKeyUp  B");
     }
     if (Util::Input::IfScroll()) {
         auto delta = Util::Input::GetScrollDistance();
@@ -70,9 +71,11 @@ void App::Update() {
         m_Camera->MoveCamera(8, 0, 0);
     }
     m_Camera->Update();
+    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit()) {
+        m_CurrentState = State::END;
+    }
+    //------------------------------------------------------------------
     m_Mouse->Update();
-    m_Giraffe->Update();
-
     m_Root.Update();
 }
 
