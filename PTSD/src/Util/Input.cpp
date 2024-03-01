@@ -35,8 +35,10 @@ bool Input::IsKeyPressed(const Keycode &key) {
 
 bool Input::IsKeyDown(const Keycode &key) {
     if (key > Keycode::NUM_SCANCODES) {
+        
         return s_MouseState[key].second && !s_MouseState[key].first;
     }
+   
 
     const auto index = static_cast<const int>(key);
     return s_CurrentKeyState[index] != 0 && s_LastKeyState[index] == 0;
@@ -44,7 +46,7 @@ bool Input::IsKeyDown(const Keycode &key) {
 
 bool Input::IsKeyUp(const Keycode &key) {
     if (key > Keycode::NUM_SCANCODES) {
-        return s_MouseState[key].second && !s_MouseState[key].first;
+        return !s_MouseState[key].second && s_MouseState[key].first;
     }
 
     const auto index = static_cast<const int>(key);
@@ -123,8 +125,9 @@ void Input::Update() {
         s_Scroll = s_Event.type == SDL_MOUSEWHEEL || s_Scroll;
 
         if (s_Scroll) {
-            s_ScrollDistance.x = static_cast<float>(s_Event.wheel.x);
-            s_ScrollDistance.y = static_cast<float>(s_Event.wheel.y);
+            if (s_Event.wheel.y == 1 || s_Event.wheel.y == -1) {
+                s_ScrollDistance.y = static_cast<float>(s_Event.wheel.y);
+            }
         }
         s_MouseMoving = s_Event.type == SDL_MOUSEMOTION || s_MouseMoving;
         s_Exit = s_Event.type == SDL_QUIT;

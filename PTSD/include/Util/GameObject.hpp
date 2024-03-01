@@ -104,7 +104,9 @@ public:
     void SetDrawable(const std::shared_ptr<Core::Drawable> &drawable) {
         m_Drawable = drawable;
     }
-
+    void SetDrawableState(const Core::Drawable::World world) { 
+        m_Drawable->SetWorld(world);
+    }
     /**
      * @brief Set the visibility of the game object.
      *

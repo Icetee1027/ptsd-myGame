@@ -49,7 +49,7 @@ Text::Text(const std::string &font, int fontSize, const std::string &text,
 }
 
 void Text::Draw(const Util::Transform &transform, const float zIndex) {
-    auto data = Util::ConvertToUniformBufferData(transform, m_Size, zIndex);
+    auto data = Util::ConvertToUniformBufferData(transform, m_Size, zIndex,m_View,m_world);
     s_UniformBuffer->SetData(0, data);
 
     m_Texture->Bind(UNIFORM_SURFACE_LOCATION);
@@ -62,8 +62,9 @@ void Text::Draw(const Util::Transform &transform, const float zIndex) {
 
 void Text::InitProgram() {
     // TODO: Create `BaseProgram` from `Program` and pass it into `Drawable`
-    s_Program = std::make_unique<Core::Program>(PTSD_DIR"/assets/shaders/Base.vert",
-                                                PTSD_DIR"/assets/shaders/Base.frag");
+    s_Program =
+        std::make_unique<Core::Program>(PTSD_DIR "/assets/shaders/Base.vert",
+                                        PTSD_DIR "/assets/shaders/Base.frag");
     s_Program->Bind();
 
     GLint location = glGetUniformLocation(s_Program->GetId(), "surface");

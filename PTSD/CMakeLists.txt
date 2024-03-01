@@ -32,6 +32,7 @@ set(SRC_FILES
     ${SRC_DIR}/Core/Program.cpp
     ${SRC_DIR}/Core/Texture.cpp
     ${SRC_DIR}/Core/TextureUtils.cpp
+    ${SRC_DIR}/Core/Drawable.cpp
 
     ${SRC_DIR}/Util/LoadTextFile.cpp
     ${SRC_DIR}/Util/Logger.cpp

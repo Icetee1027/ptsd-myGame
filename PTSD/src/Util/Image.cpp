@@ -21,7 +21,6 @@ Image::Image(const std::string &filepath)
     if (s_UniformBuffer == nullptr) {
         InitUniformBuffer();
     }
-
     auto surface =
         std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *)>>{
             IMG_Load(filepath.c_str()),
@@ -55,7 +54,7 @@ void Image::SetImage(const std::string &filepath) {
 }
 
 void Image::Draw(const Util::Transform &transform, const float zIndex) {
-    auto data = Util::ConvertToUniformBufferData(transform, m_Size, zIndex);
+    auto data = Util::ConvertToUniformBufferData(transform, m_Size, zIndex,m_View,m_world);
     s_UniformBuffer->SetData(0, data);
 
     m_Texture->Bind(UNIFORM_SURFACE_LOCATION);
@@ -68,8 +67,9 @@ void Image::Draw(const Util::Transform &transform, const float zIndex) {
 
 void Image::InitProgram() {
     // TODO: Create `BaseProgram` from `Program` and pass it into `Drawable`
-    s_Program = std::make_unique<Core::Program>(PTSD_DIR"/assets/shaders/Base.vert",
-                                                PTSD_DIR"/assets/shaders/Base.frag");
+    s_Program =
+        std::make_unique<Core::Program>(PTSD_DIR "/assets/shaders/Base.vert",
+                                        PTSD_DIR "/assets/shaders/Base.frag");
     s_Program->Bind();
 
     GLint location = glGetUniformLocation(s_Program->GetId(), "surface");

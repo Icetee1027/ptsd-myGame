@@ -29,7 +29,7 @@ public:
      * @param filepath The file path to the image.
      */
     explicit Image(const std::string &filepath);
-
+    
     /**
      * @brief Retrieves the size of the image.
      *
