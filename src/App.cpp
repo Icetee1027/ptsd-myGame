@@ -54,6 +54,7 @@ void App::Update() {
         m_Mouse->ObjectUmBind();
         LOG_DEBUG("Right button up");
     }
+
     if (Util::Input::IfScroll()) {
         auto delta = Util::Input::GetScrollDistance();
         m_Camera->MoveCamera(0, 0, 30 * delta.y);
