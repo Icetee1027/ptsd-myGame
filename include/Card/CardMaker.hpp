@@ -8,7 +8,7 @@
 #include "Card/Cardsfx.hpp"
 using json = nlohmann::json;
 namespace card {
-	enum class Ttpe{ 
+	enum class Type{ 
 		Villager,
 		Equiqment,
 		Food,
@@ -19,8 +19,34 @@ namespace card {
 		Idea,
 		Location
 	};
+	card::Type GetJosnToType(int t) {
+		switch (t)
+		{
+		case(0):
+			return card::Type::Villager;
+		case(1):
+			return card::Type::Equiqment;
+		case(2):
+			return card::Type::Food;
+		case(3):
+			return card::Type::Mob;
+		case(4):
+			return card::Type::CardPack;
+		case(5):
+			return card::Type::Resource;
+		case(6):
+			return card::Type::Structure;
+		case(7):
+			return card::Type::Idea;
+		case(8):
+			return card::Type::Location;
+		default:
+			LOG_ERROR("fill type out of range");
+			break;
+		}
+	}
 	std::shared_ptr<Card> MakeCard(std::string name) {
-		std::ifstream file("../assets/josn/cardpack.json");
+		std::ifstream file(RESOURCE_DIR"josn/cardpack.json");
 		json attribute;
 		attribute  << file;
 		std::vector<std::string> sfxs;
@@ -104,6 +130,7 @@ namespace card {
 		else {
 			LOG_ERROR("card class is not found");
 		}
+
 		return temp;
 	}
 
