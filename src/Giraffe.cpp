@@ -37,3 +37,9 @@ void Giraffe::Update() {
 
     
 }
+void Giraffe::ClickDown() {
+
+}
+void Giraffe::ClickUp() {
+
+}

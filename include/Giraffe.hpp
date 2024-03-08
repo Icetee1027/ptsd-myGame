@@ -13,6 +13,8 @@ public:
     void Update();
 
     void Start();
+    void ClickDown() override;
+    void ClickUp() override;
 
 private:
 };

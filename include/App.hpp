@@ -4,7 +4,7 @@
 #include "pch.hpp" // IWYU pragma: export
 #include "Util/Root.hpp"
 
-#include "Cat.hpp"
+
 #include "Giraffe.hpp"
 #include "GiraffeText.hpp"
 #include "Camera.hpp"

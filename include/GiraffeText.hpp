@@ -17,7 +17,8 @@ public:
     void Start();
 
     void Update();
-
+    void ClickDown() override;
+    void ClickUp() override;
 private:
     
 };
