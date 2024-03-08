@@ -1,5 +1,5 @@
-#ifndef CARDACK_HPP
-#define CARDACK_HPP
+#ifndef CARDPACK_HPP
+#define CARDPACK_HPP
 
 class CardPack{
 public:
