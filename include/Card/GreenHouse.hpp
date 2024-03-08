@@ -1,7 +1,7 @@
 #ifndef GREENHOUSE_HPP
 #define GREENHOUSE_HPP
 
-class GreenHouse{
+class Greenhouse{
 public:
 private:
 };

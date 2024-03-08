@@ -1,0 +1,1 @@
+#include "Card/Corpse.hpp"
