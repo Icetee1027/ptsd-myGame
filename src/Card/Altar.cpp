@@ -1,0 +1,1 @@
+#include "Card/Altar.hpp"

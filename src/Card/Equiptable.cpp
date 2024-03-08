@@ -1,0 +1,1 @@
+#include "Card/Equiptable.hpp"
