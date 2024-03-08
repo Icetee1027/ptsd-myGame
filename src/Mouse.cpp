@@ -5,18 +5,17 @@
 #include "Util/ShapeHelper.hpp"
 #include "Camera.hpp"
 #include <typeinfo>
-void Mouse::Update() {
-    m_Distance = Util::Input::GetCursorPosition() - m_LastPosition;
-    m_LastPosition = Util::Input::GetCursorPosition();
-    m_Transform.translation.x = m_LastPosition.x;
-    m_Transform.translation.y = m_LastPosition.y;
-    if (m_BindObject != nullptr){ObjectDrag();}
-}
 void Mouse::Start() {
     std::vector<std::string> images = { RESOURCE_DIR "/sprites/mouse2.png",
                                        RESOURCE_DIR "/sprites/mouse.png"};
     m_Drawable = std::make_shared<Util::Animation>(images,0,0,0,0);
     m_Drawable->SetWorld(Core::Drawable::World::UI);
+}
+void Mouse::Update() {
+    m_Distance = Util::Input::GetCursorPosition() - m_LastPosition;
+    m_LastPosition = Util::Input::GetCursorPosition();
+    m_Transform.translation = glm::vec3(m_LastPosition, 0);
+    if (m_BindObject != nullptr){ObjectDrag();}
 }
 void Mouse::ClickDown() {
     auto animation = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);

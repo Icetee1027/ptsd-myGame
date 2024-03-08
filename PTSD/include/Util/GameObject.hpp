@@ -122,9 +122,14 @@ public:
     void AddChild(const std::shared_ptr<GameObject> &child) {
         m_Children.push_back(child);
     }
-    void MoveObject(const glm::vec3 translation) {
+    void MoveObject(const glm::vec3 &translation) {
         if (m_Moveable) {
             m_Transform.translation += translation;
+        }
+    }
+    void SetTranslation(const glm::vec3 &translation) {
+        if (m_Moveable) {
+            m_Transform.translation = translation;
         }
     }
     /**
@@ -139,6 +144,8 @@ public:
     }
 
     void Draw();
+    virtual void ClickDown() = 0;
+    virtual void ClickUp()=0;
 
 protected:
     Util::Transform m_Transform; // IDK if this should be here.

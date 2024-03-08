@@ -12,7 +12,11 @@ void GiraffeText::Start() {
 }
 
 void GiraffeText::Update() {
-    
 
-    
+}
+void GiraffeText::ClickDown() {
+
+}
+void GiraffeText::ClickUp() {
+
 }

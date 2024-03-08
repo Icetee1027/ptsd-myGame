@@ -8,11 +8,12 @@ private:
     std::shared_ptr<Util::GameObject> m_BindObject = nullptr;
     glm::vec2 m_Distance;
     glm::vec2 m_LastPosition;
+
 public:
     void Start();
     void Update();
-    void ClickDown();
-    void ClickUp();
+    void ClickDown() override;
+    void ClickUp() override;
     void ObjectBind(std::shared_ptr<Util::GameObject> Object);
     void ObjectUmBind();
     void ObjectDrag();

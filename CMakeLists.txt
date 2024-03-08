@@ -3,6 +3,7 @@ project(REPLACE_WITH_YOUR_PROJECT_NAME)
 
 set(CMAKE_CXX_STANDARD 17)
 
+
 add_subdirectory(PTSD)
 add_library(Framework ${PTSD_SRC_FILES} $<TARGET_OBJECTS:PracticalToolsForSimpleDesign>)
 
