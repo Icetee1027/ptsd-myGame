@@ -51,10 +51,14 @@ namespace card {
 		attribute  << file;
 		std::vector<std::string> sfxs;
 		std::string image = RESOURCE_DIR"audio/sprites/card" + attribute["image"];
-		for (auto sfx : card::GetCardSFX(attribute["type"])) {
+		card::Type m_Type = GetJosnToType(attribute["type"]);
+		std::shared_ptr<Card> temp = nullptr;
+
+		for (auto sfx : card::GetCardSFX(m_Type)) {
 			sfxs.push_back(RESOURCE_DIR"audio/sfx" + sfx);
 		}
-		std::shared_ptr<Card> temp = nullptr;
+
+		
 		if (attribute["class"] == "Food") {
 			temp = std::make_shared<Food>(attribute["name"], attribute["id"], sfxs, image);
 		}
