@@ -38,6 +38,7 @@ public:
         ApplyTexture();
     }
 
+
     /**
      * @brief Sets the color of the text.
      *

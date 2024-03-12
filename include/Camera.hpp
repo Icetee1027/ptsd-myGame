@@ -8,11 +8,11 @@ public:
     Camera();
     ~Camera() override = default;
     void MoveCamera(float x, float y, float z);
-    void Update();
+    void Update() override;
     void ClickDown() override;
     void ClickUp() override;
 private:
-    glm::vec3 m_CameraPosition;
+   
 };
 
 

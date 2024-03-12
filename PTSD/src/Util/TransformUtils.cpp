@@ -17,7 +17,7 @@ Core::Matrices ConvertToUniformBufferData(const Util::Transform &transform,
             glm::perspective(glm::radians(90.0f),
                                 static_cast<float>(WINDOW_WIDTH) /
                                     static_cast<float>(WINDOW_HEIGHT),
-                                -200.0f - m_View.z, 100.0f - m_View.z);
+                                -200.0f - m_View.z, 1.0f - m_View.z);
         
     } else {
         projection = glm::ortho<float>(0.0F, 1.0F, 0.0F, 1.0F, -100.0f, 100.0f);

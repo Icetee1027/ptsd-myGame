@@ -1,0 +1,8 @@
+{
+    "name": "Mushroom",
+    "id": 8,
+    "class": "Food",
+    "type": 2,
+    "satiety": 1,
+    "price": 2
+}

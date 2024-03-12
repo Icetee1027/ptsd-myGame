@@ -4,12 +4,15 @@
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
-
+#include "Card/CardMaker.hpp"
 #include "GiraffeText.hpp"
 
 void App::Start() {
    // LOG_TRACE("Start");
-
+    for (int i = 0; i < 1; i++) {
+        m_test.push_back(card::CardMaker::MakeCard("Milk"));
+    }
+    //LOG_ERROR("{},{}",  m_test[0]->GetScaledSize().x, m_test[0]->GetScaledSize().y);
     m_Giraffe->SetDrawable(
         std::make_shared<Util::Image>(RESOURCE_DIR"/sprites/giraffe.png"));
     m_Giraffe->SetZIndex(5);
@@ -24,7 +27,9 @@ void App::Start() {
     m_Root.AddChild(m_Giraffe);
     m_Root.AddChild(m_GiraffeText);
     m_Root.AddChild(m_Mouse);
-
+    for (auto i : m_test) {
+        m_Root.AddChild(i);
+    }
     m_CurrentState = State::UPDATE;
 }
 
@@ -44,6 +49,13 @@ void App::Update() {
         break;
     }
     //------------------------------------------------------------
+    if (Util::Input::IsKeyDown(Util::Keycode::B)) {
+        for (int i = 0; i < 100; i++) {
+            m_test.push_back(card::CardMaker::MakeCard("test"));
+            m_Root.AddChild(m_test.back());
+        }
+        LOG_DEBUG("B");
+    }
     if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
         m_Mouse->ClickDown();
         m_Mouse->ObjectBind(m_Camera);
@@ -77,6 +89,11 @@ void App::Update() {
     }
     //------------------------------------------------------------------
     m_Mouse->Update();
+    for (int i = 0; i < m_test.size();i++) {
+        m_test[i]->SetZIndex(i);
+        m_test[i]->SetTranslation(glm::vec3((i % 30) * 100.0, -int(i / 30) * 100.0, 0));
+        m_test[i]->Update();
+    }
     m_Root.Update();
 }
 

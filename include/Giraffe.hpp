@@ -10,7 +10,7 @@
 class Giraffe : public Util::GameObject {
 
 public:
-    void Update();
+    void Update() override;
 
     void Start();
     void ClickDown() override;

@@ -1,0 +1,8 @@
+{
+    "name": "Omelette",
+    "id": 9,
+    "class": "Food",
+    "type": 2,
+    "satiety": 3,
+    "price": 5
+}

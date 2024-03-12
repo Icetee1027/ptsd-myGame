@@ -1,0 +1,8 @@
+{
+    "name": "CookedMeat",
+    "id": 3,
+    "class": "Food",
+    "type": 2,
+    "satiety": 2,
+    "price": 3
+}

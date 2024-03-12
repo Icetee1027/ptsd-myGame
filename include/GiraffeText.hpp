@@ -16,7 +16,7 @@ public:
 
     void Start();
 
-    void Update();
+    void Update() override;
     void ClickDown() override;
     void ClickUp() override;
 private:

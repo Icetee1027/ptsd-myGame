@@ -1,0 +1,8 @@
+{
+    "name": "Egg",
+    "id": 1,
+    "class": "Egg",
+    "type": 2,
+    "price": 1,
+    "satiety": 0
+}

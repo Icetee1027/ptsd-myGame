@@ -1,0 +1,8 @@
+{
+    "name": "Berry",
+    "id": 1,
+    "class": "Food",
+    "type": 2,
+    "satiety": 1,
+    "price": 1
+}

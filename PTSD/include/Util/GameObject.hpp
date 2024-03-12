@@ -60,7 +60,7 @@ public:
      *
      * @return The z-index of the game object.
      */
-    float GetZIndex() const { return m_ZIndex; }
+    float GetZIndex() const { return m_ZIndex+m_Transform.translation.z; }
 
     /**
      * @brief Get the transform of the game object.
@@ -143,9 +143,14 @@ public:
             m_Children.end());
     }
 
+
+
+
     void Draw();
-    virtual void ClickDown() = 0;
-    virtual void ClickUp()=0;
+    virtual void ClickDown(){};
+    virtual void ClickUp(){};
+    virtual void Update(){};
+
 
 protected:
     Util::Transform m_Transform; // IDK if this should be here.

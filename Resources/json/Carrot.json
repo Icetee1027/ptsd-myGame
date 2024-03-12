@@ -1,0 +1,8 @@
+{
+    "name": "Carrot",
+    "id": 2,
+    "class": "Food",
+    "type": 2,
+    "satiety": 2,
+    "price": 2
+}

@@ -1,0 +1,8 @@
+{
+    "name": "RawMeat",
+    "id": 1,
+    "class": "Food",
+    "type": 2,
+    "price": 3,
+    "satiety": 0
+}

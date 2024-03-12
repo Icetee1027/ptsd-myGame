@@ -48,6 +48,7 @@ Text::Text(const std::string &font, int fontSize, const std::string &text,
     m_Size = {surface->pitch / surface->format->BytesPerPixel, surface->h};
 }
 
+
 void Text::Draw(const Util::Transform &transform, const float zIndex) {
     auto data = Util::ConvertToUniformBufferData(transform, m_Size, zIndex,m_View,m_world);
     s_UniformBuffer->SetData(0, data);

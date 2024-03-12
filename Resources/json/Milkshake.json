@@ -1,0 +1,8 @@
+{
+    "name": "Milkshake",
+    "id": 7,
+    "class": "Food",
+    "type": 2,
+    "satiety": 2,
+    "price": 5
+}
