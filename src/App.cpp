@@ -9,7 +9,14 @@
 
 void App::Start() {
    // LOG_TRACE("Start");
+<<<<<<< Updated upstream
 
+=======
+    for (int i = 0; i < 1; i++) {
+        m_test.push_back(card::CardMaker::MakeCard("Baby"));
+    }
+    //LOG_ERROR("{},{}",  m_test[0]->GetScaledSize().x, m_test[0]->GetScaledSize().y);
+>>>>>>> Stashed changes
     m_Giraffe->SetDrawable(
         std::make_shared<Util::Image>(RESOURCE_DIR"/sprites/giraffe.png"));
     m_Giraffe->SetZIndex(5);
@@ -44,6 +51,16 @@ void App::Update() {
         break;
     }
     //------------------------------------------------------------
+<<<<<<< Updated upstream
+=======
+    if (Util::Input::IsKeyDown(Util::Keycode::B)) {
+        for (int i = 0; i < 100; i++) {
+            m_test.push_back(card::CardMaker::MakeCard("Poop"));
+            m_Root.AddChild(m_test.back());
+        }
+        LOG_DEBUG("B");
+    }
+>>>>>>> Stashed changes
     if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
         m_Mouse->ClickDown();
         m_Mouse->ObjectBind(m_Camera);

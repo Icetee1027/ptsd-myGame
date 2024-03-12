@@ -6,6 +6,10 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(PTSD)
 add_library(Framework ${PTSD_SRC_FILES} $<TARGET_OBJECTS:PracticalToolsForSimpleDesign>)
+<<<<<<< Updated upstream
+=======
+       
+>>>>>>> Stashed changes
 
 #include(files.cmake)
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
