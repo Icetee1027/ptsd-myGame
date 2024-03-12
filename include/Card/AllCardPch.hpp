@@ -29,6 +29,7 @@
 #include "Card/CardTitle.hpp"
 #include "Card/Milk.hpp"
 #include "Card/Egg.hpp"
+#include "Card/Bone.hpp"
 
 
 

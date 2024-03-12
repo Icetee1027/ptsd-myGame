@@ -63,7 +63,8 @@ namespace card {
             {"Equipable", createCardFunction<Equipable>()},
             {"CardPack", createCardFunction<CardPack>()},
             {"Milk",createCardFunction<Milk>() },
-            { "Egg",createCardFunction<Egg>() }
+            { "Egg",createCardFunction<Egg>() },
+            { "Bone",createCardFunction<Bone>() }
         };
 
         auto it = cardCreators.find(attribute["class"]);

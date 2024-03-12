@@ -10,7 +10,7 @@
 void App::Start() {
    // LOG_TRACE("Start");
     for (int i = 0; i < 1; i++) {
-        m_test.push_back(card::CardMaker::MakeCard("Milk"));
+        m_test.push_back(card::CardMaker::MakeCard("Bone"));
     }
     //LOG_ERROR("{},{}",  m_test[0]->GetScaledSize().x, m_test[0]->GetScaledSize().y);
     m_Giraffe->SetDrawable(
