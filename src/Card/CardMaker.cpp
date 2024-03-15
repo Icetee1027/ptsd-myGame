@@ -64,7 +64,15 @@ namespace card {
             {"CardPack", createCardFunction<CardPack>()},
             {"Milk",createCardFunction<Milk>() },
             { "Egg",createCardFunction<Egg>() },
-            { "Bone",createCardFunction<Bone>() }
+            { "Bone",createCardFunction<Bone>() },
+            { "BaseVillager",createCardFunction<BaseVillager>() },
+            { "Animal",createCardFunction<Animal>() },
+            { "Enemy",createCardFunction<Enemy>() },
+            { "Graveyard",createCardFunction<Graveyard>() },
+            { "Portal",createCardFunction<Portal>() },
+            { "Temple",createCardFunction<Temple>() },
+            { "Building",createCardFunction<Building>() },
+            { "TreasureChest",createCardFunction<TreasureChest>() },
         };
 
         auto it = cardCreators.find(attribute["class"]);
@@ -94,7 +102,7 @@ namespace card {
         if (attribute.contains("price")) {
             int price = attribute["price"];
             std::shared_ptr<CardLeftNum> number = std::make_shared<CardLeftNum>();
-            if (name != "coin") {
+            if (name != "Coin") {
                 number->SetDrawable(m_pool.getNumberTextElement(price));
                 temp->AddChild(number); 
             }
@@ -124,7 +132,8 @@ namespace card {
         {5, Type::Resource},
         {6, Type::Structure},
         {7, Type::Idea},
-        {8, Type::Location}
+        {8, Type::Location},
+        {9, Type::Rumors}
     };
 
     const std::unordered_map<Type, std::vector<std::string>> CardMaker::cardSFXMap = {
@@ -136,7 +145,8 @@ namespace card {
         {Type::Resource, {}},
         {Type::Structure, {}},
         {Type::Idea, {}},
-        {Type::Location, {}}
+        {Type::Location, {}},
+        {Type::Rumors, {}}
     };
     CardElementPool CardMaker::m_pool;
 }

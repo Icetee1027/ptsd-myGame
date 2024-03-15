@@ -6,13 +6,13 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(PTSD)
 add_library(Framework ${PTSD_SRC_FILES} $<TARGET_OBJECTS:PracticalToolsForSimpleDesign>)
-    
+     
 #include(files.cmake)
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 list(TRANSFORM SRC_FILES PREPEND ${SRC_DIR}/)
 list(TRANSFORM INCLUDE_FILES PREPEND ${INCLUDE_DIR}/)
-
+ 
 file(GLOB_RECURSE SRC_FILES src/*)   
 file(GLOB_RECURSE HEADER_FILES include/*) 
  
@@ -20,8 +20,8 @@ add_executable(${PROJECT_NAME}
     ${SRC_DIR}/main.cpp
     ${SRC_FILES}
     ${HEADER_FILES}
-) 
-
+)    
+    
 if(MSVC) 
     target_compile_options(${PROJECT_NAME} PRIVATE /W4)
 else()

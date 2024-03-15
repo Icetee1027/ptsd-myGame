@@ -9,9 +9,8 @@
 
 void App::Start() {
    // LOG_TRACE("Start");
-    for (int i = 0; i < 1; i++) {
-        m_test.push_back(card::CardMaker::MakeCard("Bone"));
-    }
+    m_test.push_back(card::CardMaker::MakeCard("Berry"));
+    m_Root.AddChild(m_test.back());
     //LOG_ERROR("{},{}",  m_test[0]->GetScaledSize().x, m_test[0]->GetScaledSize().y);
     m_Giraffe->SetDrawable(
         std::make_shared<Util::Image>(RESOURCE_DIR"/sprites/giraffe.png"));
@@ -27,9 +26,7 @@ void App::Start() {
     m_Root.AddChild(m_Giraffe);
     m_Root.AddChild(m_GiraffeText);
     m_Root.AddChild(m_Mouse);
-    for (auto i : m_test) {
-        m_Root.AddChild(i);
-    }
+
     m_CurrentState = State::UPDATE;
 }
 
@@ -50,11 +47,36 @@ void App::Update() {
     }
     //------------------------------------------------------------
     if (Util::Input::IsKeyDown(Util::Keycode::B)) {
-        for (int i = 0; i < 100; i++) {
-            m_test.push_back(card::CardMaker::MakeCard("test"));
-            m_Root.AddChild(m_test.back());
+        if (files.size() - filscont >= 10) {
+            for (int i = 1; i < 11; i++) {
+                LOG_DEBUG("{}", files[filscont]);
+                m_test.push_back(card::CardMaker::MakeCard(files[filscont]));
+                m_Root.AddChild(m_test.back());
+                filscont++;
+            }
         }
+        else if(files.size()- filscont>0) {
+            for (int i = 1; i < files.size() - filscont+1; i++) {
+                LOG_DEBUG("{}", files[filscont]);
+                m_test.push_back(card::CardMaker::MakeCard(files[filscont]));
+                m_Root.AddChild(m_test.back());
+                filscont++;
+            }
+        }
+    
         LOG_DEBUG("B");
+    }
+    if (Util::Input::IsKeyDown(Util::Keycode::G)) {
+        
+            for (int i = 1; i < 11; i++) {
+
+                m_test.push_back(card::CardMaker::MakeCard(files[1]));
+                m_Root.AddChild(m_test.back());
+
+            }
+        
+        
+        LOG_DEBUG("G");
     }
     if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
         m_Mouse->ClickDown();

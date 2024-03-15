@@ -1,0 +1,7 @@
+{
+    "name": "Explorer",
+    "id": 0,
+    "class": "BaseVillager",
+    "type": 0,
+    "hp": 15
+}

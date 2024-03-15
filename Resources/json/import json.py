@@ -19,10 +19,11 @@ def main():
     
         # 自訂義輸入數據，這只是一個示例，您可以根據需要修改
         data['id'] = 0
-        data['class'] = "Kid"
-        data['type'] = 0
-        #if input("是否輸入 Price？(y/n): ").lower() == 'y':
-        #data['price'] = int(input("Price:"))
+        data['class'] = "Resource"
+        data['type'] = 5
+       
+        
+        data['price'] = int(input("Price:"))
         #if input("是否輸入 satiety？(y/n): ").lower() == 'y':
         #data['satiety'] = int(input("satiety:"))
         #if input("是否輸入 hp？(y/n): ").lower() == 'y':
