@@ -1,0 +1,7 @@
+{
+    "name": "Catacombs",
+    "id": 0,
+    "class": "Harvestable",
+    "type": 8,
+    "price": 5
+}

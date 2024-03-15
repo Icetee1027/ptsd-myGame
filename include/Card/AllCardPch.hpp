@@ -30,6 +30,16 @@
 #include "Card/Milk.hpp"
 #include "Card/Egg.hpp"
 #include "Card/Bone.hpp"
+#include "Card/BaseVillager.hpp"
+#include "Card/Mob.hpp"
+#include "Card/Animal.hpp"
+#include "Card/Enemy.hpp"
+#include "Card/Graveyard.hpp"
+#include "Card/Portal.hpp"
+#include "Card/Temple.hpp"
+#include "Card/Building.hpp"
+#include "Card/TreasureChest.hpp"
+
 
 
 

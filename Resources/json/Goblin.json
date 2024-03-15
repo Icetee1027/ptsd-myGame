@@ -1,0 +1,7 @@
+{
+    "name": "Goblin",
+    "id": 0,
+    "class": "Enemy",
+    "type": 3,
+    "hp": 10
+}

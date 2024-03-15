@@ -1,7 +1,7 @@
 {
     "name": "Flint",
     "id": 0,
-    "class": "Resources",
+    "class": "Resource",
     "type": 5,
     "price": 2
 }

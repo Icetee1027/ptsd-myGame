@@ -1,0 +1,7 @@
+{
+    "name": "Chicken",
+    "id": 0,
+    "class": "Animal",
+    "type": 3,
+    "hp": 5
+}

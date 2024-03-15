@@ -1,8 +1,0 @@
-{
-    "name": "Apple",
-    "id": 0,
-    "class": "Food",
-    "type": 2,
-    "satiety": 2,
-    "price": 2
-}

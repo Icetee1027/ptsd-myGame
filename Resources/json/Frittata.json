@@ -1,0 +1,8 @@
+{
+    "name": "Frittata",
+    "id": 0,
+    "class": "Food",
+    "type": 2,
+    "price": 3,
+    "satiety": 3
+}

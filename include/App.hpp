@@ -41,6 +41,16 @@ private:
     std::vector<std::shared_ptr<card::Card>>  m_test;
     std::shared_ptr<Mouse> m_Mouse = std::make_shared<Mouse>();
     Util::Root m_Root;
+    std::vector<std::string> files = { "AnimalPen", "Apple", "AppleTree", "Baby", "Bear", "Berry", "BerryBush",//
+        "Bone", "Brick", "Brickyard", "Campfire", "Carrot", "Catacombs", "Chicken", "Coin", "CoinChest", "CookedMeat",//
+        "Corpse", "Cow", "Demon", "Dog", "Egg", "Explorer", "Farm", "Flint", "Forest", "Frittata", "FruitSalad", "Garden", //
+        "GiantRat", "Goblin", "GoldenGoblet", "Graveyard", "House", "IronBar", "IronDeposit", "IronMine", "IronOre",//
+        "Key", "LumberCamp", "MagicDust", "Map", "Market", "Militia", "Milk", "Milkshake", "Mountain", "Mushroom", "OldTome", //
+        "OldVillage", "Omelette", "Onion", "Plains", "Plank", "Poop", "Potato", "Quarry", "Rabbit", "RarePortal", "Rat", //
+        "RawMeat", "Rock", "Sawmill", "Shed", "Skeleton", "Slime", "SmallSlime",//
+        "Smelter", "Smithy", "Soil", "Spear", "Stew", "Stick", "Stone",  "StrangePortal", "Sword", "Swordsman", "Temple", //
+        "TravellingCart", "TreasureChest", "Tree", "Villager", "Warehouse", "WickedWitch", "Wolf", "Wood" };
+    int filscont = 0;
 };
 
 #endif

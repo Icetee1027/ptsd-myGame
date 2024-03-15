@@ -20,7 +20,8 @@ namespace card {
         Resource,
         Structure,
         Idea,
-        Location
+        Location,
+        Rumors
     };
 
     class Card : public Util::GameObject {
