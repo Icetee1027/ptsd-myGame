@@ -1,6 +1,7 @@
 #ifndef APP_HPP
 #define APP_HPP
 
+#include "Card/Card.hpp"
 #include "pch.hpp" // IWYU pragma: export
 #include "Util/Root.hpp"
 
@@ -10,6 +11,9 @@
 #include "Camera.hpp"
 #include "Mouse.hpp"
 #include "card/Card.hpp"
+#include <map>
+#include <memory>
+#include <utility>
 class App {
 public:
     enum class State {
@@ -27,6 +31,9 @@ public:
 private:
     void Play();
     void Pause();
+    void SetWorldCards(int xCordinate, std::shared_ptr<card::Card> NewCard){
+        M_WorldCard.insert({xCordinate, NewCard});
+    }
     
 private:
     enum class PauseOrPlay {
@@ -51,6 +58,7 @@ private:
         "Smelter", "Smithy", "Soil", "Spear", "Stew", "Stick", "Stone",  "StrangePortal", "Sword", "Swordsman", "Temple", //
         "TravellingCart", "TreasureChest", "Tree", "Villager", "Warehouse", "WickedWitch", "Wolf", "Wood" };
     int filscont = 0;
+    std::multimap<int, std::shared_ptr<card::Card>>M_WorldCard;
 };
 
 #endif
