@@ -11,6 +11,10 @@ void App::Start() {
    // LOG_TRACE("Start");
     m_test.push_back(card::CardMaker::MakeCard("Berry"));
     m_Root.AddChild(m_test.back());
+    SetWorldCards(m_test.back()->GetTransform().translation.x, m_test.back());
+    for(auto& m : M_WorldCard){
+        LOG_DEBUG("{}", m.first);
+    }
     //LOG_ERROR("{},{}",  m_test[0]->GetScaledSize().x, m_test[0]->GetScaledSize().y);
     m_Giraffe->SetDrawable(
         std::make_shared<Util::Image>(RESOURCE_DIR"/sprites/giraffe.png"));
@@ -53,6 +57,7 @@ void App::Update() {
                 m_test.push_back(card::CardMaker::MakeCard(files[filscont]));
                 m_Root.AddChild(m_test.back());
                 filscont++;
+                SetWorldCards(m_test.back()->GetTransform().translation.x, m_test.back());
             }
         }
         else if(files.size()- filscont>0) {
@@ -61,10 +66,12 @@ void App::Update() {
                 m_test.push_back(card::CardMaker::MakeCard(files[filscont]));
                 m_Root.AddChild(m_test.back());
                 filscont++;
+                SetWorldCards(m_test.back()->GetTransform().translation.x, m_test.back());
             }
         }
     
         LOG_DEBUG("B");
+        
     }
     if (Util::Input::IsKeyDown(Util::Keycode::G)) {
         
@@ -72,6 +79,7 @@ void App::Update() {
 
                 m_test.push_back(card::CardMaker::MakeCard(files[1]));
                 m_Root.AddChild(m_test.back());
+                SetWorldCards(m_test.back()->GetTransform().translation.x, m_test.back());
 
             }
         
