@@ -3,5 +3,6 @@
     "id": 0,
     "class": "Graveyard",
     "type": 8,
-    "price": 5
+    "price": 5,
+    "textcolor": 1
 }

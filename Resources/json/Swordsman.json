@@ -3,5 +3,6 @@
     "id": 0,
     "class": "BaseVillager",
     "type": 0,
-    "hp": 15
+    "hp": 15,
+    "textcolor": 0
 }

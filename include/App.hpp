@@ -27,7 +27,7 @@ public:
 private:
     void Play();
     void Pause();
-    
+
 private:
     enum class PauseOrPlay {
         Pause,

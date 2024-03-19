@@ -3,5 +3,6 @@
     "id": 0,
     "class": "Combatable",
     "type": 6,
-    "price": 1
+    "price": 1,
+    "textcolor": 0
 }

@@ -2,5 +2,6 @@
     "name": "GoldenGoblet",
     "id": 0,
     "class": "Resource",
-    "type": 5
+    "type": 5,
+    "textcolor": 0
 }

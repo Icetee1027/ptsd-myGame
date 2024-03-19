@@ -3,5 +3,6 @@
     "id": 0,
     "class": "Resource",
     "type": 5,
-    "price": 1
+    "price": 1,
+    "textcolor": 1
 }

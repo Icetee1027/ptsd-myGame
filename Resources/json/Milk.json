@@ -4,5 +4,6 @@
     "class": "Milk",
     "type": 2,
     "satiety": 1,
-    "price": 1
+    "price": 1,
+    "textcolor": 0
 }

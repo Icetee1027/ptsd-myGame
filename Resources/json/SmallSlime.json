@@ -3,5 +3,6 @@
     "id": 0,
     "class": "Enemy",
     "type": 3,
-    "hp": 4
+    "hp": 4,
+    "textcolor": 0
 }

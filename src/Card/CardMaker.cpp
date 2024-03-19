@@ -29,7 +29,7 @@ namespace card {
         Type m_Type = GetJosnToType(attribute["type"]);
    
         std::shared_ptr<Card> temp = nullptr;
-        auto [image, title] = m_pool.getElement(attribute["name"]);
+        auto [image, title] = m_pool.getElement(attribute["name"], attribute["textcolor"]);
         std::shared_ptr<CardTitle> m_Title = std::make_shared<CardTitle>();
         m_Title->SetDrawable(title);
         
@@ -87,14 +87,14 @@ namespace card {
         if (attribute.contains("hp")) {
             int hp = attribute["hp"];
             std::shared_ptr<CardRightNum> number=std::make_shared<CardRightNum>();
-            number->SetDrawable(m_pool.getNumberTextElement(hp));
+            number->SetDrawable(m_pool.getNumberTextElement(hp,attribute["textcolor"]));
             temp->SetHP(hp);
             temp->AddChild(number); 
     
         }else if (attribute.contains("satiety")) {
             int satiety = attribute["satiety"];
             std::shared_ptr<CardRightNum> number = std::make_shared<CardRightNum>();
-            number->SetDrawable(m_pool.getNumberTextElement(satiety));
+            number->SetDrawable(m_pool.getNumberTextElement(satiety, attribute["textcolor"]));
             temp->SetSatiety(satiety);
             temp->AddChild(number);
      
@@ -103,7 +103,7 @@ namespace card {
             int price = attribute["price"];
             std::shared_ptr<CardLeftNum> number = std::make_shared<CardLeftNum>();
             if (name != "Coin") {
-                number->SetDrawable(m_pool.getNumberTextElement(price));
+                number->SetDrawable(m_pool.getNumberTextElement(price, attribute["textcolor"]));
                 temp->AddChild(number); 
             }
             temp->SetPrice(price);

@@ -113,7 +113,7 @@ void App::Update() {
     m_Mouse->Update();
     for (int i = 0; i < m_test.size();i++) {
         m_test[i]->SetZIndex(i);
-        m_test[i]->SetTranslation(glm::vec3((i % 30) * 100.0, -int(i / 30) * 100.0, 0));
+        m_test[i]->SetTranslation(glm::vec3((i % 30) * 250.0, -int(i / 30) * 250.0, 0));
         m_test[i]->Update();
     }
     m_Root.Update();
