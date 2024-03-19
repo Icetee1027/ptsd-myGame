@@ -3,5 +3,6 @@
     "id": 0,
     "class": "Equipable",
     "type": 1,
-    "price": 3
+    "price": 3,
+    "textcolor": 1
 }

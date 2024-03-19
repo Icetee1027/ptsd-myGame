@@ -3,5 +3,6 @@
     "id": 0,
     "class": "Sawmill",
     "type": 6,
-    "price": 5
+    "price": 5,
+    "textcolor": 0
 }

@@ -4,5 +4,6 @@
     "class": "Egg",
     "type": 2,
     "price": 1,
-    "satiety": 0
+    "satiety": 0,
+    "textcolor": 0
 }
