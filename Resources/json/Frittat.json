@@ -4,5 +4,6 @@
     "class": "Food",
     "type": 2,
     "satiety": 3,
-    "price": 3
+    "price": 3,
+    "textcolor": 0
 }

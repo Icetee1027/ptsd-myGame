@@ -2,5 +2,6 @@
     "name": "RarePortal",
     "id": 0,
     "class": "Portal",
-    "type": 6
+    "type": 6,
+    "textcolor": 0
 }

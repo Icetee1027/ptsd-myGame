@@ -3,5 +3,6 @@
     "id": 0,
     "class": "Building",
     "type": 6,
-    "price": 3
+    "price": 3,
+    "textcolor": 0
 }
