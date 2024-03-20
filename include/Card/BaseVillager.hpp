@@ -2,6 +2,7 @@
 #define  BASEVILLAGER_HPP
 #include "pch.hpp"
 #include "Card/Combatable.hpp"
+
 namespace card {
 	class BaseVillager : public Combatable {
 	private:

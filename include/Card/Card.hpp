@@ -24,7 +24,7 @@ namespace card {
         Rumors
     };
 
-    class Card : public Util::GameObject {
+    class Card : public Util::GameObject, public std::enable_shared_from_this<Card> {
     protected:
         Type m_Type;
         std::string m_Name;
@@ -40,6 +40,7 @@ namespace card {
         virtual void ClickDown();
         virtual void ClickUp();
         void Update() override;
+        void ChildUpdate();
         void SetPrice(const unsigned short price) { m_Price = price; }
         unsigned short GetPrice() { return m_Price; }
         void SetSatiety(const unsigned short satiety){m_Satiety = m_Satiety;}
@@ -48,7 +49,25 @@ namespace card {
         unsigned short GetHP() { return m_HP; }
         std::string GetCardName() { return m_Name; }
         unsigned int GetCardId() { return m_Id; }
+    private:
+        std::shared_ptr<Card> m_Child;
+        std::shared_ptr<Card> m_Parent;
+        std::shared_ptr<Card> m_Root;
+        std::shared_ptr<Card> m_last;
+        bool StatusStackRootUpDate = false;
+    public:
+        void PositionUpdate();
+        void BindParent(std::shared_ptr<Card> parent);
+        void BindChild(std::shared_ptr<Card> child);
+        void UnBindParent();
+        void UnBindChild();
+        void SetRoot(std::shared_ptr<Card> root);
+        void StackRootUpdate(std::shared_ptr<Card> root);
+
+        std::shared_ptr<Card> GetRoot() { return m_Root; }
+
     };
 }
+//-----------
 
 #endif // CARD_HPP
