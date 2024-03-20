@@ -6,15 +6,14 @@
 #include "Util/Logger.hpp"
 #include "Card/CardMaker.hpp"
 #include "GiraffeText.hpp"
+#include "Util/ShapeHelper.hpp"
+
 
 void App::Start() {
    // LOG_TRACE("Start");
-    m_test.push_back(card::CardMaker::MakeCard("Berry"));
-    m_Root.AddChild(m_test.back());
-    SetWorldCards(m_test.back()->GetTransform().translation.x, m_test.back());
-    for(auto& m : M_WorldCard){
-        LOG_DEBUG("{}", m.first);
-    }
+   
+   
+  
     //LOG_ERROR("{},{}",  m_test[0]->GetScaledSize().x, m_test[0]->GetScaledSize().y);
     m_Giraffe->SetDrawable(
         std::make_shared<Util::Image>(RESOURCE_DIR"/sprites/giraffe.png"));
@@ -30,6 +29,7 @@ void App::Start() {
     m_Root.AddChild(m_Giraffe);
     m_Root.AddChild(m_GiraffeText);
     m_Root.AddChild(m_Mouse);
+    m_test.push_back(card::CardMaker::MakeCard("LumberCamp"));
 
     m_CurrentState = State::UPDATE;
 }
@@ -50,45 +50,28 @@ void App::Update() {
         break;
     }
     //------------------------------------------------------------
-    if (Util::Input::IsKeyDown(Util::Keycode::B)) {
-        if (files.size() - filscont >= 10) {
-            for (int i = 1; i < 11; i++) {
-                LOG_DEBUG("{}", files[filscont]);
-                m_test.push_back(card::CardMaker::MakeCard(files[filscont]));
-                m_Root.AddChild(m_test.back());
-                filscont++;
-                SetWorldCards(m_test.back()->GetTransform().translation.x, m_test.back());
-            }
-        }
-        else if(files.size()- filscont>0) {
-            for (int i = 1; i < files.size() - filscont+1; i++) {
-                LOG_DEBUG("{}", files[filscont]);
-                m_test.push_back(card::CardMaker::MakeCard(files[filscont]));
-                m_Root.AddChild(m_test.back());
-                filscont++;
-                SetWorldCards(m_test.back()->GetTransform().translation.x, m_test.back());
-            }
-        }
-    
-        LOG_DEBUG("B");
-        
-    }
-    if (Util::Input::IsKeyDown(Util::Keycode::G)) {
-        
-            for (int i = 1; i < 11; i++) {
 
-                m_test.push_back(card::CardMaker::MakeCard(files[1]));
-                m_Root.AddChild(m_test.back());
-                SetWorldCards(m_test.back()->GetTransform().translation.x, m_test.back());
 
-            }
-        
-        
-        LOG_DEBUG("G");
-    }
+
     if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
         m_Mouse->ClickDown();
-        m_Mouse->ObjectBind(m_Camera);
+        std::vector<std::shared_ptr<card::Card>> cardsInRange;
+
+  
+        auto target = m_Mouse->GetMousePosition(0);
+        auto lowerBound = m_WorldCards.lower_bound(target.x - 100);
+
+        // 找到 x 坐标大于 targetX + range 的第一个元素的迭代器
+        auto upperBound = m_WorldCards.upper_bound(target.x + 100);
+
+        for (auto it = lowerBound; it != upperBound; ++it) {
+            
+            m_Mouse->ObjectBind(it->second);
+            break;
+        }
+        if (!m_Mouse->HasObjectBind()) {
+            m_Mouse->ObjectBind(m_Camera);
+        }
         LOG_DEBUG("Right button down");
     }
     if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
@@ -101,32 +84,88 @@ void App::Update() {
         auto delta = Util::Input::GetScrollDistance();
         m_Camera->MoveCamera(0, 0, 30 * delta.y);
     }
+
     if (Util::Input::IsKeyPressed(Util::Keycode::W)) {
         m_Camera->MoveCamera(0, 8, 0);
     }
+
     if (Util::Input::IsKeyPressed(Util::Keycode::S)) {
         m_Camera->MoveCamera(0, -8, 0);
     }
+
+
     if (Util::Input::IsKeyPressed(Util::Keycode::A)) {
         m_Camera->MoveCamera(-8, 0, 0);
     }
+
+
     if (Util::Input::IsKeyPressed(Util::Keycode::D)) {
         m_Camera->MoveCamera(8, 0, 0);
     }
-    m_Camera->Update();
+
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit()) {
         m_CurrentState = State::END;
     }
+
+    if (Util::Input::IsKeyUp(Util::Keycode::F)) {
+        std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard(files[m_WorldCards.size()]);
+        sem->SetTranslation(glm::vec3(200* m_WorldCards.size()+1, 0, 0));
+        AddCard(sem);
+    }
+
+    if (Util::Input::IsKeyUp(Util::Keycode::C)) {
+        if (!m_WorldCards.empty()) {
+    
+            auto lastElementIterator = std::prev(m_WorldCards.end());
+            // 删除最后一个元素
+            m_WorldCards.erase(lastElementIterator);
+        }
+    }
     //------------------------------------------------------------------
+
+    m_Camera->Update();
     m_Mouse->Update();
-    for (int i = 0; i < m_test.size();i++) {
-        m_test[i]->SetZIndex(i);
-        m_test[i]->SetTranslation(glm::vec3((i % 30) * 250.0, -int(i / 30) * 250.0, 0));
-        m_test[i]->Update();
+    if (!m_test.empty()) {
+        m_test.back()->Update();
+    }
+    for (auto it = m_WorldCards.begin(); it != m_WorldCards.end(); ++it) {
+        it->second->Update();
     }
     m_Root.Update();
 }
 
 void App::End() { // NOLINT(this method will mutate members in the future)
     LOG_TRACE("End");
+    m_WorldCards.clear();
+}
+
+void App::AddCard(std::shared_ptr<card::Card> NewCard) {
+    m_WorldCards.emplace(NewCard->GetTransform().translation.x, NewCard);
+}
+
+
+std::multimap<int, std::shared_ptr<card::Card>> App::m_WorldCards = {};
+Util::Root App::m_Root;
+void App::AddObjectToRoot(std::shared_ptr<Util::GameObject> object) {
+    m_Root.AddChild(object);
+}
+void App::MoveCardToNewX(const std::shared_ptr<card::Card>& specifiedObj, int oldX) {
+    int newX = specifiedObj->GetTransform().translation.x;
+    auto range = m_WorldCards.equal_range(oldX);
+    for (auto it = range.first; it != range.second; ++it) {
+        if (it->second == specifiedObj) { // 检查指针是否指向相同的对象
+            m_WorldCards.erase(it);
+            m_WorldCards.emplace(newX, specifiedObj);
+            return;
+        }
+    }
+
+    // 如果未找到指定对象，则执行全部查找
+    for (auto it = m_WorldCards.begin(); it != m_WorldCards.end(); ++it) {
+        if (it->second == specifiedObj) { // 检查指针是否指向相同的对象
+            m_WorldCards.erase(it);
+            m_WorldCards.emplace(newX, specifiedObj);
+            return;
+        }
+    }
 }

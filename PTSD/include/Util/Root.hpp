@@ -17,14 +17,14 @@ public:
      *
      * @param children The GameObject needing to be managed by the root.
      */
-    Root(const std::vector<std::shared_ptr<GameObject>> &children = {});
+    Root(const std::vector<std::weak_ptr<GameObject>> children={});
 
     /**
      * @brief Add a child to the root.
      *
      * @param child The GameObject needing to be managed by the root.
      */
-    void AddChild(const std::shared_ptr<GameObject> &child);
+    void AddChild(const std::weak_ptr<GameObject> child);
 
     /**
      * @brief Add children to the root.
@@ -38,7 +38,7 @@ public:
      *
      * @param child The GameObject being removed.
      */
-    void RemoveChild(std::shared_ptr<GameObject> child);
+    void RemoveChild(const std::weak_ptr<GameObject> child);
 
     /**
      * @brief Draw children according to their z-index.
@@ -48,7 +48,7 @@ public:
     void Update();
 
 private:
-    std::vector<std::shared_ptr<GameObject>> m_Children;
+    std::vector<std::weak_ptr<GameObject>> m_Children;
 };
 } // namespace Util
 

@@ -28,13 +28,17 @@ public:
     void Update();
 
     void End(); // NOLINT(readability-convert-member-functions-to-static)
+    static void AddCard(std::shared_ptr<card::Card> NewCard); 
+    static void AddObjectToRoot(std::shared_ptr<Util::GameObject> object);
+    static void MoveCardToNewX(const std::shared_ptr<card::Card>& specifiedObj, int oldX = 0); 
+
+
 private:
     void Play();
     void Pause();
   
-    void SetWorldCards(int xCordinate, std::shared_ptr<card::Card> NewCard){
-        M_WorldCard.insert({xCordinate, NewCard});
-    }
+
+
     
 private:
     enum class PauseOrPlay {
@@ -48,7 +52,8 @@ private:
     std::shared_ptr<Camera> m_Camera = std::make_shared<Camera>();
     std::vector<std::shared_ptr<card::Card>>  m_test;
     std::shared_ptr<Mouse> m_Mouse = std::make_shared<Mouse>();
-    Util::Root m_Root;
+    static Util::Root m_Root;
+
     std::vector<std::string> files = { "AnimalPen", "Apple", "AppleTree", "Baby", "Bear", "Berry", "BerryBush",//
         "Bone", "Brick", "Brickyard", "Campfire", "Carrot", "Catacombs", "Chicken", "Coin", "CoinChest", "CookedMeat",//
         "Corpse", "Cow", "Demon", "Dog", "Egg", "Explorer", "Farm", "Flint", "Forest", "Frittata", "FruitSalad", "Garden", //
@@ -58,8 +63,6 @@ private:
         "RawMeat", "Rock", "Sawmill", "Shed", "Skeleton", "Slime", "SmallSlime",//
         "Smelter", "Smithy", "Soil", "Spear", "Stew", "Stick", "Stone",  "StrangePortal", "Sword", "Swordsman", "Temple", //
         "TravellingCart", "TreasureChest", "Tree", "Villager", "Warehouse", "WickedWitch", "Wolf", "Wood" };
-    int filscont = 0;
-    std::multimap<int, std::shared_ptr<card::Card>>M_WorldCard;
+    static std::multimap<int, std::shared_ptr<card::Card>> m_WorldCards;
 };
-
 #endif

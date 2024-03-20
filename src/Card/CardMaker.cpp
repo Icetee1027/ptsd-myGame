@@ -1,5 +1,5 @@
 #include "Card/CardMaker.hpp"
-
+#include "App.hpp"
 namespace card {
 
     Type CardMaker::GetJosnToType(int t) {
@@ -82,6 +82,7 @@ namespace card {
         else {
             LOG_ERROR("card class is not found");
         }
+        m_Title->SetCard(temp);
         temp->AddChild(m_Title);
 
         if (attribute.contains("hp")) {
@@ -89,6 +90,7 @@ namespace card {
             std::shared_ptr<CardRightNum> number=std::make_shared<CardRightNum>();
             number->SetDrawable(m_pool.getNumberTextElement(hp,attribute["textcolor"]));
             temp->SetHP(hp);
+            number->SetCard(temp);
             temp->AddChild(number); 
     
         }else if (attribute.contains("satiety")) {
@@ -96,6 +98,7 @@ namespace card {
             std::shared_ptr<CardRightNum> number = std::make_shared<CardRightNum>();
             number->SetDrawable(m_pool.getNumberTextElement(satiety, attribute["textcolor"]));
             temp->SetSatiety(satiety);
+            number->SetCard(temp);
             temp->AddChild(number);
      
         }
@@ -105,10 +108,12 @@ namespace card {
             if (name != "Coin") {
                 number->SetDrawable(m_pool.getNumberTextElement(price, attribute["textcolor"]));
                 temp->AddChild(number); 
+                number->SetCard(temp);
             }
             temp->SetPrice(price);
         }
 
+        App::AddObjectToRoot(temp);
         return temp;
     }
 

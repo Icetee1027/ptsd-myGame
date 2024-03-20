@@ -60,7 +60,7 @@ public:
      *
      * @return The z-index of the game object.
      */
-    float GetZIndex() const { return m_ZIndex+m_Transform.translation.z; }
+    float GetZIndex() const { return m_ZIndex; }
 
     /**
      * @brief Get the transform of the game object.
