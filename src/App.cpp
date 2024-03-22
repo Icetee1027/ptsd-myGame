@@ -6,7 +6,7 @@
 #include "Util/Logger.hpp"
 #include "Card/CardMaker.hpp"
 #include "GiraffeText.hpp"
-#include "Util/ShapeHelper.hpp"
+#include "ShapeHelper.hpp"
 
 
 void App::Start() {
@@ -33,7 +33,9 @@ void App::Start() {
 
     m_CurrentState = State::UPDATE;
 }
-
+bool customCompare(const std::shared_ptr<card::Card>& a, const std::shared_ptr<card::Card>& b) {
+    return a->GetTransform().translation.y < b->GetTransform().translation.y;
+}
 void App::Update() {
     if (Util::Input::IsKeyUp(Util::Keycode::SPACE)) {
         m_IsPlayButton = m_IsPlayButton== App::PauseOrPlay::Pause? App::PauseOrPlay::Play: App::PauseOrPlay::Pause;
@@ -57,17 +59,27 @@ void App::Update() {
         m_Mouse->ClickDown();
         std::vector<std::shared_ptr<card::Card>> cardsInRange;
 
-  
+
         auto target = m_Mouse->GetMousePosition(0);
         auto lowerBound = m_WorldCards.lower_bound(target.x - 100);
 
         // 找到 x 坐标大于 targetX + range 的第一个元素的迭代器
         auto upperBound = m_WorldCards.upper_bound(target.x + 100);
-
+        std::vector<std::shared_ptr<card::Card>> stacks;
         for (auto it = lowerBound; it != upperBound; ++it) {
-            
-            m_Mouse->ObjectBind(it->second);
-            break;
+            stacks.push_back(it->second);
+        }
+      
+        std::sort(stacks.begin(), stacks.end(), customCompare);
+        for (auto stack : stacks) {
+            auto m_Card = ShapeHelper::IsPointInStack(stack, m_Mouse->GetMousePosition(stack));
+            LOG_DEBUG("{}", stack->GetStackSize());
+            if (m_Card!=nullptr) {
+                m_Card->UnBindParent();
+                m_Mouse->ObjectBind(m_Card);
+                break;
+            }
+
         }
         if (!m_Mouse->HasObjectBind()) {
             m_Mouse->ObjectBind(m_Camera);

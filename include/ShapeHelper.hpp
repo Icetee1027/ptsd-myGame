@@ -1,7 +1,8 @@
 #ifndef SHAPEHELPER_HPP
 #define SHAPEHELPER_HPP
 #include "Core/Drawable.hpp"
-namespace Util {
+#include "Card/Card.hpp"
+
 class ShapeHelper {
 public:
     static float CursorPositionWorldTr(const float z);
@@ -12,15 +13,19 @@ public:
     static bool IsBoxOverlap_y(const std::shared_ptr<Util::GameObject> object1,
                                const std::shared_ptr<Util::GameObject> object2);
 
-    static bool IsPointInSquare(const std::shared_ptr<Util::GameObject> object,
-                                const glm::vec3 mouse);
+   
     static bool
     IsPointInSquare_x(const std::shared_ptr<Util::GameObject> object,
                       const glm::vec3 mouse);
     static bool
     IsPointInSquare_y(const std::shared_ptr<Util::GameObject> object,
                       const glm::vec3 mouse);*/
+    static std::shared_ptr<card::Card> IsPointInStack(const std::shared_ptr<card::Card> card,
+                                const glm::vec2 mouse);
+
+    static std::shared_ptr<card::Card> IsCardInStack(const std::shared_ptr<card::Card> stack,
+        const std::shared_ptr<card::Card> card);
 };
-} // namespace Util
+
 
 #endif // !SHAPEHELPER_HPP

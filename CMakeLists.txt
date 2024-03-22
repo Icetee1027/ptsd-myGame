@@ -20,7 +20,7 @@ add_executable(${PROJECT_NAME}
     ${SRC_DIR}/main.cpp
     ${SRC_FILES}
     ${HEADER_FILES}
-)    
+)     
       
 if(MSVC) 
     target_compile_options(${PROJECT_NAME} PRIVATE /W4)

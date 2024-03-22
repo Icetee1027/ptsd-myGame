@@ -52,7 +52,7 @@ namespace card {
     private:
         std::shared_ptr<Card> m_Child;
         std::shared_ptr<Card> m_Parent;
-        std::shared_ptr<Card> m_Root;
+        std::weak_ptr<Card> m_Root;
         std::shared_ptr<Card> m_last;
         bool StatusStackRootUpDate = false;
     public:
@@ -61,10 +61,13 @@ namespace card {
         void BindChild(std::shared_ptr<Card> child);
         void UnBindParent();
         void UnBindChild();
-        void SetRoot(std::shared_ptr<Card> root);
-        void StackRootUpdate(std::shared_ptr<Card> root);
-
-        std::shared_ptr<Card> GetRoot() { return m_Root; }
+        void SetRoot();
+        void CheckRoot();
+        void StackRootUpdate();
+        int GetStackSize();
+        std::shared_ptr<Card> GetParent() { return m_Parent; }
+        std::shared_ptr<Card> GetLast();
+        std::shared_ptr<Card> GetRoot() { CheckRoot(); return m_Root.lock(); }
 
     };
 }

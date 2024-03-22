@@ -31,7 +31,7 @@ namespace card {
         
         if (StatusStackRootUpDate) {
             StatusStackRootUpDate = false;
-            StackRootUpdate(shared_from_this());
+            StackRootUpdate();
         }
     }
     void Card::ChildUpdate() {
@@ -42,7 +42,7 @@ namespace card {
     }
     void Card::PositionUpdate() {
         if (m_Parent != nullptr) {
-            m_Transform.translation = m_Parent->GetTransform().translation + glm::vec3(0, 0, 0);
+            m_Transform.translation = m_Parent->GetTransform().translation + glm::vec3(0, 47, 0);
         }
     }
 
@@ -50,6 +50,7 @@ namespace card {
         if (m_Parent == nullptr) {
             m_Parent = parent;
             parent->BindChild(shared_from_this());
+            m_Root = parent->GetRoot();
         }
     }
 
@@ -64,6 +65,7 @@ namespace card {
         if (m_Parent != nullptr) {
             m_Parent = nullptr;
             parent->UnBindChild();
+            m_Root = shared_from_this();
         }
     }
     void Card::UnBindChild() {
@@ -73,19 +75,45 @@ namespace card {
             child->UnBindParent();
         }
     }
-    void Card::SetRoot(std::shared_ptr<Card> root) {
+    void Card::SetRoot() {
         if (m_Parent != nullptr) {
-            m_Root = root;
+            m_Root = m_Parent->GetRoot();
         }
         else {
-            m_Root = nullptr;
+            m_Root = shared_from_this();
         }
     }
 
-    void Card::StackRootUpdate(std::shared_ptr<Card> root) {
-        SetRoot(root);
+    void Card::StackRootUpdate() {
+        SetRoot();
         if (m_Child != nullptr) {
-            StackRootUpdate(root);
+            StackRootUpdate();
+        }
+    }
+
+    int Card::GetStackSize() {
+        if (m_Parent == nullptr || m_Root.expired()) {
+            if (m_Child != nullptr) {
+                return 1 + m_Child->GetStackSize();
+            }
+            else {
+                return 1;
+            }
+        }else{
+            m_Root.lock()->GetStackSize();
+        }
+    }
+    std::shared_ptr<Card> Card::GetLast() {
+        if (m_Child == nullptr) {
+            return shared_from_this();
+        }
+        else {
+            return m_Child->GetLast();
+        }
+    }
+    void Card::CheckRoot() {
+        if (m_Root.expired()) {
+            SetRoot();
         }
     }
 }
