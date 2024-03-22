@@ -2,7 +2,7 @@
 #include "Util/Input.hpp"
 #include "Util/Image.hpp"
 #include "Util/Animation.hpp"
-#include "Util/ShapeHelper.hpp"
+#include "ShapeHelper.hpp"
 #include "Camera.hpp"
 #include "Core/Drawable.hpp"
 #include "Card/Card.hpp"
@@ -44,7 +44,7 @@ void Mouse::ObjectUmBind() {
 }
 void Mouse::ObjectDrag() {
     if (typeid(*m_BindObject) == typeid(Camera)) {
-        m_BindObject->MoveObject(glm::vec3(m_Offset * Util::ShapeHelper::CursorPositionWorldTr(0), 0));
+        m_BindObject->MoveObject(glm::vec3(m_Offset * ShapeHelper::CursorPositionWorldTr(0), 0));
     }
     else {
         m_BindObject->SetTranslation(glm::vec3(GetMousePosition(m_BindObject) - m_Distance, 0));
@@ -52,11 +52,11 @@ void Mouse::ObjectDrag() {
 }
 glm::vec2 Mouse::GetMousePosition(const std::shared_ptr<Util::GameObject> &object) {
     glm::vec2 view = { Core::Drawable::GetView().x, Core::Drawable::GetView().y };
-    glm::vec2 position = Util::Input::GetCursorPosition() * Util::ShapeHelper::CursorPositionWorldTr(object->GetZIndex() / 50 + object->GetTransform().translation.z);
+    glm::vec2 position = Util::Input::GetCursorPosition() * ShapeHelper::CursorPositionWorldTr(object->GetZIndex() / 50 + object->GetTransform().translation.z);
     return -view + position;
 }
 glm::vec2 Mouse::GetMousePosition(int a) {
     glm::vec2 view = { Core::Drawable::GetView().x, Core::Drawable::GetView().y };
-    glm::vec2 position = Util::Input::GetCursorPosition() * Util::ShapeHelper::CursorPositionWorldTr(a);
+    glm::vec2 position = Util::Input::GetCursorPosition() * ShapeHelper::CursorPositionWorldTr(a);
     return -view + position;
 }
