@@ -21,7 +21,8 @@ namespace card {
         Structure,
         Idea,
         Location,
-        Rumors
+        Rumors,
+        Shop
     };
 
     class Card : public Util::GameObject, public std::enable_shared_from_this<Card> {
