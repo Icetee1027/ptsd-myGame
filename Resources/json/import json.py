@@ -19,8 +19,8 @@ def main():
     
         # 自訂義輸入數據，這只是一個示例，您可以根據需要修改
         data['id'] = 0
-        data['class'] = "Resource"
-        data['type'] = 5
+        data['class'] = "Shop"
+        data['type'] = 10
        
         
         data['price'] = int(input("Price:"))

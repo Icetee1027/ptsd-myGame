@@ -39,6 +39,7 @@
 #include "Card/Temple.hpp"
 #include "Card/Building.hpp"
 #include "Card/TreasureChest.hpp"
+#include "Card/Shop.hpp"
 
 
 
