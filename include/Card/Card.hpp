@@ -49,11 +49,14 @@ namespace card {
         unsigned short GetHP() { return m_HP; }
         std::string GetCardName() { return m_Name; }
         unsigned int GetCardId() { return m_Id; }
+        
     private:
         std::shared_ptr<Card> m_Child;
         std::shared_ptr<Card> m_Parent;
         std::weak_ptr<Card> m_Root;
         std::shared_ptr<Card> m_last;
+        unsigned int m_PushCount = 0;
+        glm::vec2 m_PushVector = { 0.0,0.0 };
         bool StatusStackRootUpDate = false;
     public:
         void PositionUpdate();
@@ -64,8 +67,14 @@ namespace card {
         void SetRoot();
         void CheckRoot();
         void StackRootUpdate();
+
+        bool CanHaveCardOnTop(std::shared_ptr<Card>  otherCard, bool isPrefab =false );
+        bool CanHaveCard(std::shared_ptr<Card>  otherCard);
         int GetStackSize();
+        int GetPushCount();
+        void SetPushing(glm::vec2 pushvector, unsigned int count=50);
         std::shared_ptr<Card> GetParent() { return m_Parent; }
+        std::shared_ptr<Card> GetChild(){ return m_Child; }
         std::shared_ptr<Card> GetLast();
         std::shared_ptr<Card> GetRoot() { CheckRoot(); return m_Root.lock(); }
 

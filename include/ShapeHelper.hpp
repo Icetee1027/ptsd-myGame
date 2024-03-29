@@ -23,7 +23,9 @@ public:
     static std::shared_ptr<card::Card> IsPointInStack(const std::shared_ptr<card::Card> card,
                                 const glm::vec2 mouse);
 
-    static std::shared_ptr<card::Card> IsCardInStack(const std::shared_ptr<card::Card> stack,
+    static bool IsCardInStack(const std::shared_ptr<card::Card> stack,
+        const std::shared_ptr<card::Card> card);
+    static bool IsStackInStack(const std::shared_ptr<card::Card> stack,
         const std::shared_ptr<card::Card> card);
 };
 

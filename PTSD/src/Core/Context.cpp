@@ -104,9 +104,9 @@ void Context::Update() {
     SDL_GL_SwapWindow(m_Window);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    constexpr double frameTime =
-        FPS_CAP != 0 ? 1000 / static_cast<double>(FPS_CAP) : 0;
-    SDL_Delay(static_cast<Uint32>(frameTime - Util::Time::GetDeltaTime()));
+    //constexpr double frameTime =
+       // FPS_CAP != 0 ? 1000 / static_cast<double>(FPS_CAP) : 0;
+    //SDL_Delay(static_cast<Uint32>(frameTime - Util::Time::GetDeltaTime()));
     //好像會卡
 }
 

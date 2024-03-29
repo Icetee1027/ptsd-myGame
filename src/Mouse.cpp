@@ -32,13 +32,10 @@ void Mouse::ObjectBind(std::shared_ptr<Util::GameObject> Object) {
     m_BindObject = Object;
     m_Distance = GetMousePosition(Object) //
         - glm::vec2(Object->GetTransform().translation.x, Object->GetTransform().translation.y);
+    m_CardOldX = Object->GetTransform().translation.x;
 }
 void Mouse::ObjectUmBind() {
-    std::shared_ptr<card::Card> cardPtr = std::dynamic_pointer_cast<card::Card>(m_BindObject);
-    if (cardPtr) {
-        App::MoveCardToNewX(std::shared_ptr<card::Card>(cardPtr));
-
-    }
+    
     m_BindObject = nullptr;
     
 }
