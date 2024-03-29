@@ -132,6 +132,10 @@ public:
             m_Transform.translation = translation;
         }
     }
+
+    void SetMoveable(bool state){
+        m_Moveable = state;
+    }
     /**
      * @brief Remove a child from the game object.
      *

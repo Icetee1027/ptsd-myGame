@@ -1,4 +1,7 @@
 #include "Card/CardElementPool.hpp"
+#include "Card/Card.hpp"
+#include <cstddef>
+#include <string.h>
 
 namespace card {
     std::pair<std::shared_ptr<Util::Image>, std::shared_ptr<Util::Text>> CardElementPool::getElement(const std::string& name,const int color) {
@@ -30,7 +33,17 @@ namespace card {
         }
 
         auto newImage = std::make_shared<Util::Image>(RESOURCE_DIR "/sprites/cards/" + name + ".png");
-        auto newText = std::make_shared<Util::Text>(RESOURCE_DIR"/fonts/BABY-CRIBS.ttf", 32.5, name, Util::Color::FromName(m_Colors.at(1)));
+        
+        unsigned short textColor;
+        if(name == "HumbleBegining") textColor = 0;
+        else textColor = 1;
+        /*
+        if(strchr(name," ")!= NULL){
+            name.replace()
+        }
+        */
+
+        auto newText = std::make_shared<Util::Text>(RESOURCE_DIR"/fonts/BABY-CRIBS.ttf", 32.5, name, Util::Color::FromName(m_Colors.at(textColor)));
         elements[name] = std::make_pair(std::weak_ptr<Util::Image>(newImage), std::weak_ptr<Util::Text>(newText));
 
         //LOG_DEBUG("圖片創新後指針輸出");

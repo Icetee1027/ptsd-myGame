@@ -73,6 +73,7 @@ namespace card {
             { "Temple",createCardFunction<Temple>() },
             { "Building",createCardFunction<Building>() },
             { "TreasureChest",createCardFunction<TreasureChest>() },
+            { "Shop",createCardFunction<Shop>() },
         };
 
         auto it = cardCreators.find(attribute["class"]);
@@ -138,7 +139,8 @@ namespace card {
         {6, Type::Structure},
         {7, Type::Idea},
         {8, Type::Location},
-        {9, Type::Rumors}
+        {9, Type::Rumors},
+        {10, Type::Shop}
     };
 
     const std::unordered_map<Type, std::vector<std::string>> CardMaker::cardSFXMap = {
@@ -151,7 +153,8 @@ namespace card {
         {Type::Structure, {}},
         {Type::Idea, {}},
         {Type::Location, {}},
-        {Type::Rumors, {}}
+        {Type::Rumors, {}},
+        {Type::Shop, {}}
     };
     CardElementPool CardMaker::m_pool;
 }
