@@ -5,8 +5,8 @@
 #include "Card/CardPack.hpp"
 #include "App.hpp"
 namespace card {
-    Card::Card(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image)
-        :  m_Name(name), m_Id(id), m_Type(type) {
+    Card::Card(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image, const bool iconcolor)
+        :  m_Name(name), m_Id(id), m_Type(type) ,m_IconColor(iconcolor){
         m_Drawable = image;
         m_Moveable = true;
         for (const auto& ph : sfxs) {
@@ -29,15 +29,16 @@ namespace card {
     }
 
     void Card::Update() {
-       
+        UpdateCard();
         PositionUpdate();
-        ChildUpdate();
-        
+        if (m_Parent != nullptr) {m_Parent->Update();}
         if (StatusStackRootUpDate) {
-            
             StatusStackRootUpDate = false;
             StackRootUpdate();
         }
+        ChildUpdate();
+
+
     }
     void Card::ChildUpdate() {
         for (auto child : m_Children) {
@@ -48,7 +49,6 @@ namespace card {
     void Card::PositionUpdate() {
         if (m_Parent != nullptr) {
             m_Transform.translation = m_Parent->GetTransform().translation + glm::vec3(0, -47, 0);
-            m_Parent->Update();
         }
         else {
             if (m_PushCount != 0) {
@@ -91,16 +91,73 @@ namespace card {
         if (m_Parent != nullptr) {
             m_Root = m_Parent->GetRoot();
         }
-        else {
+        else if(!weak_from_this().expired()){
             m_Root = shared_from_this();
         }
     }
-
+    void Card::RemoveStack() {
+       
+        if(m_Child!= nullptr) {
+            auto Child = m_Child;
+            UnBindChild();
+            Child->RemoveStack();
+        }
+        else {
+            
+            App::RemoveCard(shared_from_this(), m_Transform.translation.x);
+        }
+        if (m_Parent!=nullptr) {
+            auto parent = m_Parent;
+            UnBindParent();
+            parent->RemoveStack();
+        }
+      
+    }
+    void Card::RemoveCard() {
+        if (m_Child != nullptr&&m_Parent!=nullptr) {
+            auto parent = m_Parent;
+            auto child = m_Child;
+            this->UnBindParent();
+            this->UnBindChild();
+            child->BindParent(parent);
+        }else if(m_Parent != nullptr&& m_Child == nullptr){
+            auto parent = m_Parent;
+            this->UnBindParent();
+            App::AddCard(parent);
+            App::RemoveCard(shared_from_this(), m_Transform.translation.x);
+        }
+        else if (m_Parent == nullptr && m_Child != nullptr) {
+            auto child = m_Child;
+            this->UnBindChild();
+            child->StatusStackRootUpDate = true;
+        }
+        else {
+            App::RemoveCard(shared_from_this(),m_Transform.translation.x);
+        }
+    }
+    void Card::RemoveFromParent() {
+        if (m_Parent != nullptr)
+        {
+            App::AddCard(m_Parent);
+            
+            UnBindParent();
+        }
+    }
     void Card::StackRootUpdate() {
         SetRoot();
         if (m_Child != nullptr) {
             m_Child->StackRootUpdate();
         }
+    }
+    std::vector<std::shared_ptr<Card>> Card::GetAllCardsInStack() {
+        CheckRoot();
+        auto root = m_Root.lock();
+        std::vector<std::shared_ptr<Card>> stack = {root};
+        while (root->GetChild() != nullptr) {
+            root = root->GetChild();
+            stack.push_back(root);
+        }
+        return stack;
     }
     bool Card::CanHaveCardOnTop(std::shared_ptr<Card>  otherCard, bool isPrefab ) {
         std::shared_ptr<Card> rootcard = otherCard->GetRoot();
@@ -110,7 +167,7 @@ namespace card {
             num = 0;
         }
         int num2 = (isPrefab ? 1 : (otherCard->GetStackSize()));
-        if (num + num2 > 5)
+        if (num + num2 > 10)
         {
             LOG_DEBUG("CanHaveCardOnTop out of size");
             return false;
@@ -130,7 +187,7 @@ namespace card {
         if (dynamic_cast<Combatable*>(this))
         {
             bool flag = false;
-            if (otherCard->GetCardName() == "bone" && m_Name == "wolf")
+            if (otherCard->GetCardName() == "Bone" && m_Name == "Wolf")
             {
                 flag = true;
             }
@@ -144,8 +201,8 @@ namespace card {
         return CanHaveCard(otherCard);
     }
     bool Card::CanHaveCard(std::shared_ptr<Card>  otherCard) {
-        LOG_DEBUG("CanHaveCard:{}", true);
-        return true;
+        LOG_DEBUG("CanHaveCard:{}", false);
+        return false;
     }
     int Card::GetStackSize() {
         auto card = m_Root.lock();

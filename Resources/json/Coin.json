@@ -1,7 +1,7 @@
 {
     "name": "Coin",
     "id": 0,
-    "class": "Resource",
+    "class": "Gold",
     "type": 5,
     "price": 1,
     "textcolor": 0

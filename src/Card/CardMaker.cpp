@@ -14,10 +14,10 @@ namespace card {
     }
 
     template<typename T>
-    std::function<std::shared_ptr<Card>(Type, const std::string&, int, const std::vector<std::shared_ptr<Util::SFX>>, const std::shared_ptr<Util::Image>)>
+    static std::function<std::shared_ptr<Card>(Type, const std::string&, int, const std::vector<std::shared_ptr<Util::SFX>>, const std::shared_ptr<Util::Image>, const bool)>
         CardMaker::createCardFunction() {
-        return [](Type type, const std::string& name, int id, const std::vector<std::shared_ptr<Util::SFX>>& sfxs, const std::shared_ptr<Util::Image>& image) {
-            return std::make_shared<T>(type, name, id, sfxs, image);
+        return [](Type type, const std::string& name, int id, const std::vector<std::shared_ptr<Util::SFX>>& sfxs, const std::shared_ptr<Util::Image>& image, const bool iconcolor) {
+            return std::make_shared<T>(type, name, id, sfxs, image, iconcolor);
             };
     }
 
@@ -29,7 +29,7 @@ namespace card {
         Type m_Type = GetJosnToType(attribute["type"]);
    
         std::shared_ptr<Card> temp = nullptr;
-        auto [image, title] = m_pool.getElement(attribute["name"], attribute["textcolor"]);
+        auto [image, title] = CardElementPool::getElement(attribute["name"], attribute["textcolor"]);
         std::shared_ptr<CardTitle> m_Title = std::make_shared<CardTitle>();
         m_Title->SetDrawable(title);
         
@@ -38,7 +38,7 @@ namespace card {
             sfxs.push_back(RESOURCE_DIR "/audio/sfx" + sfx);
         }
 
-        static const std::map<std::string, std::function<std::shared_ptr<Card>(Type, const std::string&, int, const std::vector<std::shared_ptr<Util::SFX>>&, const std::shared_ptr<Util::Image>&)>> cardCreators = {
+        static const std::map<std::string, std::function<std::shared_ptr<Card>(Type, const std::string&, int, const std::vector<std::shared_ptr<Util::SFX>>&, const std::shared_ptr<Util::Image>&, const bool)>> cardCreators = {
             {"Food", createCardFunction<Food>()},
             {"Altar", createCardFunction<Altar>()},
             {"AnimalPen", createCardFunction<AnimalPen>()},
@@ -78,7 +78,12 @@ namespace card {
 
         auto it = cardCreators.find(attribute["class"]);
         if (it != cardCreators.end()) {
-            temp = it->second(m_Type, attribute["name"], attribute["id"], std::vector<std::shared_ptr<Util::SFX>>(), image);
+            bool coloer = true;
+            if (attribute.contains("textcolor")) {
+                if (attribute["textcolor"] == 0)coloer = false;
+            }
+            else { LOG_ERROR("{} not found textcolor", name); }
+            temp = it->second(m_Type, attribute["name"], attribute["id"], std::vector<std::shared_ptr<Util::SFX>>(), image, coloer);
         }
         else {
             LOG_ERROR("card class is not found");
@@ -89,7 +94,7 @@ namespace card {
         if (attribute.contains("hp")) {
             int hp = attribute["hp"];
             std::shared_ptr<CardRightNum> number=std::make_shared<CardRightNum>();
-            number->SetDrawable(m_pool.getNumberTextElement(hp,attribute["textcolor"]));
+            number->SetDrawable(CardElementPool::getNumberTextElement(hp,attribute["textcolor"]));
             temp->SetHP(hp);
             number->SetCard(temp);
             temp->AddChild(number); 
@@ -97,7 +102,7 @@ namespace card {
         }else if (attribute.contains("satiety")) {
             int satiety = attribute["satiety"];
             std::shared_ptr<CardRightNum> number = std::make_shared<CardRightNum>();
-            number->SetDrawable(m_pool.getNumberTextElement(satiety, attribute["textcolor"]));
+            number->SetDrawable(CardElementPool::getNumberTextElement(satiety, attribute["textcolor"]));
             temp->SetSatiety(satiety);
             number->SetCard(temp);
             temp->AddChild(number);
@@ -107,7 +112,7 @@ namespace card {
             int price = attribute["price"];
             std::shared_ptr<CardLeftNum> number = std::make_shared<CardLeftNum>();
             if (name != "Coin") {
-                number->SetDrawable(m_pool.getNumberTextElement(price, attribute["textcolor"]));
+                number->SetDrawable(CardElementPool::getNumberTextElement(price, attribute["textcolor"]));
                 temp->AddChild(number); 
                 number->SetCard(temp);
             }
@@ -156,5 +161,4 @@ namespace card {
         {Type::Rumors, {}},
         {Type::Shop, {}}
     };
-    CardElementPool CardMaker::m_pool;
 }

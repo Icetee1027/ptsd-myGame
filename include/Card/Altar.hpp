@@ -7,8 +7,9 @@ namespace card {
 	class Altar :public Card {
 	private:
 	public:
-		Altar(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image);
+		Altar(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image, const  bool iconcolor);
 		virtual ~Altar() override = default;
+		bool CanHaveCard(std::shared_ptr<Card>  otherCard) override;
 	};
 }
 

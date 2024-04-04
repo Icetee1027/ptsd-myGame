@@ -14,6 +14,7 @@
 #include <map>
 #include <memory>
 #include <utility>
+#include "Board.hpp"
 class App {
 public:
     enum class State {
@@ -56,7 +57,7 @@ private:
 
     std::shared_ptr<Mouse> m_Mouse = std::make_shared<Mouse>();
     static Util::Root m_Root;
-
+    std::shared_ptr<Board> m_Board = std::make_shared<Board>();
     std::vector<std::string> files = { "AnimalPen", "Apple", "AppleTree", "Baby", "Bear", "Berry", "BerryBush",//
         "Bone", "Brick", "Brickyard", "Campfire", "Carrot", "Catacombs", "Chicken", "Coin", "CoinChest", "CookedMeat",//
         "Corpse", "Cow", "Demon", "Dog", "Egg", "Explorer", "Farm", "Flint", "Forest", "Frittata", "FruitSalad", "Garden", //

@@ -18,10 +18,12 @@ void App::Start() {
 
     m_GiraffeText->SetZIndex(0);
     m_GiraffeText->Start();
+    AddCard(card::CardMaker::MakeCard("CoinChest"));
 
     m_Mouse->Start();
     m_Mouse->SetZIndex(4);
 
+    m_Root.AddChild(m_Board);
     m_Root.AddChild(m_Giraffe);
     m_Root.AddChild(m_GiraffeText);
     m_Root.AddChild(m_Mouse);
@@ -35,7 +37,8 @@ bool customCompare(const std::multimap<int, std::shared_ptr<card::Card>>::iterat
 }
 
 void App::Update() {
-    //LOG_DEBUG("{}", 1/Util::Time::GetDeltaTime());
+
+    
     if (Util::Input::IsKeyUp(Util::Keycode::SPACE)) {
         m_IsPlayButton = m_IsPlayButton== App::PauseOrPlay::Pause? App::PauseOrPlay::Play: App::PauseOrPlay::Pause;
         m_GiraffeText->SetVisible(!m_GiraffeText->GetVisible());
@@ -108,6 +111,7 @@ void App::Update() {
                 }
             }
             if (m_Mouse->GetBindObject()) {
+                App::MoveCardToNewX(object->GetLast(), int(object->GetLast()->GetTransform().translation.x));
                 if (object->GetRoot()->GetPushCount() == 0) {
                         m_PushProcessingArea.push_back(object->GetRoot());
                     }
@@ -129,18 +133,26 @@ void App::Update() {
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::F)) {
-        std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard(files[m_WorldCards.size()]);
+        //std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard(files[m_WorldCards.size()]);
+        std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard("Coin");
         sem->SetTranslation(glm::vec3(200* m_WorldCards.size()+1, 0, 0));
         AddCard(sem);
+        
     }
-
+    if (Util::Input::IsKeyUp(Util::Keycode::G)) {
+        //std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard(files[m_WorldCards.size()]);
+        std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard("CoinChest");
+        sem->SetTranslation(glm::vec3(200 * m_WorldCards.size() + 1, 0, 0));
+        AddCard(sem);
+    }
     if (Util::Input::IsKeyUp(Util::Keycode::C)) {
         if (!m_WorldCards.empty()) {
     
             auto lastElementIterator = std::prev(m_WorldCards.end());
             // 删除最后一个元素
-            m_WorldCards.erase(lastElementIterator);
+            lastElementIterator->second->RemoveStack();
         }
+    
     }
 
    //------------------------------------------------------------------
@@ -150,8 +162,8 @@ void App::Update() {
 
   
     StackUpdate();
-    
     m_Root.Update();
+ 
 }
 
 void App::End() { // NOLINT(this method will mutate members in the future)
@@ -184,8 +196,14 @@ void App::CameraUpdate() {
     m_Camera->Update();
 }
 void App::StackUpdate() {
+   
+
+    std::vector<std::shared_ptr<card::Card>> cardsToUpdate;
     for (auto it = m_WorldCards.begin(); it != m_WorldCards.end(); ++it) {
-        it->second->Update();
+        cardsToUpdate.push_back(it->second);
+    }
+    for (const auto& card : cardsToUpdate) {
+        card->Update();
     }
 
     std::vector<std::list<std::weak_ptr<card::Card>>::iterator> expiredIterators;
@@ -199,7 +217,6 @@ void App::StackUpdate() {
         else {
             App::MoveCardToNewX(run->lock()->GetLast(), int(run->lock()->GetLast()->GetTransform().translation.x));
             auto object = run->lock()->GetRoot(); 
-            
             auto target = glm::vec2(object->GetRoot()->GetTransform().translation.x, object->GetRoot()->GetTransform().translation.y);
             auto lowerBound = m_WorldCards.lower_bound(target.x - 220);
             auto upperBound = m_WorldCards.upper_bound(target.x + 220);
@@ -237,10 +254,8 @@ void App::StackUpdate() {
 void App::AddCard(std::shared_ptr<card::Card> NewCard) {
     if (NewCard != nullptr) {
         m_WorldCards.emplace(NewCard->GetTransform().translation.x, NewCard);
-        if (std::find_if(m_PushProcessingArea.begin(), m_PushProcessingArea.end(), [&](const std::weak_ptr<card::Card>& ptr) {
-            return !ptr.expired() && ptr.lock() == NewCard;
-            }) == m_PushProcessingArea.end()) {
-            m_PushProcessingArea.push_back(NewCard);
+        if (NewCard->GetRoot()->GetPushCount() == 0) {
+            m_PushProcessingArea.push_back(NewCard->GetRoot());
         }
     }
 }

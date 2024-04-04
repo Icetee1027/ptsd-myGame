@@ -17,11 +17,11 @@ file(GLOB_RECURSE SRC_FILES src/*)
 file(GLOB_RECURSE HEADER_FILES include/*) 
  
 add_executable(${PROJECT_NAME}   
-    ${SRC_DIR}/main.cpp
+    ${SRC_DIR}/main.cpp 
     ${SRC_FILES}
     ${HEADER_FILES}
 )     
-      
+       
 if(MSVC) 
     target_compile_options(${PROJECT_NAME} PRIVATE /W4)
 else()

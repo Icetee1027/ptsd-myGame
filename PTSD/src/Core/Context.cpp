@@ -98,18 +98,35 @@ Context::~Context() {
 }
 
 void Context::Update() {
-    glClearColor(0.65627f, 0.85411f, 0.65411f, 1.0f);
+    
     Util::Time::Update();
     Util::Input::Update();
-    SDL_GL_SwapWindow(m_Window);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    constexpr double frameTime = 1000 / static_cast<double>(240);
+    /*LOG_DEBUG("{}, {}, {}, {}", frameTime - Util::Time::GetDeltaTime() * 1000,
+              frameTime, Util::Time::GetDeltaTime() * 1000,
+              1 / Util::Time::GetDeltaTime());*/
 
-    //constexpr double frameTime =
-       // FPS_CAP != 0 ? 1000 / static_cast<double>(FPS_CAP) : 0;
-    //SDL_Delay(static_cast<Uint32>(frameTime - Util::Time::GetDeltaTime()));
+    double delet = frameTime - Util::Time::GetDeltaTime() * 1000;
+    if (delet > 0) {
+        SDL_Delay(static_cast<Uint32>(delet));
+    }
+
+    if ((1/ static_cast<double>(FPS_CAP)) <= m_TimeUpdate) {
+        m_TimeUpdate = m_TimeUpdate - (1 / static_cast<double>(FPS_CAP));
+        glClearColor(0.65627f, 0.85411f, 0.65411f, 1.0f);
+        SDL_GL_SwapWindow(m_Window);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    }
+    m_TimeUpdate += Util::Time::GetDeltaTime();
+
+    
     //好像會卡
 }
-
+double Context::m_TimeUpdate = 0;
+bool Context::GetIsDraw() {
+    return 1/ static_cast<double>(FPS_CAP) <= m_TimeUpdate;
+}
 std::shared_ptr<Context> Context::GetInstance() {
     if (s_Instance == nullptr) {
         s_Instance = std::make_shared<Context>();

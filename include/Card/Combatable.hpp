@@ -6,8 +6,9 @@ namespace card {
 	class Combatable :public Card {
 	private:
 	public:
-		Combatable(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image);
+		Combatable(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image, const  bool iconcolor);
 		virtual ~Combatable() override = default;
+		
 	};
 }
 #endif
