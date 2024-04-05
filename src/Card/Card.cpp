@@ -56,10 +56,10 @@ namespace card {
                 m_PushCount--;
             }
 
-            if (m_Transform.translation.x < -1300) {
+            if (m_Transform.translation.x < -1300&&0) {
                 m_Transform.translation.x = -1300;
             }
-            else if (m_Transform.translation.x > 1300) {
+            else if (m_Transform.translation.x > 1300&&0) {
                 m_Transform.translation.x = 1300;
             }
             if (m_Transform.translation.y > 625) {

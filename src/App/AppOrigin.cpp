@@ -8,7 +8,7 @@ void App::Origin() {
                 m_Modle = Modle::Playing;
                 m_Background = nullptr;
                 
-                m_MenuElement[0]->SetText(RESOURCE_DIR"/fonts/Welatte Brush.ttf", 90, "menu!",
+                m_MenuElement[0]->SetText(RESOURCE_DIR"/fonts/Welatte Brush.ttf", 90, "menU!",
                     glm::vec3(0, 0, 0));
                 m_MenuElement[0]->SetTranslation(glm::vec3(0, 185, 0));
                 m_MenuElement[0]->SetZIndex(1.5);

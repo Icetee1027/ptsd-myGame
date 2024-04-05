@@ -15,7 +15,7 @@ namespace card {
         }
 
         // 检查是否为 "egg" 卡片，并且符合条件
-        if (otherCard->GetCardName() == "Egg" && otherCard->GetParent()->GetCardName() == "Chicken") {
+        if (otherCard->GetCardName() == "Egg" && otherCard->GetParent()!=nullptr&&otherCard->GetParent()->GetCardName() == "Chicken") {
             return false;
         }
 

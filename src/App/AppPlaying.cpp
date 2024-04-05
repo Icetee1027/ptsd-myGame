@@ -86,8 +86,8 @@ void App::Playing() {
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::F)) {
-        //std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard(files[m_WorldCards.size()]);
-        std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard("Coin");
+        std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard(files[m_WorldCards.size()]);
+        //std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard("Coin");
         sem->SetTranslation(glm::vec3(200 * m_WorldCards.size() + 1, 0, 0));
         AddCard(sem);
 
