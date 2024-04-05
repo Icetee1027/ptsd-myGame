@@ -53,8 +53,24 @@ namespace card {
         else {
             if (m_PushCount != 0) {
                 m_Transform.translation += glm::vec3(m_PushVector.x * m_PushCount, m_PushVector.y * m_PushCount, 0);
-                m_PushCount--;  
+                m_PushCount--;
             }
+
+            if (m_Transform.translation.x < -1300) {
+                m_Transform.translation.x = -1300;
+            }
+            else if (m_Transform.translation.x > 1300) {
+                m_Transform.translation.x = 1300;
+            }
+            if (m_Transform.translation.y > 625) {
+                m_Transform.translation.y = 625;
+            }else if(m_Transform.translation.y - (GetStackSize() - 1) * 47 < -625) {
+                m_Transform.translation.y = -625 + (GetStackSize() - 1) * 47;
+            }
+            
+        }
+        if (m_Child != nullptr) {
+            GetChildren()[2]->SetVisible(m_Child->GetChildren()[2]->GetVisible());
         }
     }
 
@@ -197,7 +213,7 @@ namespace card {
                 return false;
             }
         }
-        LOG_DEBUG("CanHaveCardOnTop in");
+        //LOG_DEBUG("CanHaveCardOnTop in");
         return CanHaveCard(otherCard);
     }
     bool Card::CanHaveCard(std::shared_ptr<Card>  otherCard) {

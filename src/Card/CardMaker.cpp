@@ -1,4 +1,5 @@
 #include "Card/CardMaker.hpp"
+#include "Util/Animation.hpp"
 #include "App.hpp"
 namespace card {
 
@@ -31,8 +32,18 @@ namespace card {
         std::shared_ptr<Card> temp = nullptr;
         auto [image, title] = CardElementPool::getElement(attribute["name"], attribute["textcolor"]);
         std::shared_ptr<CardTitle> m_Title = std::make_shared<CardTitle>();
+        std::shared_ptr<CardDrop> m_CardDrop = std::make_shared<CardDrop>();
+        std::shared_ptr<CardLine> m_CardLine = std::make_shared<CardLine>();
         m_Title->SetDrawable(title);
-        
+        if (CardElementPool::m_CardDorp == nullptr) {
+            CardElementPool::m_CardDorp = std::make_shared<Util::Image>(RESOURCE_DIR"/sprites/CardDrop.png");
+        }
+        m_CardDrop->SetDrawable(CardElementPool::m_CardDorp);
+        if (CardElementPool::m_CardLine == nullptr) {
+            CardElementPool::m_CardLine = std::make_shared<Util::Animation>(std::vector<std::string>({ RESOURCE_DIR"/sprites/CardLine2.png" ,RESOURCE_DIR"/sprites/CardLine1.png" }),//
+                true,500, true,0);
+        }
+        m_CardLine->SetDrawable(CardElementPool::m_CardLine);
         std::vector<std::string> sfxs;
         for (const auto& sfx : GetCardSFX(m_Type)) {
             sfxs.push_back(RESOURCE_DIR "/audio/sfx" + sfx);
@@ -90,7 +101,10 @@ namespace card {
         }
         m_Title->SetCard(temp);
         temp->AddChild(m_Title);
-
+        m_CardDrop->SetCard(temp);
+        temp->AddChild(m_CardDrop);
+        m_CardLine->SetCard(temp);
+        temp->AddChild(m_CardLine);
         if (attribute.contains("hp")) {
             int hp = attribute["hp"];
             std::shared_ptr<CardRightNum> number=std::make_shared<CardRightNum>();

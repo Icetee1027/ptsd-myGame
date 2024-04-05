@@ -27,7 +27,7 @@ void Animation::SetCurrentFrame(std::size_t index) {
 
 void Animation::Draw(const Util::Transform &transform, const float zIndex) {
     m_Frames[m_Index]->Draw(transform, zIndex);
-    Update();
+    
 }
 
 void Animation::Play() {
@@ -83,5 +83,6 @@ void Animation::Update() {
         m_State = m_Looping ? State::COOLDOWN : State::ENDED;
         m_Index = m_Frames.size() - 1;
     }
+    
 };
 } // namespace Util

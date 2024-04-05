@@ -82,4 +82,6 @@ namespace card {
     std::unordered_map<std::string, std::pair<std::weak_ptr<Util::Image>, std::weak_ptr<Util::Text>>> CardElementPool::elements = {};
 
     std::unordered_map<std::pair<int, int>, std::weak_ptr<Util::Text>, std::hash<std::pair<int, int>>> CardElementPool::numberTextElements = {};
+    std::shared_ptr<Core::Drawable> CardElementPool::m_CardDorp =nullptr;
+    std::shared_ptr<Util::Animation> CardElementPool::m_CardLine = nullptr;
 }

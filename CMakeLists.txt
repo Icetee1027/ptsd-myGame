@@ -19,8 +19,8 @@ file(GLOB_RECURSE HEADER_FILES include/*)
 add_executable(${PROJECT_NAME}   
     ${SRC_DIR}/main.cpp 
     ${SRC_FILES}
-    ${HEADER_FILES}
-)     
+    ${HEADER_FILES} 
+)       
        
 if(MSVC) 
     target_compile_options(${PROJECT_NAME} PRIVATE /W4)
@@ -34,15 +34,15 @@ else()
     message(FATAL_ERROR "relative RESOURCE_DIR is WIP, Please use `-DCMAKE_BUILD_TYPE=Debug` build for now.")
     # target_compile_definitions(${PROJECT_NAME} PRIVATE RESOURCE_DIR="${CMAKE_INSTALL_PREFIX}/Resources")
 endif()
-
+ 
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${DEPENDENCY_INCLUDE_DIRS})
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/PTSD/include)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/PTSD/include) 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-target_link_libraries(Framework 
+ 
+target_link_libraries(Framework  
     ${DEPENDENCY_LINK_LIBRARIES}
 )
-
+   
 target_link_libraries(${PROJECT_NAME}
     SDL2::SDL2main
     Framework

@@ -132,12 +132,12 @@ public:
     void Pause();
 
     void SetWorld(const World world) override;
+    void Update();
 
 private:
     /**
      * @brief Update the animation frames.
      */
-    void Update();
 
 private:
     std::vector<std::shared_ptr<Util::Image>> m_Frames;
@@ -148,7 +148,7 @@ private:
     bool m_IsChangeFrame;
 
     unsigned long m_CooldownEndTime;
-    double m_TimeBetweenFrameUpdate;
+    double m_TimeBetweenFrameUpdate=0;
 
     std::size_t m_Index;
 };

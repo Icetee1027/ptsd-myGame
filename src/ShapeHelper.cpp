@@ -21,8 +21,13 @@ std::shared_ptr<card::Card> ShapeHelper::IsPointInStack(std::shared_ptr<card::Ca
     }
     return  nullptr;
 }
-bool ShapeHelper::IsCardInStack(const std::shared_ptr<card::Card> stack,
-    const std::shared_ptr<card::Card> card) {
+bool ShapeHelper::IsPonstInMenu(const std::shared_ptr< GiraffeText>& text, const glm::vec2 mouse) {
+    bool fx = mouse.x > text->GetTransform().translation.x - text->GetScaledSize().x / 2 && mouse.x < text->GetTransform().translation.x + text->GetScaledSize().x / 2;
+    bool fy = mouse.y > text->GetTransform().translation.y - text->GetScaledSize().y / 2 && mouse.y < text->GetTransform().translation.y + text->GetScaledSize().y / 2;
+    return fx && fy;
+}
+bool ShapeHelper::IsCardInStack(const std::shared_ptr<card::Card>& stack,
+    const std::shared_ptr<card::Card>& card) {
     auto CardPosistion = card->GetTransform().translation;
     auto StackPosistion = stack->GetTransform().translation;
     bool IsInX = StackPosistion.x > CardPosistion.x - card->GetScaledSize().x && StackPosistion.x < CardPosistion.x + card->GetScaledSize().x ;
@@ -30,8 +35,8 @@ bool ShapeHelper::IsCardInStack(const std::shared_ptr<card::Card> stack,
     
     return IsInX && IsInY;
 }
-bool ShapeHelper::IsStackInStack(const std::shared_ptr<card::Card> stack,
-    const std::shared_ptr<card::Card> card) {
+bool ShapeHelper::IsStackInStack(const std::shared_ptr<card::Card>& stack,
+    const std::shared_ptr<card::Card>& card) {
     auto CardPosistion = card->GetTransform().translation;
     auto StackPosistion = stack->GetTransform().translation;
     bool IsInX = StackPosistion.x > CardPosistion.x - card->GetScaledSize().x - 20 && StackPosistion.x < CardPosistion.x + card->GetScaledSize().x + 20;

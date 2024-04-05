@@ -5,7 +5,7 @@
 #include "pch.hpp" // IWYU pragma: export
 #include "Util/Root.hpp"
 
-
+#include "Background.hpp"
 #include "Giraffe.hpp"
 #include "GiraffeText.hpp"
 #include "Camera.hpp"
@@ -17,6 +17,11 @@
 #include "Board.hpp"
 class App {
 public:
+    enum class Modle {
+        Origin,
+        Menu,
+        Playing
+    };
     enum class State {
         START,
         UPDATE,
@@ -41,6 +46,10 @@ private:
     void Pause();
     void CameraUpdate();
     void StackUpdate();
+    void Origin();
+    void Menu();
+    void Playing();
+    void mouseUp();
 
     
 private:
@@ -50,11 +59,15 @@ private:
     };
     State m_CurrentState = State::START;
     PauseOrPlay m_IsPlayButton= PauseOrPlay::Play;
+    Modle m_Modle = Modle::Origin;
+
+    std::vector<std::shared_ptr<GiraffeText>> m_MenuElement = { std::make_shared<GiraffeText>() ,std::make_shared<GiraffeText>() ,std::make_shared<GiraffeText>() };
+    std::shared_ptr<Background> m_Background = std::make_shared<Background>();
+    std::shared_ptr<Background> m_Menu = std::make_shared<Background>();
     std::shared_ptr<Giraffe> m_Giraffe = std::make_shared<Giraffe>();
     std::shared_ptr<GiraffeText> m_GiraffeText = std::make_shared<GiraffeText>();
     std::shared_ptr<Camera> m_Camera = std::make_shared<Camera>();
     static std::list<std::weak_ptr<card::Card>> m_PushProcessingArea;
-
     std::shared_ptr<Mouse> m_Mouse = std::make_shared<Mouse>();
     static Util::Root m_Root;
     std::shared_ptr<Board> m_Board = std::make_shared<Board>();
@@ -67,6 +80,8 @@ private:
         "RawMeat", "Rock", "Sawmill", "Shed", "Skeleton", "Slime", "SmallSlime",//
         "Smelter", "Smithy", "Soil", "Spear", "Stew", "Stick", "Stone",  "StrangePortal", "Sword", "Swordsman", "Temple", //
         "TravellingCart", "TreasureChest", "Tree", "Villager", "Warehouse", "WickedWitch", "Wolf", "Wood" };
+
+
     static std::multimap<int, std::shared_ptr<card::Card>> m_WorldCards;
 };
 #endif
