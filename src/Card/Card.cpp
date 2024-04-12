@@ -217,7 +217,7 @@ namespace card {
         return CanHaveCard(otherCard);
     }
     bool Card::CanHaveCard(std::shared_ptr<Card>  otherCard) {
-        LOG_DEBUG("CanHaveCard:{}", false);
+        //LOG_DEBUG("CanHaveCard:{}", false);
         return false;
     }
     int Card::GetStackSize() {

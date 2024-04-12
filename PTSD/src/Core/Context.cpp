@@ -101,7 +101,7 @@ void Context::Update() {
     
     Util::Time::Update();
     Util::Input::Update();
-    constexpr double frameTime = 1000 / static_cast<double>(240);
+    constexpr double frameTime = 1000 / static_cast<double>(144);
     /*LOG_DEBUG("{}, {}, {}, {}", frameTime - Util::Time::GetDeltaTime() * 1000,
               frameTime, Util::Time::GetDeltaTime() * 1000,
               1 / Util::Time::GetDeltaTime());*/
