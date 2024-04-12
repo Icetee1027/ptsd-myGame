@@ -11,6 +11,7 @@
 #include "Camera.hpp"
 #include "Mouse.hpp"
 #include "card/Card.hpp"
+#include <list>
 #include <map>
 #include <memory>
 #include <utility>

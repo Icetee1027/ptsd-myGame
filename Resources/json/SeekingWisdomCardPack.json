@@ -1,0 +1,18 @@
+{
+    "name": "SeekingWisdomCardPack",
+    "id": 0,
+    "class": "CardPack",
+    "type": 4,
+    "CardPackNum": 4,
+    "FirstIdeaPool":["Idea:Brick", "Idea:Campfire", "Idea:Growth", "Idea:House", "Idea:Offspring", "Idea:Plank", "Idea:Shed", "Idea:Spear", "Idea:Stick"],
+    "ThirdIdeaPool":["Idea:Chicken", "Idea:CoinChest", "Idea:Garden", "Idea:LumberCamp", "Idea:Quarry", "Idea:Shed"],
+    "FirstCardsPool":["BerryBush", "Rock", "Tree"],
+    "SecondCardsPool":["Stone", "Wood", "Flint", "Poop", "Stick", "Coin"],
+    "ThirdCardsPool":["BerryBush", "Rock", "Tree"],
+    "ForthCardsPool":["BerryBush", "Rock", "Tree"],
+    "FirstCardsRate":[33, 33, 33],
+    "SecondCardsRate":[27, 27, 13, 13, 13, 7],
+    "ThirdCardsRate":[33, 33, 33],
+    "ForthCardsRate":[33, 33, 33],
+    "textcolor": 0
+}

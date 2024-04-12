@@ -12,6 +12,9 @@
 
 void App::Start() {
    // LOG_TRACE("Start");
+    std::shared_ptr<card::Card> m_cardpack2= card::CardMaker::MakeCard("SeekingWisdomCardPack");
+    m_cardpack2->SetTranslation(glm::vec3(800, 200 , 0));
+    AddCard(m_cardpack2);
 
     m_GiraffeText->SetZIndex(-1);
     m_GiraffeText->SetText(RESOURCE_DIR"/fonts/Inter.ttf", 75, "Pause",
@@ -86,6 +89,12 @@ void App::Update() {
     }
     if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
         m_Mouse->ClickDown();
+        auto tmp = std::dynamic_pointer_cast<card::CardPack>(m_Mouse->GetBindObject());
+        if(tmp){
+            if (Util::Input::IsKeyPressed(Util::Keycode::O)) {
+                tmp->ClickDown();
+            }
+        }
     }
     
     if (card::CardElementPool::m_CardLine != nullptr) {

@@ -5,6 +5,7 @@
 
 namespace card {
     std::pair<std::shared_ptr<Util::Image>, std::shared_ptr<Util::Text>> CardElementPool::getElement(const std::string& name,const int color) {
+        size_t isIdeaCard = name.find("Idea:");
         auto it = elements.find(name);
         if (it != elements.end()) {
 
@@ -13,8 +14,8 @@ namespace card {
             auto text = pair.second.lock();
 
             if (!image) {
-
-                image = std::make_shared<Util::Image>(RESOURCE_DIR "/sprites/cards/" + name + ".png");
+                if(isIdeaCard == 0){image = std::make_shared<Util::Image>(RESOURCE_DIR "/sprites/cards/Idea.png");}
+                else{image = std::make_shared<Util::Image>(RESOURCE_DIR "/sprites/cards/" + name + ".png");}
 
                 pair.first = image;
                 //LOG_DEBUG("圖片更新");
@@ -32,7 +33,9 @@ namespace card {
             return std::make_pair(image, text);
         }
 
-        auto newImage = std::make_shared<Util::Image>(RESOURCE_DIR "/sprites/cards/" + name + ".png");
+        std::shared_ptr<Util::Image> newImage;
+        if(isIdeaCard == 0){newImage = std::make_shared<Util::Image>(RESOURCE_DIR "/sprites/cards/Idea.png");}
+        else{newImage = std::make_shared<Util::Image>(RESOURCE_DIR "/sprites/cards/" + name + ".png");}
         
         unsigned short textColor;
         if(name == "HumbleBegining") textColor = 0;
