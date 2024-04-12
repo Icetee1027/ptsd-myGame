@@ -51,7 +51,7 @@ namespace card {
             m_Transform.translation = m_Parent->GetTransform().translation + glm::vec3(0, -47, 0);
         }
         else {
-            if (m_PushCount != 0) {
+            if (m_PushCount != 0 && m_Moveable==true) {
                 m_Transform.translation += glm::vec3(m_PushVector.x * m_PushCount, m_PushVector.y * m_PushCount, 0);
                 m_PushCount--;
             }
@@ -185,7 +185,7 @@ namespace card {
         int num2 = (isPrefab ? 1 : (otherCard->GetStackSize()));
         if (num + num2 > 10)
         {
-            LOG_DEBUG("CanHaveCardOnTop out of size");
+            //LOG_DEBUG("CanHaveCardOnTop out of size");
             return false;
         }
         if (dynamic_cast<CardPack*>(rootcard.get()) && rootcard->GetChild()!=nullptr )//rootCard.Child.CardData.DetermineCanHaveCardsWhenIsRoot

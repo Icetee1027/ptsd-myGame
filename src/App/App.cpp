@@ -12,10 +12,6 @@
 
 void App::Start() {
    // LOG_TRACE("Start");
-    m_Giraffe->SetDrawable(
-        std::make_shared<Util::Image>(RESOURCE_DIR"/sprites/giraffe.png"));
-    m_Giraffe->SetZIndex(5);
-    m_Giraffe->Start();
 
     m_GiraffeText->SetZIndex(-1);
     m_GiraffeText->SetText(RESOURCE_DIR"/fonts/Inter.ttf", 75, "Pause",
@@ -55,7 +51,6 @@ void App::Start() {
     m_Root.AddChild(m_Menu);
     m_Root.AddChild(m_Background);
     m_Root.AddChild(m_Board);
-    m_Root.AddChild(m_Giraffe);
     m_Root.AddChild(m_GiraffeText); 
     m_Root.AddChild(m_Mouse);
    
@@ -65,7 +60,7 @@ void App::Start() {
 
 
 void App::Update() {
-
+    
    
     if (Util::Input::IfExit()) {
         m_CurrentState = State::END;
@@ -92,7 +87,7 @@ void App::Update() {
     if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
         m_Mouse->ClickDown();
     }
-    m_Mouse->Update();
+    
     if (card::CardElementPool::m_CardLine != nullptr) {
         card::CardElementPool::m_CardLine->Update();
     }

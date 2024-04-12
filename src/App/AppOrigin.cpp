@@ -38,5 +38,5 @@ void App::Origin() {
         }
 
     }
-    
+    m_Mouse->Update();
 }

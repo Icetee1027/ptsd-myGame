@@ -64,7 +64,6 @@ private:
     std::vector<std::shared_ptr<GiraffeText>> m_MenuElement = { std::make_shared<GiraffeText>() ,std::make_shared<GiraffeText>() ,std::make_shared<GiraffeText>() };
     std::shared_ptr<Background> m_Background = std::make_shared<Background>();
     std::shared_ptr<Background> m_Menu = std::make_shared<Background>();
-    std::shared_ptr<Giraffe> m_Giraffe = std::make_shared<Giraffe>();
     std::shared_ptr<GiraffeText> m_GiraffeText = std::make_shared<GiraffeText>();
     std::shared_ptr<Camera> m_Camera = std::make_shared<Camera>();
     static std::list<std::weak_ptr<card::Card>> m_PushProcessingArea;

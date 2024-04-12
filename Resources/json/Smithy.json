@@ -1,8 +1,8 @@
 {
-    "name": "Smithy",
-    "id": 0,
-    "class": "Combatable",
-    "type": 6,
-    "price": 3,
-    "textcolor": 0
+  "name": "Smithy",
+  "id": 0,
+  "class": "Harvestable",
+  "type": 6,
+  "price": 3,
+  "textcolor": 0
 }

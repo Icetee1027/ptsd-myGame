@@ -2,6 +2,7 @@
 namespace card {
     Mob::Mob(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image, const bool iconcolor)
         : Combatable(type, name, id, sfxs, image, iconcolor) {
+        m_Moveable = false;
     }
     bool Mob::CanHaveCard(std::shared_ptr<Card> otherCard) {
         // 检查是否是 "bone" 和 "wolf" 的组合

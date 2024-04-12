@@ -1,8 +1,8 @@
 {
-    "name": "IronMine",
-    "id": 0,
-    "class": "Combatable",
-    "type": 6,
-    "price": 5,
-    "textcolor": 0
+  "name": "IronMine",
+  "id": 0,
+  "class": "Harvestable",
+  "type": 6,
+  "price": 5,
+  "textcolor": 0
 }
