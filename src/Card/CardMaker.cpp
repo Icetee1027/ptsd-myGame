@@ -15,7 +15,7 @@ namespace card {
     }
 
     template<typename T>
-    static std::function<std::shared_ptr<Card>(Type, const std::string&, int, const std::vector<std::shared_ptr<Util::SFX>>, const std::shared_ptr<Util::Image>, const bool)>
+    std::function<std::shared_ptr<Card>(Type, const std::string&, int, const std::vector<std::shared_ptr<Util::SFX>>, const std::shared_ptr<Util::Image>, const bool)>
         CardMaker::createCardFunction() {
         return [](Type type, const std::string& name, int id, const std::vector<std::shared_ptr<Util::SFX>>& sfxs, const std::shared_ptr<Util::Image>& image, const bool iconcolor) {
             return std::make_shared<T>(type, name, id, sfxs, image, iconcolor);
@@ -85,6 +85,7 @@ namespace card {
             { "Building",createCardFunction<Building>() },
             { "TreasureChest",createCardFunction<TreasureChest>() },
             { "Shop",createCardFunction<Shop>() },
+            { "Idea",createCardFunction<Idea>() },
         };
 
         auto it = cardCreators.find(attribute["class"]);
@@ -132,7 +133,82 @@ namespace card {
             }
             temp->SetPrice(price);
         }
-
+        if (attribute.contains("CardPackNum")) {
+            int CardPackNum = attribute["CardPackNum"];
+            temp->SetCardPackNum(CardPackNum);
+        }
+        if (attribute.contains("FirstIdeaPool")) {
+            std::vector<std::string> FirstIdeaPool = attribute["FirstIdeaPool"];
+            std::shared_ptr<CardLeftNum> number = std::make_shared<CardLeftNum>();
+            temp->SetFirstIdeaPool(FirstIdeaPool);
+            //LOG_DEBUG("FirstIdeaPool:{}", temp->GetFirstIdeaPool().front());
+        }
+        if (attribute.contains("SecondIdeaPool")) {
+            std::vector<std::string> SecondIdeaPool = attribute["SecondIdeaPool"];
+            std::shared_ptr<CardLeftNum> number = std::make_shared<CardLeftNum>();
+            temp->SetSecondIdeaPool(SecondIdeaPool);
+            //LOG_DEBUG("SecondIdeaPool:{}", temp->GetSecondIdeaPool().front());
+        }
+        if (attribute.contains("ThirdIdeaPool")) {
+            std::vector<std::string> ThirdIdeaPool = attribute["ThirdIdeaPool"];
+            std::shared_ptr<CardLeftNum> number = std::make_shared<CardLeftNum>();
+            temp->SetThirdIdeaPool(ThirdIdeaPool);
+            //LOG_DEBUG("ThirdIdeaPool:{}", temp->GetThirdIdeaPool().front());
+        }
+        if (attribute.contains("ForthIdeaPool")) {
+            std::vector<std::string> ForthIdeaPool = attribute["ForthIdeaPool"];
+            std::shared_ptr<CardLeftNum> number = std::make_shared<CardLeftNum>();
+            temp->SetForthIdeaPool(ForthIdeaPool);
+            //LOG_DEBUG("ForthIdeaPool:{}", temp->GetForthIdeaPool().front());
+        }
+        if (attribute.contains("FirstCardsPool")) {
+            std::vector<std::string> FirstCardsPool = attribute["FirstCardsPool"];
+            std::shared_ptr<CardLeftNum> number = std::make_shared<CardLeftNum>();
+            temp->SetFirstCardsPool(FirstCardsPool);
+            //LOG_DEBUG("FirstCardsPool:{}", temp->GetFirstCardsPool().front());
+        }
+        if (attribute.contains("SecondCardsPool")) {
+            std::vector<std::string> SecondCardsPool = attribute["SecondCardsPool"];
+            std::shared_ptr<CardLeftNum> number = std::make_shared<CardLeftNum>();
+            temp->SetSecondCardsPool(SecondCardsPool);
+            //LOG_DEBUG("SecondCardsPool:{}", temp->GetSecondCardsPool().front());
+        }
+        if (attribute.contains("ThirdCardsPool")) {
+            std::vector<std::string> ThirdCardsPool = attribute["ThirdCardsPool"];
+            std::shared_ptr<CardLeftNum> number = std::make_shared<CardLeftNum>();
+            temp->SetThirdCardsPool(ThirdCardsPool);
+            //LOG_DEBUG("ThirdCardsPool:{}", temp->GetThirdCardsPool().front());
+        }
+        if (attribute.contains("ForthCardsPool")) {
+            std::vector<std::string> ForthCardsPool = attribute["ForthCardsPool"];
+            std::shared_ptr<CardLeftNum> number = std::make_shared<CardLeftNum>();
+            temp->SetForthCardsPool(ForthCardsPool);
+            //LOG_DEBUG("ForthCardsPool:{}", temp->GetForthCardsPool().front());
+        }
+        if (attribute.contains("FirstCardsRate")) {
+            std::vector<unsigned short> FirstCardsRate = attribute["FirstCardsRate"];
+            std::shared_ptr<CardLeftNum> number = std::make_shared<CardLeftNum>();
+            temp->SetFirstCardsRate(FirstCardsRate);
+            //LOG_DEBUG("FirstCardsRate:{}", temp->GetFirstCardsRate().front());
+        }
+        if (attribute.contains("SecondCardsRate")) {
+            std::vector<unsigned short> SecondCardsRate = attribute["SecondCardsRate"];
+            std::shared_ptr<CardLeftNum> number = std::make_shared<CardLeftNum>();
+            temp->SetSecondCardsRate(SecondCardsRate);
+            //LOG_DEBUG("SecondCardsRate:{}", temp->GetSecondCardsRate().front());
+        }
+        if (attribute.contains("ThirdCardsRate")) {
+            std::vector<unsigned short> ThirdCardsRate = attribute["ThirdCardsRate"];
+            std::shared_ptr<CardLeftNum> number = std::make_shared<CardLeftNum>();
+            temp->SetThirdCardsRate(ThirdCardsRate);
+            //LOG_DEBUG("ThirdCardsRate:{}", temp->GetThirdCardsRate().front());
+        }
+        if (attribute.contains("ForthCardsRate")) {
+            std::vector<unsigned short> ForthCardsRate = attribute["ForthCardsRate"];
+            std::shared_ptr<CardLeftNum> number = std::make_shared<CardLeftNum>();
+            temp->SetForthCardsRate(ForthCardsRate);
+            //LOG_DEBUG("ForthCardsRate:{}", temp->GetForthCardsRate().front());
+        }
         App::AddObjectToRoot(temp);
         return temp;
     }
