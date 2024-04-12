@@ -138,6 +138,8 @@ public:
     void SetMoveable(bool state){
         m_Moveable = state;
     }
+    bool CanMoveable() { return m_Moveable;
+    }
     /**
      * @brief Remove a child from the game object.
      *

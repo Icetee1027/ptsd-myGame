@@ -44,7 +44,6 @@ void App::Playing() {
 
     //--------------------------------------------------------------------
     if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
-        m_Mouse->ClickDown();
         //LOG_DEBUG("worldsize:{}", m_WorldCards.size());
         auto target = m_Mouse->GetMousePosition(0);
         auto lowerBound = m_WorldCards.lower_bound(target.x - 100);
@@ -86,8 +85,8 @@ void App::Playing() {
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::F)) {
-        std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard(files[m_WorldCards.size()]);
-        //std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard("Coin");
+        //std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard(files[m_WorldCards.size()]);
+        std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard("Coin");
         sem->SetTranslation(glm::vec3(200 * m_WorldCards.size() + 1, 0, 0));
         AddCard(sem);
 
@@ -112,8 +111,9 @@ void App::Playing() {
 
     //------------------------------------------------------------------
     CameraUpdate();
-
+    m_Mouse->Update();
     StackUpdate();
+
 }
 void App::CameraUpdate() {
     if (Util::Input::IfScroll()) {
@@ -181,7 +181,8 @@ void App::StackUpdate() {
                     else continue;
                     glm::vec2 direction = target - itposition;
                     glm::vec2 unitVector = glm::normalize(direction);
-                    object->SetPushing(unitVector * 0.05f * float(st->second->GetStackSize()) / float(object->GetStackSize() + st->second->GetStackSize()), 40);
+                    float proportion = float(st->second->GetStackSize()) / float(object->GetStackSize() + st->second->GetStackSize());
+                    object->SetPushing(unitVector * 0.06f * (object->CanMoveable() ? proportion:1), 30);
                 }
             }
             if (object->GetPushCount() == 0) {

@@ -1,8 +1,8 @@
 {
-    "name": "Campfire",
-    "id": 0,
-    "class": "Combatable",
-    "type": 6,
-    "price": 1,
-    "textcolor": 0
+  "name": "Campfire",
+  "id": 0,
+  "class": "Harvestable",
+  "type": 6,
+  "price": 1,
+  "textcolor": 0
 }

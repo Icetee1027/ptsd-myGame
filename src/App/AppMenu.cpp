@@ -26,4 +26,5 @@ void App::Menu() {
         }
     
     }
+    m_Mouse->Update();
 }

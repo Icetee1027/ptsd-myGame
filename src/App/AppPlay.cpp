@@ -8,6 +8,5 @@
 
 
 void App::Play() {
-    
-    m_Giraffe->Update();
+
 }

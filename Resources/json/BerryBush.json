@@ -1,8 +1,8 @@
 {
-    "name": "BerryBush",
-    "id": 0,
-    "class": "Combatable",
-    "type": 6,
-    "price": 1,
-    "textcolor": 1
+  "name": "BerryBush",
+  "id": 0,
+  "class": "Harvestable",
+  "type": 6,
+  "price": 1,
+  "textcolor": 1
 }
