@@ -104,6 +104,8 @@ public:
     void SetDrawable(const std::shared_ptr<Core::Drawable> &drawable) {
         m_Drawable = drawable;
     }
+    void SetTransform(Util::Transform transform) { m_Transform = transform; }
+
     void SetDrawableState(const Core::Drawable::World world) { 
         m_Drawable->SetWorld(world);
     }

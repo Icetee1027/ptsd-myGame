@@ -40,8 +40,8 @@
 #include "Card/Building.hpp"
 #include "Card/TreasureChest.hpp"
 #include "Card/Shop.hpp"
-
-
+#include "Card/CardDrop.hpp"
+#include "Card/CardLine.hpp"
 
 
 #endif // !ALLCARDPCH_HPP

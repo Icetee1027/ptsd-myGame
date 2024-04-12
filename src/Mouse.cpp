@@ -40,11 +40,24 @@ void Mouse::ObjectUmBind() {
     
 }
 void Mouse::ObjectDrag() {
-    if (typeid(*m_BindObject) == typeid(Camera)) {
+    if (std::dynamic_pointer_cast<Camera>(m_BindObject)) {
         m_BindObject->MoveObject(glm::vec3(m_Offset * ShapeHelper::CursorPositionWorldTr(0), 0));
     }
-    else {
-        m_BindObject->SetTranslation(glm::vec3(GetMousePosition(m_BindObject) - m_Distance, 0));
+    else if(auto cardObject = std::dynamic_pointer_cast<card::Card>(m_BindObject)){
+        m_BindObject->SetTranslation(glm::vec3(GetMousePosition(m_BindObject) - m_Distance, m_BindObject->GetTransform().translation.z));
+
+        if (cardObject->GetTransform().translation.x < -1300&&0) {
+            cardObject->SetTranslation(glm::vec3(-1300, cardObject->GetTransform().translation.y, cardObject->GetTransform().translation.z));
+        }
+        else if (cardObject->GetTransform().translation.x > 1300&&0) {
+            cardObject->SetTranslation(glm::vec3(1300, cardObject->GetTransform().translation.y, cardObject->GetTransform().translation.z));
+        }
+        if (cardObject->GetTransform().translation.y > 625) {
+            cardObject->SetTranslation(glm::vec3(cardObject->GetTransform().translation.x, 625, cardObject->GetTransform().translation.z));
+        }
+        else if (cardObject->GetTransform().translation.y - (cardObject->GetStackSize() - 1) * 47 < -625) {
+            cardObject->SetTranslation(glm::vec3(cardObject->GetTransform().translation.x, -625 + (cardObject->GetStackSize() - 1) * 47, cardObject->GetTransform().translation.z));
+        }
     }
 }
 glm::vec2 Mouse::GetMousePosition(const std::shared_ptr<Util::GameObject> &object) {

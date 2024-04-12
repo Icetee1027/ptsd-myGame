@@ -29,7 +29,7 @@ public:
     void SetExit(bool exit) { m_Exit = exit; }
     void SetWindowWidth(unsigned int width) { m_WindowWidth = width; }
     void SetWindowHeight(unsigned int height) { m_WindowHeight = height; }
-
+    static bool GetIsDraw();
     void Update();
 
 private:
@@ -38,7 +38,7 @@ private:
 
     static std::shared_ptr<Context> s_Instance;
     bool m_Exit = false;
-
+    static double m_TimeUpdate;
     unsigned int m_WindowWidth = WINDOW_WIDTH;
     unsigned int m_WindowHeight = WINDOW_HEIGHT;
 };

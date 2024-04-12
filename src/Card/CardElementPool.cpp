@@ -27,7 +27,7 @@ namespace card {
                 pair.second = text;
             }
 
-                LOG_DEBUG("{}", name);
+                //LOG_DEBUG("{}", name);
             //LOG_DEBUG("圖片指針輸出");
             return std::make_pair(image, text);
         }
@@ -79,5 +79,9 @@ namespace card {
         {0, Util::Colors::WHITE},
         {1, Util::Colors::BLACK}
     };
+    std::unordered_map<std::string, std::pair<std::weak_ptr<Util::Image>, std::weak_ptr<Util::Text>>> CardElementPool::elements = {};
 
+    std::unordered_map<std::pair<int, int>, std::weak_ptr<Util::Text>, std::hash<std::pair<int, int>>> CardElementPool::numberTextElements = {};
+    std::shared_ptr<Core::Drawable> CardElementPool::m_CardDorp =nullptr;
+    std::shared_ptr<Util::Animation> CardElementPool::m_CardLine = nullptr;
 }

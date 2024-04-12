@@ -1,9 +1,8 @@
 #include "Util/Root.hpp"
-
+#include "Core/Context.hpp"
 #include <queue>
-
+#include "Util/Time.hpp"
 #include "Util/Logger.hpp"
-
 namespace Util {
 Root::Root(const std::vector<std::weak_ptr<GameObject>> children)
     : m_Children(children) {}
@@ -28,9 +27,11 @@ void Root::AddChildren(
 }
 
 void Root::Update() {
-
-
-
+    
+    if (!Core::Context::GetIsDraw())
+        return;
+    //if (1 / Util::Time::GetDeltaTime() < 50)
+       // LOG_ERROR("{}", 1 / Util::Time::GetDeltaTime());
     struct StackInfo {
         std::shared_ptr<GameObject> m_GameObject;
         Transform m_ParentTransform;
@@ -53,9 +54,13 @@ void Root::Update() {
     }
 
     // 删除无效的元素
-    for (auto it : invalidIterators) {
-        m_Children.erase(it);
+    
+    for (auto it = invalidIterators.rbegin(); it != invalidIterators.rend(); ++it) {
+        auto index = std::distance(m_Children.begin(), *it);
+        m_Children.erase(m_Children.begin() + index);
+        //LOG_ERROR("釋放root");
     }
+
 
     auto compareFunction = [](const StackInfo &a, const StackInfo &b) {
         return a.m_GameObject->GetZIndex() > b.m_GameObject->GetZIndex();

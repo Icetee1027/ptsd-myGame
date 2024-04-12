@@ -16,14 +16,13 @@ namespace card {
         static Type GetJosnToType(int t);
 
         template<typename T>
-        static std::function<std::shared_ptr<Card>(Type, const std::string&, int, const std::vector<std::shared_ptr<Util::SFX>>, const std::shared_ptr<Util::Image>)>
+        static std::function<std::shared_ptr<Card>(Type, const std::string&, int, const std::vector<std::shared_ptr<Util::SFX>>, const std::shared_ptr<Util::Image>,const bool)>
             createCardFunction();
 
         static std::shared_ptr<Card> MakeCard(std::string name);
 
         static std::vector<std::string> GetCardSFX(Type type);
     private:
-        static CardElementPool m_pool;
         static const std::map<int, Type> typeMapping;
         static const std::unordered_map<Type, std::vector<std::string>> cardSFXMap;
     };

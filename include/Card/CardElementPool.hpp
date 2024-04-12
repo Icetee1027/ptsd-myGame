@@ -9,6 +9,7 @@
 #include "Util/Text.hpp"
 #include "Card/Card.hpp"
 #include "Util/color.hpp"
+#include "Util/Animation.hpp"
 namespace std {
     template <>
     struct hash<std::pair<int, int>> {
@@ -22,16 +23,17 @@ namespace std {
 namespace card {
     class CardElementPool {
     private:
-        std::unordered_map<std::string, std::pair<std::weak_ptr<Util::Image>, std::weak_ptr<Util::Text>>> elements;
-        std::unordered_map<std::pair<int, int>, std::weak_ptr<Util::Text>, std::hash<std::pair<int, int>>> numberTextElements;
+        static std::unordered_map<std::string, std::pair<std::weak_ptr<Util::Image>, std::weak_ptr<Util::Text>>> elements;
+        static std::unordered_map<std::pair<int, int>, std::weak_ptr<Util::Text>, std::hash<std::pair<int, int>>> numberTextElements;
         static const std::unordered_map<Type, glm::vec4> NumberColor;
         static const std::map<int, Util::Colors> m_Colors;
 
     public:
-        std::pair<std::shared_ptr<Util::Image>, std::shared_ptr<Util::Text>> getElement(const std::string& name,int color);
+        static std::pair<std::shared_ptr<Util::Image>, std::shared_ptr<Util::Text>> getElement(const std::string& name,int color);
+        static  std::shared_ptr<Core::Drawable> m_CardDorp; 
+        static  std::shared_ptr<Util::Animation> m_CardLine;
 
-
-        std::shared_ptr<Util::Text> getNumberTextElement(int number, int color);
+        static std::shared_ptr<Util::Text> getNumberTextElement(int number, int color);
     };
 }
 
