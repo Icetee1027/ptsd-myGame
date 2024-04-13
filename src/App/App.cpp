@@ -9,7 +9,6 @@
 #include "ShapeHelper.hpp"
 #include "Util/Time.hpp"
 #include "Card/CardElementPool.hpp"
-
 void App::Start() {
    // LOG_TRACE("Start");
     std::shared_ptr<card::Card> m_cardpack2= card::CardMaker::MakeCard("SeekingWisdomCardPack");
