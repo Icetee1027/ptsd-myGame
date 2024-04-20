@@ -1,7 +1,8 @@
 {
-    "name": "Idea:CoinChest",
-    "id": 0,
-    "class": "Idea",
-    "type": 7,
-    "textcolor": 0
+  "name": "Idea:CoinChest",
+  "id": 0,
+  "class": "Blueprint",
+  "price": 1,
+  "type": 7,
+  "textcolor": 1
 }

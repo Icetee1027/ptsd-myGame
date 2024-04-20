@@ -29,7 +29,7 @@ public:
     virtual ~Drawable() = default;
     virtual void Draw(const Util::Transform &transform, const float zIndex) = 0;
     virtual glm::vec2 GetSize() const = 0;
-    static void SetView(const Util::Transform &camera);
+    static void SetView(const glm::vec3 &camera);
     static glm::vec3 GetView();
     virtual void SetWorld(const World world) { m_world = world; }
 

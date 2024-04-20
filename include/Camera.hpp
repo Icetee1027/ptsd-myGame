@@ -11,8 +11,11 @@ public:
     void Update() override;
     void ClickDown() override;
     void ClickUp() override;
+    static void CameraShake();
+    static glm::vec3 ShakeUpdate();
+
 private:
-   
+    static double m_time; 
 };
 
 

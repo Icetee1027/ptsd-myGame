@@ -38,8 +38,9 @@ namespace card {
         else{newImage = std::make_shared<Util::Image>(RESOURCE_DIR "/sprites/cards/" + name + ".png");}
         
         unsigned short textColor;
-        if(name == "HumbleBegining") textColor = 0;
+        if(name== "Sell"||name == "OrderandStructure" || name == "Explorers" || name == "TheArmory" || name == "HumbleBegining" || name == "SeekingWisdom" || name == "ReapAndSow" || name == "CuriousCuisine" || name == "LogicandReason") textColor = 0;
         else textColor = 1;
+      
         /*
         if(strchr(name," ")!= NULL){
             name.replace()

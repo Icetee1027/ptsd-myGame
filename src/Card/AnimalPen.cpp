@@ -23,7 +23,7 @@ namespace card {
 		}
 		int num = GetStackSize() + otherCard->GetStackSize();
 		
-		if (dynamic_cast<Animal*>(otherCard.get()))
+		if (std::dynamic_pointer_cast<Animal>(otherCard))
 		{
 			return num <= m_MaxAnimalCount;
 		}

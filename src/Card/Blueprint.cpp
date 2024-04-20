@@ -4,7 +4,7 @@ namespace card {
         : Card(type, name, id, sfxs, image, iconcolor) {
     }
     bool Blueprint::CanHaveCard(std::shared_ptr<Card> otherCard) {
-        if (!(dynamic_cast<Blueprint*>(otherCard.get())))
+        if (!std::dynamic_pointer_cast<Blueprint>(otherCard))
         {
             return otherCard->GetCardType() == Type::Rumors;
         }

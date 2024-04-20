@@ -42,7 +42,6 @@
 #include "Card/Shop.hpp"
 #include "Card/CardDrop.hpp"
 #include "Card/CardLine.hpp"
-#include "Card/Idea.hpp"
-
+#include "Card/Sell.hpp"
 
 #endif // !ALLCARDPCH_HPP

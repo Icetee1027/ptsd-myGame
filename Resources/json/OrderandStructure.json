@@ -1,8 +1,8 @@
 {
-    "name": "HumbleBegining",
+    "name": "OrderandStructure",
     "id": 0,
     "class": "Shop",
     "type": 10,
-    "price": 3,
+    "price": 25,
     "textcolor": 0
 }

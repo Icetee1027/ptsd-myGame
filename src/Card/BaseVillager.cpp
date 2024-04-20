@@ -5,7 +5,7 @@ namespace card{
         :Combatable(type, name, id, sfxs, image, iconcolor) {
     }
     bool BaseVillager::CanHaveCard(std::shared_ptr<Card> otherCard){
-        if (!(dynamic_cast<BaseVillager*>(otherCard.get())) && otherCard->GetCardType() != Type::Resource && otherCard->GetCardType() != Type::Equipment && !(dynamic_cast<Food*>(otherCard.get())))
+        if (!std::dynamic_pointer_cast<BaseVillager>(otherCard) && otherCard->GetCardType() != Type::Resource && otherCard->GetCardType() != Type::Equipment && !(dynamic_cast<Food*>(otherCard.get())))
         {
             return false;
         }

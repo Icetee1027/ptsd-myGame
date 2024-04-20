@@ -4,17 +4,24 @@
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
-#include "Card/CardMaker.hpp"
 #include "GiraffeText.hpp"
 #include "ShapeHelper.hpp"
 #include "Util/Time.hpp"
 #include "Card/CardElementPool.hpp"
+#include "Card/Poop.hpp"
 void App::Start() {
    // LOG_TRACE("Start");
-    std::shared_ptr<card::Card> m_cardpack2= card::CardMaker::MakeCard("SeekingWisdomCardPack");
+    std::shared_ptr<card::Card> m_cardpack2= card::CardMaker::MakeCard("IdeaBrick");
     m_cardpack2->SetTranslation(glm::vec3(800, 200 , 0));
     AddCard(m_cardpack2);
-
+    for (int i = 0; i < m_Shops.size(); i++) {
+        if(std::dynamic_pointer_cast<card::Poop>(m_Shops[i])){
+            LOG_DEBUG("{}", m_Shops[i]->GetCardName());
+        }
+        m_Shops[i]->SetTranslation(glm::vec3(-950 + i * 280, 1050, 0));
+        m_Shops[i]->SetMoveable(0);
+        AddCard(m_Shops[i]);
+    }
     m_GiraffeText->SetZIndex(-1);
     m_GiraffeText->SetText(RESOURCE_DIR"/fonts/Inter.ttf", 75, "Pause",
        glm::vec3(255,255,255));
@@ -62,7 +69,10 @@ void App::Start() {
 
 
 void App::Update() {
-    
+    if (Util::Input::IsKeyUp(Util::Keycode::X)) {
+        Camera::CameraShake();
+        
+    }
    
     if (Util::Input::IfExit()) {
         m_CurrentState = State::END;
@@ -88,12 +98,6 @@ void App::Update() {
     }
     if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
         m_Mouse->ClickDown();
-        auto tmp = std::dynamic_pointer_cast<card::CardPack>(m_Mouse->GetBindObject());
-        if(tmp){
-            if (Util::Input::IsKeyPressed(Util::Keycode::O)) {
-                tmp->ClickDown();
-            }
-        }
     }
     
     if (card::CardElementPool::m_CardLine != nullptr) {

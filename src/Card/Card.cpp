@@ -33,39 +33,40 @@ namespace card {
         PositionUpdate();
         if (m_Parent != nullptr) {m_Parent->Update();}
         if (StatusStackRootUpDate) {
-            StatusStackRootUpDate = false;
             StackRootUpdate();
         }
         ChildUpdate();
 
 
     }
+
     void Card::ChildUpdate() {
         for (auto child : m_Children) {
             child->SetZIndex(m_ZIndex);
             child->Update();
         }
     }
+
     void Card::PositionUpdate() {
         if (m_Parent != nullptr) {
             m_Transform.translation = m_Parent->GetTransform().translation + glm::vec3(0, -47, 0);
         }
         else {
-            if (m_PushCount != 0 && m_Moveable==true) {
+            if (m_PushCount != 0 && m_CanPush==true) {
                 m_Transform.translation += glm::vec3(m_PushVector.x * m_PushCount, m_PushVector.y * m_PushCount, 0);
                 m_PushCount--;
             }
 
-            if (m_Transform.translation.x < -1300&&0) {
-                m_Transform.translation.x = -1300;
+            if (m_Transform.translation.x < -1800+110 && m_Moveable==true) {
+                m_Transform.translation.x = -1800+110;
             }
-            else if (m_Transform.translation.x > 1300&&0) {
-                m_Transform.translation.x = 1300;
+            else if (m_Transform.translation.x > 1800-110&& m_Moveable == true) {
+                m_Transform.translation.x = 1800-110;
             }
-            if (m_Transform.translation.y > 625) {
-                m_Transform.translation.y = 625;
-            }else if(m_Transform.translation.y - (GetStackSize() - 1) * 47 < -625) {
-                m_Transform.translation.y = -625 + (GetStackSize() - 1) * 47;
+            if (m_Transform.translation.y > 1100-135&& m_Moveable == true) {
+                m_Transform.translation.y = 1100-135;
+            }else if(m_Transform.translation.y - (GetStackSize() - 1) * 47 < -1100+135 && m_Moveable == true) {
+                m_Transform.translation.y = -1100+135 + (GetStackSize() - 1) * 47;
             }
             
         }
@@ -88,6 +89,7 @@ namespace card {
             child->BindParent(shared_from_this());
         }
     }
+
     void Card::UnBindParent() {
         std::shared_ptr<Card> parent=m_Parent;
         if (m_Parent != nullptr) {
@@ -96,6 +98,7 @@ namespace card {
             StatusStackRootUpDate = true;
         }
     }
+
     void Card::UnBindChild() {
         std::shared_ptr<Card> child=m_Child;
         if (m_Child != nullptr) {
@@ -103,6 +106,7 @@ namespace card {
             child->UnBindParent();
         }
     }
+
     void Card::SetRoot() {
         if (m_Parent != nullptr) {
             m_Root = m_Parent->GetRoot();
@@ -111,6 +115,7 @@ namespace card {
             m_Root = shared_from_this();
         }
     }
+
     void Card::RemoveStack() {
        
         if(m_Child!= nullptr) {
@@ -129,6 +134,7 @@ namespace card {
         }
       
     }
+
     void Card::RemoveCard() {
         if (m_Child != nullptr&&m_Parent!=nullptr) {
             auto parent = m_Parent;
@@ -151,6 +157,7 @@ namespace card {
             App::RemoveCard(shared_from_this(),m_Transform.translation.x);
         }
     }
+
     void Card::RemoveFromParent() {
         if (m_Parent != nullptr)
         {
@@ -159,12 +166,16 @@ namespace card {
             UnBindParent();
         }
     }
+
     void Card::StackRootUpdate() {
         SetRoot();
+        m_Transform.translation.z = 0;
+        StatusStackRootUpDate = false;
         if (m_Child != nullptr) {
             m_Child->StackRootUpdate();
         }
     }
+
     std::vector<std::shared_ptr<Card>> Card::GetAllCardsInStack() {
         CheckRoot();
         auto root = m_Root.lock();
@@ -175,10 +186,11 @@ namespace card {
         }
         return stack;
     }
+
     bool Card::CanHaveCardOnTop(std::shared_ptr<Card>  otherCard, bool isPrefab ) {
         std::shared_ptr<Card> rootcard = otherCard->GetRoot();
         int num =GetStackSize();
-        if (dynamic_cast<Chest*>(this))
+        if (std::dynamic_pointer_cast<Chest>(shared_from_this())|| std::dynamic_pointer_cast<Shop>(shared_from_this())|| std::dynamic_pointer_cast<Sell>(shared_from_this()))
         {
             num = 0;
         }
@@ -188,7 +200,7 @@ namespace card {
             //LOG_DEBUG("CanHaveCardOnTop out of size");
             return false;
         }
-        if (dynamic_cast<CardPack*>(rootcard.get()) && rootcard->GetChild()!=nullptr )//rootCard.Child.CardData.DetermineCanHaveCardsWhenIsRoot
+        if (std::dynamic_pointer_cast<CardPack>(rootcard) && rootcard->GetChild()!=nullptr )//rootCard.Child.CardData.DetermineCanHaveCardsWhenIsRoot
         {
             return rootcard->GetChild()->CanHaveCard(otherCard);
         }
@@ -200,7 +212,7 @@ namespace card {
         {
             return false;
         }*/
-        if (dynamic_cast<Combatable*>(this))
+        if (std::dynamic_pointer_cast<Combatable>(shared_from_this()))
         {
             bool flag = false;
             if (otherCard->GetCardName() == "Bone" && m_Name == "Wolf")
@@ -208,7 +220,7 @@ namespace card {
                 flag = true;
             }
            
-            if (!(dynamic_cast<Equipable*>(otherCard.get()) ||dynamic_cast<Combatable*>(otherCard.get()) || flag))
+            if (!(std::dynamic_pointer_cast<Equipable>(otherCard) || dynamic_cast<Combatable*>(otherCard.get()) || flag))
             {
                 return false;
             }
@@ -216,10 +228,12 @@ namespace card {
         //LOG_DEBUG("CanHaveCardOnTop in");
         return CanHaveCard(otherCard);
     }
+
     bool Card::CanHaveCard(std::shared_ptr<Card>  otherCard) {
         //LOG_DEBUG("CanHaveCard:{}", false);
         return false;
     }
+
     int Card::GetStackSize() {
         auto card = m_Root.lock();
         int count = 0;
@@ -229,6 +243,7 @@ namespace card {
         }
         return count;
     }
+
     std::shared_ptr<Card> Card::GetLast() {
         if (m_Child == nullptr) {
             return shared_from_this();
@@ -237,6 +252,7 @@ namespace card {
             return m_Child->GetLast();
         }
     }
+
     void Card::CheckRoot() {
         if (m_Root.expired()) {
             SetRoot();
@@ -253,6 +269,7 @@ namespace card {
             m_Root.lock()->SetPushing(pushvector);
         }
     }
+
     int Card::GetPushCount() {
         return GetRoot()->m_PushCount;
     }

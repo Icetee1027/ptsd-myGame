@@ -23,10 +23,12 @@ void Mouse::Update() {
 void Mouse::ClickDown() {
     auto animation = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
     animation->SetCurrentFrame(1);
+    if (m_BindObject)m_BindObject->ClickDown();
 }
 void Mouse::ClickUp() {
     auto animation = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
     animation->SetCurrentFrame(0);
+    if (m_BindObject)m_BindObject->ClickUp();
 }
 void Mouse::ObjectBind(std::shared_ptr<Util::GameObject> Object) {
     m_BindObject = Object;
@@ -46,17 +48,17 @@ void Mouse::ObjectDrag() {
     else if(auto cardObject = std::dynamic_pointer_cast<card::Card>(m_BindObject)){
         m_BindObject->SetTranslation(glm::vec3(GetMousePosition(m_BindObject) - m_Distance, m_BindObject->GetTransform().translation.z));
 
-        if (cardObject->GetTransform().translation.x < -1300&&0) {
-            cardObject->SetTranslation(glm::vec3(-1300, cardObject->GetTransform().translation.y, cardObject->GetTransform().translation.z));
+        if (cardObject->GetTransform().translation.x < -1800+110) {
+            cardObject->SetTranslation(glm::vec3(-1800+110, cardObject->GetTransform().translation.y, cardObject->GetTransform().translation.z));
         }
-        else if (cardObject->GetTransform().translation.x > 1300&&0) {
-            cardObject->SetTranslation(glm::vec3(1300, cardObject->GetTransform().translation.y, cardObject->GetTransform().translation.z));
+        else if (cardObject->GetTransform().translation.x > 1800-110) {
+            cardObject->SetTranslation(glm::vec3(1800-110, cardObject->GetTransform().translation.y, cardObject->GetTransform().translation.z));
         }
-        if (cardObject->GetTransform().translation.y > 625) {
-            cardObject->SetTranslation(glm::vec3(cardObject->GetTransform().translation.x, 625, cardObject->GetTransform().translation.z));
+        if (cardObject->GetTransform().translation.y > 1100-135) {
+            cardObject->SetTranslation(glm::vec3(cardObject->GetTransform().translation.x, 1100-135, cardObject->GetTransform().translation.z));
         }
-        else if (cardObject->GetTransform().translation.y - (cardObject->GetStackSize() - 1) * 47 < -625) {
-            cardObject->SetTranslation(glm::vec3(cardObject->GetTransform().translation.x, -625 + (cardObject->GetStackSize() - 1) * 47, cardObject->GetTransform().translation.z));
+        else if (cardObject->GetTransform().translation.y - (cardObject->GetStackSize() - 1) * 47 < -1100+135) {
+            cardObject->SetTranslation(glm::vec3(cardObject->GetTransform().translation.x, -1100+135 + (cardObject->GetStackSize() - 1) * 47, cardObject->GetTransform().translation.z));
         }
     }
 }

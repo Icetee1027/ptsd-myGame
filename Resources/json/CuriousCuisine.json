@@ -1,8 +1,8 @@
 {
-    "name": "HumbleBegining",
+    "name": "CuriousCuisine",
     "id": 0,
     "class": "Shop",
     "type": 10,
-    "price": 3,
+    "price": 10,
     "textcolor": 0
 }

@@ -1,10 +1,10 @@
 #ifndef APP_HPP
 #define APP_HPP
-
+#include "Card/CardMaker.hpp"
 #include "Card/Card.hpp"
 #include "pch.hpp" // IWYU pragma: export
 #include "Util/Root.hpp"
-
+#include "Card/Shop.hpp"
 #include "Background.hpp"
 #include "Giraffe.hpp"
 #include "GiraffeText.hpp"
@@ -13,8 +13,7 @@
 #include "card/Card.hpp"
 #include <list>
 #include <map>
-#include <memory>
-#include <utility>
+#include <cmath>
 #include "Board.hpp"
 class App {
 public:
@@ -70,6 +69,16 @@ private:
     static std::list<std::weak_ptr<card::Card>> m_PushProcessingArea;
     std::shared_ptr<Mouse> m_Mouse = std::make_shared<Mouse>();
     static Util::Root m_Root;
+    std::vector<std::shared_ptr<card::Card>> m_Shops = { card::CardMaker::MakeCard("Sell") ,
+                                                         card::CardMaker::MakeCard("HumbleBegining") ,//
+                                                         card::CardMaker::MakeCard("SeekingWisdom"), //
+                                                         card::CardMaker::MakeCard("ReapAndSow"),//
+                                                         card::CardMaker::MakeCard("CuriousCuisine") ,//
+                                                         card::CardMaker::MakeCard("LogicandReason") ,//
+                                                         card::CardMaker::MakeCard("TheArmory") ,//
+                                                         card::CardMaker::MakeCard("Explorers") ,//
+                                                         card::CardMaker::MakeCard("OrderandStructure") ,//
+                                                        };
     std::shared_ptr<Board> m_Board = std::make_shared<Board>();
     std::vector<std::string> files = { "AnimalPen", "Apple", "AppleTree", "Baby", "Bear", "Berry", "BerryBush",//
         "Bone", "Brick", "Brickyard", "Campfire", "Carrot", "Catacombs", "Chicken", "Coin", "CoinChest", "CookedMeat",//

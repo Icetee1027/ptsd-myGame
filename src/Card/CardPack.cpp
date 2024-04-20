@@ -1,139 +1,81 @@
 #include "Card/CardPack.hpp"
-#include "Card/Card.hpp"
 #include "Card/CardMaker.hpp"
+#include "App.hpp"
+#include "Util/Time.hpp"
+#include <random>
+/*
+* #include "Card/Card.hpp"
 #include <cstddef>
 #include <glm/fwd.hpp>
 #include <memory>
-#include "App.hpp"
 #include "Mouse.hpp"
 #include "Util/Logger.hpp"
+#include <string>
+#include <vector>
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include <string>
-#include <vector>
+
+*/
+
 namespace card {
     CardPack::CardPack(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image,  const bool iconcolor)
         : Card(type, name, id, sfxs, image, iconcolor){
+        m_CanPush = 0;
     }
 
     void CardPack::GenerateCard(){
-        if(num < this->GetCardPackNum()){
-            std::shared_ptr<Card> tmp;
-            tmp = CardMaker::MakeCard(DrawCard(num));
-            tmp->SetTranslation(glm::vec3(this->GetTransform().translation.x, this->GetTransform().translation.y + 200, 0));
-            App::AddCard(tmp);
-            num++;
-            LOG_DEBUG("Num:{}", num);
+        Camera::CameraShake();
+        if (m_Cards.empty()) {
+            App::RemoveCard(shared_from_this(), m_Transform.translation.x);
+            return;
+        }
+        std::random_device rd;
+        std::mt19937 rng(rd());
+        std::uniform_int_distribution<int> distribution(1, 360);
+        float randomNumber = distribution(rng);
+        float angleRadians = glm::radians(randomNumber);
+        float sineValue = glm::sin(angleRadians);
+        float cosineValue = glm::cos(angleRadians);
+        auto cardname = m_Cards[0];
+        m_Cards.erase(m_Cards.begin());
+        try
+        {
+            auto card=card::CardMaker::MakeCard(cardname);
+            bool moveable = card->CanMoveable();
+            card->SetMoveable(1);
+            card->SetTranslation(glm::vec3(sineValue * 120 + m_Transform.translation.x, cosineValue * 120 + m_Transform.translation.y, 0));
+            card->SetMoveable(moveable);
+            App::AddCard(card);
+
+        }
+        catch (const std::exception&)
+        {
+            LOG_ERROR("Card Pack ERROR name:{}", cardname);
+        }
+        if (m_Cards.empty()) {
+            App::RemoveCard(shared_from_this(), m_Transform.translation.x);
+            return;
         }
     }
 
-    std::string CardPack::DrawCard(unsigned short num){
-        std::string CardName;
-        if(num == 0){
-            std::vector<std::string> tmp = this->GetFirstIdeaPool();
-            size_t len = tmp.size();
-            if(len != 0){
-                //FirstIdeaChoose
-                int randomNumber = rand() % len;
-                LOG_DEBUG("randomNumber:{}", randomNumber);
-                CardName = tmp[randomNumber];
-                LOG_DEBUG("CardName:{}",CardName);
-                tmp.erase(tmp.begin() + randomNumber);
-                this->SetFirstIdeaPool(tmp);
-            }
-            else{
-                //FirstCardsChoose
-                unsigned short index = 0;
-                unsigned short totalRate = this->GetFirstCardsRate()[index];
-                tmp = this->GetFirstCardsPool();
-                len = tmp.size();
-                int randomNumber = rand() % 99 + 1;
-                LOG_DEBUG("randomNumber:{}", randomNumber);
-                while(1){
-                    if (randomNumber <= totalRate) {
-                        CardName = tmp[index];
-                        break;
-                    }
-                    totalRate += this->m_FirstCardsRate[++index];
-                }
-                LOG_DEBUG("CardName:{}",CardName);
-            }
+    void CardPack::Update() {
+        if (m_Children[0]!=nullptr&& m_Children[0]->GetVisible()==1) {
+            m_Children[0]->SetVisible(0);
         }
-        else if(num == 1){
-            std::vector<std::string> tmp = this->GetSecondIdeaPool();
-            size_t len = tmp.size();
-            if(len != 0){
-                //SecondIdeaChoose
-                int randomNumber = rand() % len;
-                LOG_DEBUG("randomNumber:{}", randomNumber);
-                CardName = tmp[randomNumber];
-                LOG_DEBUG("CardName:{}",CardName);
-                tmp.erase(tmp.begin() + randomNumber);
-                this->SetSecondIdeaPool(tmp);
-            }
-            else{
-                //SecondCardsChoose
-                tmp = this->GetSecondCardsPool();
-                len = tmp.size();
-                int randomNumber = rand() % len;
-                LOG_DEBUG("randomNumber:{}", randomNumber);
-                CardName = tmp[randomNumber];
-                LOG_DEBUG("CardName:{}",CardName);
-            }
-        }
-        else if(num == 2){
-            std::vector<std::string> tmp = this->GetThirdIdeaPool();
-            size_t len = tmp.size();
-            if(len != 0){
-                //ThirdIdeaChoose
-                int randomNumber = rand() % len;
-                LOG_DEBUG("randomNumber:{}", randomNumber);
-                CardName = tmp[randomNumber];
-                LOG_DEBUG("CardName:{}",CardName);
-                tmp.erase(tmp.begin() + randomNumber);
-                this->SetThirdIdeaPool(tmp);
-            }
-            else{
-                //ThirdCardsChoose
-                tmp = this->GetThirdCardsPool();
-                len = tmp.size();
-                int randomNumber = rand() % len;
-                LOG_DEBUG("randomNumber:{}", randomNumber);
-                CardName = tmp[randomNumber];
-                LOG_DEBUG("CardName:{}",CardName);
-            }
-        }
-        else{
-            std::vector<std::string> tmp = this->GetForthIdeaPool();
-            size_t len = tmp.size();
-            if(len != 0){
-                //ForthIdeaChoose
-                int randomNumber = rand() % len;
-                LOG_DEBUG("randomNumber:{}", randomNumber);
-                CardName = tmp[randomNumber];
-                LOG_DEBUG("CardName:{}",CardName);
-                tmp.erase(tmp.begin() + randomNumber);
-                this->SetForthIdeaPool(tmp);
-            }
-            else{
-                //ForthCardsChoose
-                tmp = this->GetForthCardsPool();
-                len = tmp.size();
-                int randomNumber = rand() % len;
-                LOG_DEBUG("randomNumber:{}", randomNumber);
-                CardName = tmp[randomNumber];
-                LOG_DEBUG("CardName:{}",CardName);
-            }
-        }
-        return CardName;
+        Card::Update();
     }
 
     void CardPack::ClickDown(){
-        GenerateCard();
+        m_Time= Util::Time::GetElapsedTimeMs();
+        Card::ClickDown();
     }
 
     void CardPack::ClickUp(){
-        //LOG_DEBUG("CardPack_test");
+        if (Util::Time::GetElapsedTimeMs() - m_Time < 100) {
+            GenerateCard();
+        }
+        Card::ClickUp();
+
     }
 }

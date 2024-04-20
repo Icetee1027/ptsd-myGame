@@ -8,11 +8,17 @@
 #include "GiraffeText.hpp"
 #include "ShapeHelper.hpp"
 #include "Util/Time.hpp"
-
-bool customCompare(const std::multimap<int, std::shared_ptr<card::Card>>::iterator& a, const std::multimap<int, std::shared_ptr<card::Card>>::iterator& b) {
+bool customCompare(const std::multimap<int, std::shared_ptr<card::Card>>::iterator& a,
+    const std::multimap<int, std::shared_ptr<card::Card>>::iterator& b,
+    const glm::vec3& targetPosition) {
+    glm::vec3 distanceA = a->second->GetTransform().translation - targetPosition;
+    glm::vec3 distanceB = b->second->GetTransform().translation - targetPosition;
+    // 使用glm::length計算向量長度作為距離
+    return glm::length(distanceA) < glm::length(distanceB);
+}
+bool customCompareDown(const std::multimap<int, std::shared_ptr<card::Card>>::iterator& a, const std::multimap<int, std::shared_ptr<card::Card>>::iterator& b) {
     return a->second->GetTransform().translation.y < b->second->GetTransform().translation.y;
 }
-
 void App::Playing() {
 
     if (Util::Input::IsKeyUp(Util::Keycode::SPACE)) {
@@ -45,7 +51,7 @@ void App::Playing() {
     //--------------------------------------------------------------------
     if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
         //LOG_DEBUG("worldsize:{}", m_WorldCards.size());
-        auto target = m_Mouse->GetMousePosition(0);
+        auto target = glm::vec3(m_Mouse->GetMousePosition(0),0);
         auto lowerBound = m_WorldCards.lower_bound(target.x - 100);
         auto upperBound = m_WorldCards.upper_bound(target.x + 100);
 
@@ -53,7 +59,7 @@ void App::Playing() {
         for (auto it = lowerBound; it != upperBound; ++it) {
             stacks.push_back(it);
         }
-        std::sort(stacks.begin(), stacks.end(), customCompare);
+        std::sort(stacks.begin(), stacks.end(), customCompareDown);
         for (auto stack : stacks) {
             auto m_Card = ShapeHelper::IsPointInStack(stack->second, m_Mouse->GetMousePosition(stack->second));
 
@@ -86,8 +92,8 @@ void App::Playing() {
 
     if (Util::Input::IsKeyUp(Util::Keycode::F)) {
         //std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard(files[m_WorldCards.size()]);
-        std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard("Coin");
-        sem->SetTranslation(glm::vec3(200 * m_WorldCards.size() + 1, 0, 0));
+        std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard("IronBar");
+        sem->SetTranslation(glm::vec3(200 * (m_WorldCards.size()-7) + 1, 0, 0));
         AddCard(sem);
 
     }
@@ -181,8 +187,8 @@ void App::StackUpdate() {
                     else continue;
                     glm::vec2 direction = target - itposition;
                     glm::vec2 unitVector = glm::normalize(direction);
-                    float proportion = float(st->second->GetStackSize()) / float(object->GetStackSize() + st->second->GetStackSize());
-                    object->SetPushing(unitVector * 0.06f * (object->CanMoveable() ? proportion:1), 30);
+                    float proportion = float(st->second->GetStackSize())/ float(object->GetStackSize() + st->second->GetStackSize());
+                    object->SetPushing(unitVector * (0.07f * (st->second->IsCanPush()? proportion : 1.5f)), 30);
                 }
             }
             if (object->GetPushCount() == 0) {
@@ -201,7 +207,7 @@ void App::StackUpdate() {
 
 void App::mouseUp() {
     auto object = std::dynamic_pointer_cast<card::Card>(m_Mouse->GetBindObject());
-    if (object) {
+    if (object&&object->CanMoveable()==1) {
         m_Mouse->GetBindObject()->SetTranslation(glm::vec3(m_Mouse->GetBindObject()->GetTransform().translation.x, m_Mouse->GetBindObject()->GetTransform().translation.y, 0));
         auto target = object->GetTransform().translation;
         auto lowerBound = m_WorldCards.lower_bound(target.x - 200);
@@ -211,7 +217,9 @@ void App::mouseUp() {
         for (auto it = lowerBound; it != upperBound; ++it) {
             stacks.push_back(it);
         }
-        std::sort(stacks.begin(), stacks.end(), customCompare);
+        std::sort(stacks.begin(), stacks.end(), [&target](const auto& a, const auto& b) {
+            return customCompare(a, b, target);
+            });
 
         for (auto stack : stacks) {
             if (ShapeHelper::IsCardInStack(stack->second, object) && stack->second != object->GetLast() && stack->second->CanHaveCardOnTop(object)) {

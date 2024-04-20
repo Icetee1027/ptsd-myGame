@@ -1,8 +1,8 @@
 {
-    "name": "HumbleBegining",
+    "name": "SeekingWisdom",
     "id": 0,
     "class": "Shop",
     "type": 10,
-    "price": 3,
+    "price": 4,
     "textcolor": 0
 }

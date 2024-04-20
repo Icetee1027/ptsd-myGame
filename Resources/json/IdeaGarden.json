@@ -1,7 +1,8 @@
 {
-    "name": "Idea:Garden",
-    "id": 0,
-    "class": "Idea",
-    "type": 7,
-    "textcolor": 0
+  "name": "Idea:Garden",
+  "id": 0,
+  "class": "Blueprint",
+  "type": 7,
+  "price": 1,
+  "textcolor": 1
 }

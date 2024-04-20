@@ -24,6 +24,7 @@ def main():
        
         
         data['price'] = int(input("Price:"))
+        data['textcolor'] = 0
         #if input("是否輸入 satiety？(y/n): ").lower() == 'y':
         #data['satiety'] = int(input("satiety:"))
         #if input("是否輸入 hp？(y/n): ").lower() == 'y':

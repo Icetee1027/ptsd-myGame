@@ -7,14 +7,20 @@ namespace card {
     bool Chest::CanHaveCard(std::shared_ptr<Card> otherCard) {
 
 		if (otherCard->GetCardName() == m_Name)
-		{
+		{   
+            m_StatusUpdteCard = 1;
 			return true;
 		}
 		if (otherCard->GetCardName() == m_HeldCardName)
 		{
+            m_StatusUpdteCard = GetChestWithSpace() != nullptr ? 1 : 0;
 			return GetChestWithSpace() != nullptr;
 		}
 		return false;
+    }
+    void Chest::SetChestPrice(int price) {
+        m_Price = price;
+        m_StaticUpdate = true;
     }
     std::shared_ptr<Chest> Chest::GetChestWithSpace() {
         auto allCards = GetAllCardsInStack();
@@ -36,6 +42,11 @@ namespace card {
         Card::Update();
     }
     void Chest::UpdateCard(){
+        if (!m_StatusUpdteCard) {
+            Card::UpdateCard();
+            return;
+        }
+        m_StatusUpdteCard = 0;
         // 將 Value 設置為 CoinCount
         int Value = m_Price;
 
