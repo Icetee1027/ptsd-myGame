@@ -51,28 +51,53 @@ void App::Playing() {
     //--------------------------------------------------------------------
     if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
         //LOG_DEBUG("worldsize:{}", m_WorldCards.size());
-        auto target = glm::vec3(m_Mouse->GetMousePosition(0),0);
-        auto lowerBound = m_WorldCards.lower_bound(target.x - 100);
-        auto upperBound = m_WorldCards.upper_bound(target.x + 100);
+        if (!m_Mouse->HasObjectBind()) {
+            for (int it = 0; it < 3; it++) {
+                if (ShapeHelper::IsPonstInMenu(m_SideElement[it], Util::Input::GetCursorPosition())&& m_SideElement[it]->GetVisible()) {
+                    m_Mouse->ObjectBind(m_SideElement[it]);
+                    if (it == 0)continue;
+                    else if (it == 1) {
+                        m_SideElement[2]->SetVisible(1);
+                        m_SideElement[1]->SetVisible(0);
+                        m_SideElement[0]->SetVisible(0);
+                        m_SideText->SetVisible(0);
+                        m_SideTitle->SetVisible(0);
+                    }
+                    else if (it == 2) {
+                        m_SideElement[2]->SetVisible(0);
+                        m_SideElement[1]->SetVisible(1);
+                        m_SideElement[0]->SetVisible(1);
+                        m_SideText->SetVisible(1);
+                        m_SideTitle->SetVisible(1);
 
-        std::vector<std::multimap<int, std::shared_ptr<card::Card>>::iterator> stacks;
-        for (auto it = lowerBound; it != upperBound; ++it) {
-            stacks.push_back(it);
+                    }
+                }
+            }
+            
         }
-        std::sort(stacks.begin(), stacks.end(), customCompareDown);
-        for (auto stack : stacks) {
-            auto m_Card = ShapeHelper::IsPointInStack(stack->second, m_Mouse->GetMousePosition(stack->second));
+        if (!m_Mouse->HasObjectBind()) {
+            auto target = glm::vec3(m_Mouse->GetMousePosition(0), 0);
+            auto lowerBound = m_WorldCards.lower_bound(target.x - 100);
+            auto upperBound = m_WorldCards.upper_bound(target.x + 100);
 
-            if (m_Card != nullptr) {
-                AddCard(m_Card->GetParent());
-                m_Card->UnBindParent();
-                m_Card->SetTranslation(glm::vec3(m_Card->GetTransform().translation.x, m_Card->GetTransform().translation.y, 25));
-                m_Mouse->ObjectBind(m_Card);
+            std::vector<std::multimap<int, std::shared_ptr<card::Card>>::iterator> stacks;
+            for (auto it = lowerBound; it != upperBound; ++it) {
+                stacks.push_back(it);
+            }
+            std::sort(stacks.begin(), stacks.end(), customCompareDown);
+            for (auto stack : stacks) {
+                auto m_Card = ShapeHelper::IsPointInStack(stack->second, m_Mouse->GetMousePosition(stack->second));
 
-                break;
+                if (m_Card != nullptr) {
+                    AddCard(m_Card->GetParent());
+                    m_Card->UnBindParent();
+                    m_Card->SetTranslation(glm::vec3(m_Card->GetTransform().translation.x, m_Card->GetTransform().translation.y, 25));
+                    m_Mouse->ObjectBind(m_Card);
+
+                    break;
+                }
             }
         }
-
         if (!m_Mouse->HasObjectBind()) {
             m_Mouse->ObjectBind(m_Camera);
         }

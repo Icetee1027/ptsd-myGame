@@ -17,7 +17,9 @@ void App::Origin() {
                     glm::vec3(0, 0, 0));
                 m_MenuElement[1]->SetTranslation(glm::vec3(0, 30, 0));
                 m_MenuElement[1]->SetZIndex(1.5);
-
+                m_SideElement[0]->SetVisible(1);
+                m_SideElement[1]->SetVisible(1);
+                m_SideTitle->SetVisible(1);
                 for (auto t : m_MenuElement) {
                     t->SetVisible(0);
                 }

@@ -29,6 +29,37 @@ void App::Start() {
 
     m_Background->SetImage(RESOURCE_DIR"/sprites/Background.png");
 
+    m_SideElement[0]->SetImage(RESOURCE_DIR"/sprites/SideBlock.png");
+    m_SideElement[0]->SetMoveable(1);
+    m_SideElement[0]->SetTranslation(glm::vec3(-520, 0, 0));
+    m_SideElement[0]->SetMoveable(0);
+    m_SideElement[0]->SetZIndex(1);
+    m_SideElement[0]->SetVisible(0);
+
+    m_SideElement[1]->SetImage(RESOURCE_DIR"/sprites/Button0.png");
+    m_SideElement[1]->SetMoveable(1);
+    m_SideElement[1]->SetTranslation(glm::vec3(-408, 0, 0));
+    m_SideElement[1]->SetMoveable(0);
+    m_SideElement[1]->SetZIndex(2);
+    m_SideElement[1]->SetVisible(0);
+
+    m_SideElement[2]->SetImage(RESOURCE_DIR"/sprites/Button1.png");
+    m_SideElement[2]->SetMoveable(1);
+    m_SideElement[2]->SetTranslation(glm::vec3(-625, 0, 0));
+    m_SideElement[2]->SetMoveable(0);
+    m_SideElement[2]->SetZIndex(2);
+    m_SideElement[2]->SetVisible(0);
+
+    m_SideTitle->SetText(RESOURCE_DIR"/fonts/Inter.ttf", 40, "Blue Print",glm::vec3(0, 0, 0));
+    m_SideTitle->SetTranslation(glm::vec3(-520, 335, 0));
+    m_SideTitle->SetZIndex(2);
+    m_SideTitle->SetVisible(0);
+
+    m_SideText->SetText(RESOURCE_DIR"/fonts/Inter.ttf", 20, "Blue Print", glm::vec3(0, 0, 0));
+    m_SideText->SetTranslation(glm::vec3(-520, 120, 0));
+    m_SideText->SetZIndex(2);
+    m_SideText->SetVisible(0);
+
     m_Menu->SetImage(RESOURCE_DIR"/sprites/Menu.png");
     m_Menu->SetZIndex(1);
     m_Menu->SetVisible(1);
@@ -62,7 +93,11 @@ void App::Start() {
     m_Root.AddChild(m_Board);
     m_Root.AddChild(m_GiraffeText); 
     m_Root.AddChild(m_Mouse);
-   
+    m_Root.AddChild(m_SideTitle);
+    m_Root.AddChild(m_SideText);
+    for (auto m : m_SideElement) {
+        m_Root.AddChild(m);
+    }
 
     m_CurrentState = State::UPDATE;
 }

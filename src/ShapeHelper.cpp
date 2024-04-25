@@ -21,7 +21,7 @@ std::shared_ptr<card::Card> ShapeHelper::IsPointInStack(std::shared_ptr<card::Ca
     }
     return  nullptr;
 }
-bool ShapeHelper::IsPonstInMenu(const std::shared_ptr< GiraffeText>& text, const glm::vec2 mouse) {
+bool ShapeHelper::IsPonstInMenu(const std::shared_ptr< Util::GameObject>& text, const glm::vec2 mouse) {
     bool fx = mouse.x > text->GetTransform().translation.x - text->GetScaledSize().x / 2 && mouse.x < text->GetTransform().translation.x + text->GetScaledSize().x / 2;
     bool fy = mouse.y > text->GetTransform().translation.y - text->GetScaledSize().y / 2 && mouse.y < text->GetTransform().translation.y + text->GetScaledSize().y / 2;
     return fx && fy;
