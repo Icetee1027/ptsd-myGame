@@ -52,7 +52,7 @@ namespace card {
             m_Transform.translation = m_Parent->GetTransform().translation + glm::vec3(0, -47, 0);
         }
         else {
-            if (m_PushCount != 0 && m_CanPush==true) {
+            if (m_PushCount != 0 ) {
                 m_Transform.translation += glm::vec3(m_PushVector.x * m_PushCount, m_PushVector.y * m_PushCount, 0);
                 m_PushCount--;
             }
@@ -260,6 +260,7 @@ namespace card {
     }
     
     void Card::SetPushing(glm::vec2 pushvector,unsigned int count) {
+        //if (pushvector == glm::vec2(0, 0))return;
         if (m_Parent == nullptr) {
             m_PushVector = pushvector;
             m_PushCount = count;

@@ -11,7 +11,7 @@ namespace card {
         :Card(type, name, id, sfxs, image, iconcolor) {
         m_Transform.scale = { 0.6,0.6 };
         m_Price = 0;
-        m_CanPush = 0;
+        m_CanPush = 10;
     }
     bool Sell::CanHaveCard(std::shared_ptr<Card> otherCard) {
         m_dic = otherCard->GetTransform().translation;
@@ -40,7 +40,6 @@ namespace card {
 
         for (auto& childCard : childCards) {
             if (childCard->HasPrice() && childCard->GetCardName() != "TravellingCart" && childCard->GetCardName() != "Coin" && (childCard->GetCardName() != "CoinChest" || childCard->GetPrice() == 0)) {
-                LOG_ERROR("123");
                 if (m_Price+childCard->GetPrice() >10) {
                     continue;
                 }
@@ -53,7 +52,7 @@ namespace card {
             CreatCoinStack();
         }
         m_Price = 0;
-        if (m_Child != nullptr) { m_Child->SetTranslation(m_dic); m_Child->RemoveFromParent(); LOG_ERROR("321"); }
+        if (m_Child != nullptr) { m_Child->SetTranslation(m_dic); m_Child->RemoveFromParent();}
         Card::UpdateCard();
     }
 }

@@ -183,12 +183,12 @@ void App::StackUpdate() {
                         m_PushProcessingArea.push_back(st->second);
                     }
                     glm::vec2  itposition(st->second->GetRoot()->GetTransform().translation.x, st->second->GetRoot()->GetTransform().translation.y);
-                    if (!distance || distance > glm::distance(itposition, target)) { distance = glm::distance(itposition, target); }
+                    if ((!distance || distance > glm::distance(itposition, target)) && st->second->IsCanPush() >= object->IsCanPush()) { distance = glm::distance(itposition, target); }
                     else continue;
                     glm::vec2 direction = target - itposition;
                     glm::vec2 unitVector = glm::normalize(direction);
-                    float proportion = float(st->second->GetStackSize())/ float(object->GetStackSize() + st->second->GetStackSize());
-                    object->SetPushing(unitVector * (0.07f * (st->second->IsCanPush()? proportion : 1.5f)), 30);
+                    float proportion = st->second->IsCanPush() == object->IsCanPush()?float(st->second->GetStackSize())/ float(object->GetStackSize() + st->second->GetStackSize()):1;
+                    object->SetPushing(unitVector * (0.11f *  proportion), 27);
                 }
             }
             if (object->GetPushCount() == 0) {

@@ -85,7 +85,7 @@ std::vector<RandomElement> ShopRandom::database = {
         {
             {},
             {},
-            {"IdeaGrowth", "IdeaHouse", "IdeaOffspring", "IdeaStick"}
+            {"IdeaGrowth", "IdeaHouse", "IdeaOffspring", "IdeaStick"}//4
         },
         {
             { {"Stone", 19},{"Wood", 19},{"BerryBush", 13},{"Rock", 13},{"Soil", 13},{"Tree", 13},{"Key", 3},{"Rabbit", 3},{"Rat", 3} },
@@ -96,9 +96,9 @@ std::vector<RandomElement> ShopRandom::database = {
     {
         "SeekingWisdom",
         {
-            {"IdeaBrick", "IdeaCampfire", "IdeaPlank", "IdeaSpear"},
+            {"IdeaBrick", "IdeaCampfire", "IdeaPlank", "IdeaSpear", "IdeaShed"},
             {},
-            { "IdeaCoinChest", "IdeaGarden", "IdeaLumber Camp"},
+            { "IdeaCoinChest", "IdeaGarden"},//7
             {}
         },
         {
@@ -111,7 +111,7 @@ std::vector<RandomElement> ShopRandom::database = {
     {
         "ReapAndSow",
         {
-            {}, {}, {"IdeaChicken", "IdeaCoinChest", "IdeaLumberCamp", "IdeaQuarry", "IdeaShed"}, {}
+            {}, {}, {"IdeaChicken",  "IdeaLumberCamp", "IdeaQuarry"}, {}//3
         },
         {
             {{"Apple", 25}, {"Berry", 25}, {"Carrot", 25}, {"Raw Meat", 25}},
@@ -123,7 +123,7 @@ std::vector<RandomElement> ShopRandom::database = {
     {
         "CuriousCuisine",
         {
-            {}, {"IdeaCookedMeat", "IdeaFrittata", "IdeaFruit Salad", "IdeaMilkshake", "IdeaOmelette", "IdeaStew", "IdeaStove"}, {}
+            {}, {"IdeaCookedMeat", "IdeaFrittata", "IdeaFruitSalad", "IdeaMilkshake", "IdeaOmelette", "IdeaStew", "IdeaStove"}, {}//7
         },
         {
             {{"Egg", 20}, {"Milk", 20}, {"Mushroom", 20}, {"Onion", 20}, {"Potato", 20}},
@@ -134,9 +134,9 @@ std::vector<RandomElement> ShopRandom::database = {
     {
         "LogicandReason",
         {
-            {"IdeaChicken", "IdeaCoinChest", "IdeaGarden", "IdeaLumberCamp", "IdeaQuarry", "IdeaShed"},
             {},
-            {"IdeaAnimal Pen", "IdeaBrickyard", "IdeaFarm", "IdeaIronBar", "IdeaIronMine", "IdeaMarket", "IdeaMessHall", "IdeaSawmill", "IdeaSmelter", "IdeaSmithy", "IdeaSword", "IdeaTemple", "IdeaUniversity", "IdeaWarehouse"},
+            {},
+            {"IdeaAnimalPen", "IdeaBrickyard", "IdeaFarm", "IdeaIronBar", "IdeaIronMine", "IdeaMarket", "IdeaSawmill", "IdeaSmelter", "IdeaSmithy", "IdeaWarehouse"},//10
             {}
         },
         {
@@ -149,7 +149,7 @@ std::vector<RandomElement> ShopRandom::database = {
 {
         "TheArmory",
         {
-            {"IdeaAxe", "IdeaBlunderbuss", "IdeaBoneSpear", "IdeaBoneStaff", "IdeaBoomerang", "IdeaBow", "IdeaBrokenBottle", "IdeaClub", "IdeaCrossbow", "IdeaChainmailArmor", "IdeaFishing Rod", "IdeaForestAmulet", "IdeaGoldenChestplate", "IdeaHammer", "IdeaIronShield", "IdeaMagicBlade", "IdeaMagicRing", "IdeaMagicStaff", "IdeaMagicTome", "IdeaMagicWand", "IdeaMountainAmulet", "IdeaPickaxe", "IdeaSlingshot", "IdeaSpear", "IdeaSpikedPlank", "IdeaSword", "IdeaThrowingStars", "IdeaWizardRobe", "IdeaWoodenShield", "RumorDarkForest"},
+            {  "IdeaSword"},//"RumorDarkForest"//1
             {},
             {}
         },
@@ -162,7 +162,7 @@ std::vector<RandomElement> ShopRandom::database = {
     {
         "Explorers",
         {
-            {}, {}, {}
+            {}, {}, {"IdeaTemple"}//1
         },
         {
             {{"BerryBush", 33}, {"Rock", 33}, {"Tree", 33}},
@@ -173,8 +173,8 @@ std::vector<RandomElement> ShopRandom::database = {
     {
         "OrderandStructure",
         {
-            {},{},{"IdeaAnimal Pen","IdeaBrickyard","IdeaFarm","IdeaIron Bar","IdeaIron Mine","IdeaMarket","IdeaMessHall","IdeaSawmill","IdeaSmelter","IdeaSmithy","IdeaSword","IdeaTemple","IdeaWarehouse"},
-            {"Idea: Animal Pen","Idea: Brickyard","Idea: Farm","Idea: Iron Bar","Idea: Iron Mine","Idea: Market","Idea: Mess Hall","Idea: Sawmill","Idea: Smelter","Idea: Smithy","Idea: Sword","Idea: Temple","Idea: Warehouse"}
+            {},{},{},
+            {}
         },
         {
             {{"Iron Deposit", 100}},

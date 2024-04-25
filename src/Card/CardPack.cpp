@@ -21,7 +21,7 @@
 namespace card {
     CardPack::CardPack(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image,  const bool iconcolor)
         : Card(type, name, id, sfxs, image, iconcolor){
-        m_CanPush = 0;
+        m_CanPush = 4;
     }
 
     void CardPack::GenerateCard(){
@@ -44,7 +44,7 @@ namespace card {
             auto card=card::CardMaker::MakeCard(cardname);
             bool moveable = card->CanMoveable();
             card->SetMoveable(1);
-            card->SetTranslation(glm::vec3(sineValue * 120 + m_Transform.translation.x, cosineValue * 120 + m_Transform.translation.y, 0));
+            card->SetTranslation(glm::vec3(sineValue * 150 + m_Transform.translation.x, cosineValue * 150 + m_Transform.translation.y, 0));
             card->SetMoveable(moveable);
             App::AddCard(card);
 
@@ -72,7 +72,7 @@ namespace card {
     }
 
     void CardPack::ClickUp(){
-        if (Util::Time::GetElapsedTimeMs() - m_Time < 100) {
+        if (Util::Time::GetElapsedTimeMs() - m_Time < 110) {
             GenerateCard();
         }
         Card::ClickUp();

@@ -38,7 +38,7 @@ namespace card {
         bool m_HasPrice = 0;
         bool m_HasSatiety = 0;
         bool m_HasHP = 0;
-        bool m_CanPush = 1;
+        int  m_CanPush = 1;
 
     public:
         Card(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image,const bool iconcolor);
@@ -49,7 +49,7 @@ namespace card {
         bool HasPrice() {return m_HasPrice;}
         bool HasSatiety() { return m_HasSatiety; }
         bool HasHP() { return m_HasHP; }
-        bool IsCanPush() { return m_CanPush; }
+        int IsCanPush() { return m_CanPush; }
 
         void SetCanPush(bool in) { m_CanPush = in; }
         void SetSatiety(const unsigned short satiety){m_Satiety = m_Satiety;}

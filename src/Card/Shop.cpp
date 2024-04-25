@@ -27,7 +27,7 @@ namespace card {
             m_BasicPrice = 25;
         }
         m_Transform.scale = { 0.6,0.6 };
-        m_CanPush = 0;
+        m_CanPush = 10;
     }
     bool Shop::CanHaveCard(std::shared_ptr<Card> otherCard) {
         m_dic = otherCard->GetTransform().translation;

@@ -22,7 +22,7 @@ double rand_normal(double mean, double stddev) {
 }
 
 glm::vec3 Camera::ShakeUpdate() {
-    if (m_time >= 0.1) {
+    if (m_time >= 0.15) {
         return glm::vec3();
     }
     
