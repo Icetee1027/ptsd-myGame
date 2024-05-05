@@ -58,7 +58,9 @@ namespace card {
             return;
         }
     }
-
+    void CardPack::Clicking() {
+        GenerateCard();
+    }
     void CardPack::Update() {
         if (m_Children[0]!=nullptr&& m_Children[0]->GetVisible()==1) {
             m_Children[0]->SetVisible(0);
@@ -66,16 +68,4 @@ namespace card {
         Card::Update();
     }
 
-    void CardPack::ClickDown(){
-        m_Time= Util::Time::GetElapsedTimeMs();
-        Card::ClickDown();
-    }
-
-    void CardPack::ClickUp(){
-        if (Util::Time::GetElapsedTimeMs() - m_Time < 110) {
-            GenerateCard();
-        }
-        Card::ClickUp();
-
-    }
 }

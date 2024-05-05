@@ -76,6 +76,170 @@ std::vector<std::string> ShopRandom::DrawCardPack(const std::string& systemName)
         return {};
     }
 }
+std::string ShopRandom::drawLottery(const std::string& lotterySystemName) {
+    // 儲存找到的抽獎系統
+    const RandomElementsy* foundSystem = nullptr;
+
+    // 在數據庫中查找抽獎系統
+    for (auto it = databasesy.begin(); it != databasesy.end(); ++it) {
+        const RandomElementsy& sys = *it;
+        if (sys.name == lotterySystemName) {
+            foundSystem = &sys; // 找到了抽獎系統，保存指針
+            break; // 找到後即退出循環
+        }
+    }
+
+    // 如果找到了抽獎系統
+    if (foundSystem != nullptr) {
+        // 計算總的中獎概率
+        int totalProbability = 0;
+        for (const auto& pair : foundSystem->prizes) {
+            totalProbability += pair.second;
+        }
+
+        // 使用均勻分佈來隨機選擇一個數字
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(1, totalProbability);
+        int randomNumber = dis(gen);
+
+        // 根據隨機數選擇獎項
+        int currentProbability = 0;
+        for (const auto& pair : foundSystem->prizes) {
+            currentProbability += pair.second;
+            if (randomNumber <= currentProbability) {
+                return pair.first;
+            }
+        }
+    }
+    LOG_ERROR("SynthesisTable random error");
+    return ""; // 如果未找到對應的抽獎系統，返回空字符串
+}
+
+
+std::vector<RandomElementsy> ShopRandom::databasesy{
+    {
+        "BerryBush",
+        {
+            {"Rabbit",1},
+            {"Berry",99}
+        }
+    },
+    {
+        "AppleTree",
+        {
+            {"Apple",80},
+            {"Stick",20}
+        }
+    },
+    {
+        "IronDeposit",
+        {
+            {"Stone",30},
+            {"IronOre",60},
+            {"Coin",10}
+        }
+    },
+    {
+        "Rock",
+        {
+            {"Flint",30},
+            {"Stone",60},
+            {"Coin",10}
+        }
+    },
+    {
+        "Tree",
+        {   {"Wood",60},
+            {"Stick",30},
+            {"Apple",10}
+        }
+    },
+    {
+        "Catacombs",
+        {
+            {"Skeleton",13},
+            {"Goblin", 13},
+            {"GiantRat", 13},
+            {"Slime", 13},
+            {"Wolf", 13},
+            {"TreasureChest", 10}
+        }
+    },
+    {
+        "Forest",
+        {
+            {"Rabbit", 10},
+            {"Goblin", 4},
+            {"Rat", 4},
+            {"Slime", 4},
+            {"Mushroom", 10},
+            {"Apple", 5},
+            {"Tree", 10},
+            {"BerryBush", 10},
+            {"AppleTree", 5},
+            {"Stick", 14},
+            {"Catacombs", 7},
+            {"TreasureChest", 5}
+        }
+    },
+    {
+        "Graveyard",
+        {
+            {"Skeleton", 12},
+            {"Soil", 25},
+            {"Bone", 12},
+            {"TreasureChest", 25},
+            {"Catacombs", 12},
+            {"Corpse", 12}
+        }
+    },
+    {
+        "Mountain",
+        {
+            {"Goblin", 3},
+            {"Rat", 3},
+            {"Slime", 3},
+            {"IronDeposit", 21},
+            {"Rock", 10},
+            {"TreasureChest", 3},
+            {"Catacombs", 3}
+        }
+    },
+    {
+        "Old Village",
+        {
+            {"Slime", 10},
+            {"Goblin", 1},
+            {"Rat", 1},
+            {"Milk", 9},
+            {"Wood", 17},
+            {"IronBar", 9},
+            {"Coin", 17},
+            {"Villager", 9},
+            {"Corpse", 9},
+            {"TreasureChest", 9},
+            {"Catacombs", 4},
+            {"OldTome", 4}
+        }
+    },
+    {
+        "Plains",
+        {
+            {"Chicken", 14},
+            {"Cow", 14},
+            {"Rat", 14},
+            {"Wolf", 7},
+            {"Onion", 14},
+            {"Mushroom", 7},
+            {"Carrot", 7},
+            {"Milk", 7},
+            {"Soil", 14}
+        }
+    }
+
+};
+
 
 
 

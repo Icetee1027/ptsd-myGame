@@ -3,7 +3,13 @@
 #include "Card/Combatable.hpp"
 #include "Card/Equipable.hpp"
 #include "Card/CardPack.hpp"
+#include "Util/Time.hpp"
 #include "App.hpp"
+#include "Card/CardBar.hpp"
+#include "Util/Input.hpp"
+#include "SynthesisTable.hpp"
+#include "ShopRandom.hpp"
+#include <random>
 namespace card {
     Card::Card(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image, const bool iconcolor)
         :  m_Name(name), m_Id(id), m_Type(type) ,m_IconColor(iconcolor){
@@ -17,36 +23,80 @@ namespace card {
     }
 
     void Card::ClickDown() {
+        m_ClickTime = Util::Time::GetElapsedTimeMs();
         if (!m_SFXs.empty()) {
             m_SFXs[0]->Play();
         }
     }
 
     void Card::ClickUp() {
+        if (Util::Time::GetElapsedTimeMs() - m_ClickTime < 120) {
+            Clicking();
+        }
         if (m_SFXs.size() > 1) {
             m_SFXs[1]->Play();
         }
     }
+    void Card::Clicking() {
 
+    }
     void Card::Update() {
         UpdateCard();
         PositionUpdate();
         if (m_Parent != nullptr) {m_Parent->Update();}
+
+
+        if (m_SynthesisTime != 0 && App::m_IsPlayButton==App::PauseOrPlay::Play) {
+            SynthesisUpdate();
+        }
         if (StatusStackRootUpDate) {
             StackRootUpdate();
         }
+        if (m_CanSynthetic == true) {
+            m_CanSynthetic = false;
+            CanSynthetic();
+        }
+
+
         ChildUpdate();
-
-
     }
+    void Card::SynthesisUpdate() {
 
+        m_ProgressTime += Util::Time::GetDeltaTime()* (Util::Input::IsKeyPressed(Util::Keycode::X)?10:1);
+        auto temp = std::dynamic_pointer_cast<CardBar>(m_Children[3]);
+        temp->SetScaledSize(glm::vec2( m_ProgressTime / m_SynthesisTime, 1));
+        if (m_SynthesisTime < m_ProgressTime) {
+            if (m_Children[3] != nullptr || m_Children[4] != nullptr) {
+                m_Children[3]->SetVisible(0);
+                m_Children[4]->SetVisible(0);
+            }
+            SyntheticDone();
+        }
+    }
     void Card::ChildUpdate() {
         for (auto child : m_Children) {
             child->SetZIndex(m_ZIndex);
             child->Update();
         }
     }
-
+    void Card::GenerateCard(std::vector<std::string>& cards) {
+        for (auto& cardname: cards) {
+            std::random_device rd;
+            std::mt19937 rng(rd());
+            std::uniform_int_distribution<int> distribution(1, 360);
+            float randomNumber = distribution(rng);
+            float angleRadians = glm::radians(randomNumber);
+            float sineValue = glm::sin(angleRadians);
+            float cosineValue = glm::cos(angleRadians);
+            auto card = card::CardMaker::MakeCard(cardname);
+            bool moveable = card->CanMoveable();
+            card->SetMoveable(1);
+            card->SetTranslation(glm::vec3(sineValue * 150 + m_Transform.translation.x, cosineValue * 120 + m_Transform.translation.y, 0));
+            card->SetMoveable(moveable);
+            App::AddCard(card);
+        }
+        
+    }
     void Card::PositionUpdate() {
         if (m_Parent != nullptr) {
             m_Transform.translation = m_Parent->GetTransform().translation + glm::vec3(0, -47, 0);
@@ -73,6 +123,15 @@ namespace card {
         if (m_Child != nullptr) {
             GetChildren()[2]->SetVisible(m_Child->GetChildren()[2]->GetVisible());
         }
+    }
+    void Card::SetSynthesisTime(float time) {
+        m_SynthesisTime = time;
+        m_ProgressTime = 0;
+        if (m_Children[3] != nullptr || m_Children[4] != nullptr) {
+            m_Children[3]->SetVisible(1);
+            m_Children[4]->SetVisible(1);
+        }
+        
     }
 
     void Card::BindParent(std::shared_ptr<Card> parent) {
@@ -176,9 +235,67 @@ namespace card {
         }
     }
 
+    std::vector<std::string> Card::GetCardsName() {
+        auto root = GetRoot();
+        std::vector<std::string> cards = {};
+        while (root != nullptr) {
+            cards.push_back(root->GetCardName());
+            root = root->GetChild();
+        }
+        return cards;
+    }
+    void Card::CanSynthetic() {
+        auto [a,b]=SynthesisTable::SyntheticCheck(GetCardsName());
+        if (a != -1) {
+            GetRoot()->SetSynthesisTime(SynthesisTable::m_SynthesisTable[a].time / b);
+            GetRoot()->m_SyntheticTableid = a;
+            LOG_DEBUG("index:{}:{}", SynthesisTable::m_SynthesisTable[a].time / b,a);
+        }
+
+    }
+    void Card::SyntheticDone() {
+        m_SynthesisTime = 0;
+        auto t_id = m_SyntheticTableid;
+        m_SyntheticTableid = -1;
+        if (SynthesisTable::m_SynthesisTable[t_id].delet.size() == SynthesisTable::m_SynthesisTable[t_id].need.size() && SynthesisTable::m_SynthesisTable[t_id].name == "") {
+            RemoveStack();
+            return;
+        }
+        
+        std::vector <std::string> element = SynthesisTable::m_SynthesisTable[t_id].delet;
+        auto stack = GetAllCardsInStack();
+        
+        for (auto it = stack.begin(); it != stack.end();) {
+            auto card = *it;
+            auto cardName = card->GetCardName();
+            auto findIt = std::find(element.begin(), element.end(), cardName);
+            if (findIt != element.end() && card->m_UsageCount == 1) {
+                // Found the card's name, remove it
+                card->RemoveCard();
+                it = stack.erase(it); // Advance iterator after erasing
+                element.erase(findIt);
+            }
+            else if(findIt != element.end() && card->m_UsageCount > 1){
+                card->m_UsageCount--;
+                ++it; // Advance iterator if not erasing
+            }
+            else {
+                ++it;
+            }
+        }
+        if (!stack.empty()) {
+            stack[0]->m_CanSynthetic = true;
+        }
+        if (SynthesisTable::m_SynthesisTable[t_id].random == false) {
+            GenerateCard(std::vector<std::string>({SynthesisTable::m_SynthesisTable[t_id].name }));
+        }
+        else {
+            GenerateCard(std::vector<std::string>({ ShopRandom::drawLottery(SynthesisTable::m_SynthesisTable[t_id].name) }));
+        }
+    }
     std::vector<std::shared_ptr<Card>> Card::GetAllCardsInStack() {
-        CheckRoot();
-        auto root = m_Root.lock();
+
+        auto root = GetRoot();
         std::vector<std::shared_ptr<Card>> stack = {root};
         while (root->GetChild() != nullptr) {
             root = root->GetChild();
@@ -232,6 +349,15 @@ namespace card {
     bool Card::CanHaveCard(std::shared_ptr<Card>  otherCard) {
         //LOG_DEBUG("CanHaveCard:{}", false);
         return false;
+    }
+
+    void Card::CancelComposition() {
+        if (m_Children[3] != nullptr || m_Children[4] != nullptr) {
+            m_Children[3]->SetVisible(0);
+            m_Children[4]->SetVisible(0);
+        }
+        m_SynthesisTime = 0;
+        m_SyntheticTableid = -1;
     }
 
     int Card::GetStackSize() {

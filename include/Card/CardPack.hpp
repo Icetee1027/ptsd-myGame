@@ -7,15 +7,14 @@ namespace card {
 	class CardPack :public Card {
 	private:
 		std::vector<std::string> m_Cards;
-		float m_Time;
+		
 	public:
 		CardPack(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image,  const bool iconcolor);
 		virtual ~CardPack() override = default;
 		void GenerateCard();
 		void SetCards(std::vector<std::string> cards) { m_Cards = cards; }
 		void Update() override;
-		void ClickDown() override;
-		void ClickUp() override;
+		void Clicking() override;
 	};
 }
 #endif

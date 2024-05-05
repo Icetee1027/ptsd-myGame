@@ -30,8 +30,8 @@ void Root::Update() {
     
     if (!Core::Context::GetIsDraw())
         return;
-    //if (1 / Util::Time::GetDeltaTime() < 50)
-       // LOG_ERROR("{}", 1 / Util::Time::GetDeltaTime());
+    
+    //LOG_ERROR("{}", 1 / Util::Time::GetDeltaTime());
     struct StackInfo {
         std::shared_ptr<GameObject> m_GameObject;
         Transform m_ParentTransform;

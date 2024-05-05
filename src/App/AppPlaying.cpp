@@ -75,6 +75,7 @@ void App::Playing() {
             }
             
         }
+
         if (!m_Mouse->HasObjectBind()) {
             auto target = glm::vec3(m_Mouse->GetMousePosition(0), 0);
             auto lowerBound = m_WorldCards.lower_bound(target.x - 100);
@@ -89,6 +90,9 @@ void App::Playing() {
                 auto m_Card = ShapeHelper::IsPointInStack(stack->second, m_Mouse->GetMousePosition(stack->second));
 
                 if (m_Card != nullptr) {
+                    if (stack->second->GetRoot()->m_SyntheticTableid != -1 ) {
+                        stack->second->GetRoot()->CancelComposition();
+                    }
                     AddCard(m_Card->GetParent());
                     m_Card->UnBindParent();
                     m_Card->SetTranslation(glm::vec3(m_Card->GetTransform().translation.x, m_Card->GetTransform().translation.y, 25));
@@ -101,18 +105,20 @@ void App::Playing() {
         if (!m_Mouse->HasObjectBind()) {
             m_Mouse->ObjectBind(m_Camera);
         }
-        LOG_DEBUG("Right button down");
+       // LOG_DEBUG("Right button down");
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
         mouseUp();
-        LOG_DEBUG("Right button up");
+        //LOG_DEBUG("Right button up");
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::K)) {
-
-        LOG_DEBUG(" m_WorldCards.size() {}", m_WorldCards.size());
-        // LOG_DEBUG(" m_PushProcessingArea.size() {}", m_PushProcessingArea.size());
+        auto a = std::dynamic_pointer_cast<card::Card>(m_Mouse->GetBindObject());
+        if (a) {
+            a->SetSynthesisTime(3);
+        }
+       
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::F)) {
@@ -213,7 +219,7 @@ void App::StackUpdate() {
                     glm::vec2 direction = target - itposition;
                     glm::vec2 unitVector = glm::normalize(direction);
                     float proportion = st->second->IsCanPush() == object->IsCanPush()?float(st->second->GetStackSize())/ float(object->GetStackSize() + st->second->GetStackSize()):1;
-                    object->SetPushing(unitVector * (0.11f *  proportion), 27);
+                    object->SetPushing(unitVector * (0.08f *  proportion), 33);
                 }
             }
             if (object->GetPushCount() == 0) {
@@ -249,6 +255,7 @@ void App::mouseUp() {
         for (auto stack : stacks) {
             if (ShapeHelper::IsCardInStack(stack->second, object) && stack->second != object->GetLast() && stack->second->CanHaveCardOnTop(object)) {
                 object->BindParent(stack->second);
+                stack->second->m_CanSynthetic = true;
                 stack->second = object->GetLast();
                 if (stack->second->GetRoot()->GetPushCount() == 0) {
                     m_PushProcessingArea.push_back(stack->second->GetRoot());
@@ -260,6 +267,7 @@ void App::mouseUp() {
         }
         if (m_Mouse->GetBindObject()) {
             App::MoveCardToNewX(object->GetLast(), int(object->GetLast()->GetTransform().translation.x));
+            object->m_CanSynthetic = true;
             if (object->GetRoot()->GetPushCount() == 0) {
                 m_PushProcessingArea.push_back(object->GetRoot());
             }

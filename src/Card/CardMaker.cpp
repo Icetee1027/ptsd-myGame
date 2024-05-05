@@ -34,6 +34,8 @@ namespace card {
         std::shared_ptr<CardTitle> m_Title = std::make_shared<CardTitle>();
         std::shared_ptr<CardDrop> m_CardDrop = std::make_shared<CardDrop>();
         std::shared_ptr<CardLine> m_CardLine = std::make_shared<CardLine>();
+        std::shared_ptr<CardBar> m_CardBar = std::make_shared<CardBar>();
+        std::shared_ptr<CardBarBackground> m_CardBarBackground= std::make_shared<CardBarBackground>();
         m_Title->SetDrawable(title);
         if (CardElementPool::m_CardDorp == nullptr) {
             CardElementPool::m_CardDorp = std::make_shared<Util::Image>(RESOURCE_DIR"/sprites/CardDrop.png");
@@ -44,6 +46,12 @@ namespace card {
                 true,500, true,0);
         }
         m_CardLine->SetDrawable(CardElementPool::m_CardLine);
+        if (CardElementPool::m_CardBar1 == nullptr || CardElementPool::m_CardBar2 == nullptr) {
+            CardElementPool::m_CardBar1 = std::make_shared<Util::Image>(RESOURCE_DIR"/sprites/BarBackground.png");
+            CardElementPool::m_CardBar2 = std::make_shared<Util::Image>(RESOURCE_DIR"/sprites/ProgressBar.png"); 
+        }
+        m_CardBar->SetDrawable(CardElementPool::m_CardBar1);
+        m_CardBarBackground->SetDrawable(CardElementPool::m_CardBar2);
         std::vector<std::string> sfxs;
         for (const auto& sfx : GetCardSFX(m_Type)) {
             sfxs.push_back(RESOURCE_DIR "/audio/sfx" + sfx);
@@ -102,10 +110,19 @@ namespace card {
         }
         m_Title->SetCard(temp);
         temp->AddChild(m_Title);
+
         m_CardDrop->SetCard(temp);
         temp->AddChild(m_CardDrop);
+
         m_CardLine->SetCard(temp);
         temp->AddChild(m_CardLine);
+
+        m_CardBar->SetCard(temp);
+        temp->AddChild(m_CardBar);
+
+        m_CardBarBackground->SetCard(temp);
+        temp->AddChild(m_CardBarBackground);
+
         if (attribute.contains("hp")) {
             int hp = attribute["hp"];
             std::shared_ptr<CardRightNum> number=std::make_shared<CardRightNum>();

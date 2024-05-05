@@ -77,7 +77,7 @@ public:
     glm::vec2 GetScaledSize() const {
         return m_Drawable->GetSize() * m_Transform.scale;
     };
-
+    void SetScaledSize(glm::vec2 size)  { m_Transform.scale = size; };
     /**
      * @brief Get the children of the game object.
      *

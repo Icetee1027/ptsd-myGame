@@ -9,15 +9,17 @@
 #include "Util/Time.hpp"
 #include "Card/CardElementPool.hpp"
 #include "Card/Poop.hpp"
+#include "Card/CardPack.hpp"
 void App::Start() {
    // LOG_TRACE("Start");
-    std::shared_ptr<card::Card> m_cardpack2= card::CardMaker::MakeCard("IdeaBrick");
-    m_cardpack2->SetTranslation(glm::vec3(800, 200 , 0));
-    AddCard(m_cardpack2);
+    std::shared_ptr<card::Card> m_cardpack2= card::CardMaker::MakeCard("Pack");
+
+    auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
+    //cardpack->SetCards(std::vector<std::string>({"Villager","BerryBush","Rock","Wood","Coin"}));
+    cardpack->SetCards(std::vector<std::string>({ "Apple", "Soil","Wood","Wood","IronBar","Villager"}));
+
+    AddCard(cardpack);
     for (int i = 0; i < m_Shops.size(); i++) {
-        if(std::dynamic_pointer_cast<card::Poop>(m_Shops[i])){
-            LOG_DEBUG("{}", m_Shops[i]->GetCardName());
-        }
         m_Shops[i]->SetTranslation(glm::vec3(-950 + i * 280, 1050, 0));
         m_Shops[i]->SetMoveable(0);
         AddCard(m_Shops[i]);
@@ -78,9 +80,7 @@ void App::Start() {
         glm::vec3(0, 0, 0));
     m_MenuElement[2]->SetTranslation(glm::vec3(0, -100, 0));
     m_MenuElement[2]->SetZIndex(1.5);
-
-    AddCard(card::CardMaker::MakeCard("CoinChest"));
-
+    //AddCard(card::CardMaker::MakeCard("CoinChest"));
     m_Mouse->Start();
     m_Mouse->SetZIndex(4);
 
@@ -104,10 +104,10 @@ void App::Start() {
 
 
 void App::Update() {
-    if (Util::Input::IsKeyUp(Util::Keycode::X)) {
+    /*if (Util::Input::IsKeyUp(Util::Keycode::X)) {
         Camera::CameraShake();
         
-    }
+    }*/
    
     if (Util::Input::IfExit()) {
         m_CurrentState = State::END;
@@ -198,7 +198,7 @@ void App::RemoveCard(const std::shared_ptr<card::Card>& specifiedObj, int X) {
         }
     }
 }
-
+App::PauseOrPlay App::m_IsPlayButton = PauseOrPlay::Play;
 std::multimap<int, std::shared_ptr<card::Card>> App::m_WorldCards = {};
 Util::Root App::m_Root;
 std::list<std::weak_ptr<card::Card>> App::m_PushProcessingArea = {};

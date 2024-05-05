@@ -32,7 +32,8 @@ namespace card {
         static std::pair<std::shared_ptr<Util::Image>, std::shared_ptr<Util::Text>> getElement(const std::string& name,int color);
         static  std::shared_ptr<Core::Drawable> m_CardDorp; 
         static  std::shared_ptr<Util::Animation> m_CardLine;
-
+        static  std::shared_ptr<Core::Drawable> m_CardBar1;
+        static  std::shared_ptr<Core::Drawable> m_CardBar2;
         static std::shared_ptr<Util::Text> getNumberTextElement(int number, int color);
     };
 }

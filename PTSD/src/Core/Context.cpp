@@ -54,7 +54,7 @@ Context::Context() {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
     m_GlContext = SDL_GL_CreateContext(m_Window);
-
+    SDL_ShowCursor(SDL_DISABLE);
     if (m_GlContext == nullptr) {
         LOG_ERROR("Failed to initialize GL context");
         LOG_ERROR(SDL_GetError());
@@ -120,8 +120,7 @@ void Context::Update() {
     }
     m_TimeUpdate += Util::Time::GetDeltaTime();
 
-    
-    //好像會卡
+   
 }
 double Context::m_TimeUpdate = 0;
 bool Context::GetIsDraw() {

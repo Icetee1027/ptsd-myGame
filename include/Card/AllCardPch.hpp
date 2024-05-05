@@ -43,5 +43,5 @@
 #include "Card/CardDrop.hpp"
 #include "Card/CardLine.hpp"
 #include "Card/Sell.hpp"
-
+#include "Card/CardBar.hpp"
 #endif // !ALLCARDPCH_HPP

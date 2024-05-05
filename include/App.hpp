@@ -17,6 +17,10 @@
 #include "Board.hpp"
 class App {
 public:
+    enum class PauseOrPlay {
+        Pause,
+        Play
+    };
     enum class Modle {
         Origin,
         Menu,
@@ -39,6 +43,7 @@ public:
     static void MoveCardToNewX(const std::shared_ptr<card::Card>& specifiedObj, int oldX = 0); 
     static void RemoveCard(const std::shared_ptr<card::Card>& specifiedObj, int X = 0);
     static void ChangeCard(const std::shared_ptr<card::Card>& specifiedObj,  const std::shared_ptr<card::Card> toChange, int X = 0);
+    static PauseOrPlay m_IsPlayButton; 
 
 
 private:
@@ -53,12 +58,7 @@ private:
 
     
 private:
-    enum class PauseOrPlay {
-        Pause,
-        Play
-    };
     State m_CurrentState = State::START;
-    PauseOrPlay m_IsPlayButton= PauseOrPlay::Play;
     Modle m_Modle = Modle::Origin;
     std::vector<std::shared_ptr<Background>> m_SideElement = { std::make_shared<Background>(),std::make_shared<Background>(),std::make_shared<Background>() };
     std::vector<std::shared_ptr<GiraffeText>> m_MenuElement = { std::make_shared<GiraffeText>() ,std::make_shared<GiraffeText>() ,std::make_shared<GiraffeText>() };

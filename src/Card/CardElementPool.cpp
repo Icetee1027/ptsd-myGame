@@ -1,7 +1,7 @@
 #include "Card/CardElementPool.hpp"
 #include "Card/Card.hpp"
-#include <cstddef>
-#include <string.h>
+#include "Util/Image.hpp"
+
 
 namespace card {
     std::pair<std::shared_ptr<Util::Image>, std::shared_ptr<Util::Text>> CardElementPool::getElement(const std::string& name,const int color) {
@@ -88,4 +88,6 @@ namespace card {
     std::unordered_map<std::pair<int, int>, std::weak_ptr<Util::Text>, std::hash<std::pair<int, int>>> CardElementPool::numberTextElements = {};
     std::shared_ptr<Core::Drawable> CardElementPool::m_CardDorp =nullptr;
     std::shared_ptr<Util::Animation> CardElementPool::m_CardLine = nullptr;
+    std::shared_ptr<Core::Drawable> CardElementPool::m_CardBar1 = nullptr;
+    std::shared_ptr<Core::Drawable> CardElementPool::m_CardBar2 = nullptr;
 }

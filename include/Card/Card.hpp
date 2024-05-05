@@ -39,12 +39,15 @@ namespace card {
         bool m_HasSatiety = 0;
         bool m_HasHP = 0;
         int  m_CanPush = 1;
-
+        float m_ClickTime;
+        float m_SynthesisTime = 0;
+        float m_ProgressTime=0;
     public:
         Card(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image,const bool iconcolor);
         virtual ~Card() override = default;
         virtual void ClickDown();
         virtual void ClickUp();
+        virtual void Clicking();
 
         bool HasPrice() {return m_HasPrice;}
         bool HasSatiety() { return m_HasSatiety; }
@@ -65,9 +68,11 @@ namespace card {
         std::string GetCardName() { return m_Name; }
         Type GetCardType() { return m_Type; }
         unsigned int GetCardId() { return m_Id; }
+        void SetSynthesisTime(float time);
         
         
         virtual void Update() override;
+        virtual void SynthesisUpdate();
         void ChildUpdate();
     protected:
         std::shared_ptr<Card> m_Child;
@@ -76,7 +81,9 @@ namespace card {
         std::shared_ptr<Card> m_last;
         unsigned int m_PushCount = 0;
         glm::vec2 m_PushVector = { 0.0,0.0 };
+        void GenerateCard(std::vector<std::string>& cards);
     public:
+        int m_UsageCount = 1;
         bool StatusStackRootUpDate = false;
         virtual void UpdateCard(){}
         void PositionUpdate();
@@ -88,9 +95,14 @@ namespace card {
         void SetRoot();
         void CheckRoot();
     public:
+        bool m_CanSynthetic=false;
+        int m_SyntheticTableid = -1;
         virtual bool CanHaveCard(std::shared_ptr<Card>  otherCard);
+        void CancelComposition();
         bool CanHaveCardOnTop(std::shared_ptr<Card>  otherCard, bool isPrefab =false );
-
+        std::vector<std::string> GetCardsName();
+        void CanSynthetic();
+        void SyntheticDone();
         std::vector<std::shared_ptr<Card>> GetAllCardsInStack();
         void RemoveStack();
         void RemoveCard();

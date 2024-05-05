@@ -16,12 +16,22 @@ struct RandomElement {
         prizes = prizes_vec;
     }
 };
+struct RandomElementsy {
+    std::string name;
+    std::map<std::string, int> prizes;
+    // 構造函式
+    RandomElementsy(const std::string& title,const std::map<std::string, int> prizes_vec) : name(title) {
+        prizes = prizes_vec;
+    }
+};
 
 class ShopRandom {
 public:
     static std::vector<std::string> DrawCardPack(const std::string& systemName);
+    static std::string drawLottery(const std::string& lottery);
 private:
     static std::vector<RandomElement> database;
+    static std::vector<RandomElementsy> databasesy;
 };
 
 #endif // !SHOPRANDOM_HPP
