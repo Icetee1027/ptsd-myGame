@@ -90,12 +90,12 @@ void App::Playing() {
                 auto m_Card = ShapeHelper::IsPointInStack(stack->second, m_Mouse->GetMousePosition(stack->second));
 
                 if (m_Card != nullptr) {
-                    if (stack->second->GetRoot()->m_SyntheticTableid != -1 ) {
-                        stack->second->GetRoot()->CancelComposition();
-                    }
+                    
                     AddCard(m_Card->GetParent());
                     m_Card->UnBindParent();
                     m_Card->SetTranslation(glm::vec3(m_Card->GetTransform().translation.x, m_Card->GetTransform().translation.y, 25));
+                    stack->second->GetRoot()->m_SyntheticStop = true;
+                    stack->second->GetRoot()->m_CanSynthetic = true;
                     m_Mouse->ObjectBind(m_Card);
 
                     break;
@@ -255,7 +255,7 @@ void App::mouseUp() {
         for (auto stack : stacks) {
             if (ShapeHelper::IsCardInStack(stack->second, object) && stack->second != object->GetLast() && stack->second->CanHaveCardOnTop(object)) {
                 object->BindParent(stack->second);
-                stack->second->m_CanSynthetic = true;
+                object->m_CanSynthetic = true;//
                 stack->second = object->GetLast();
                 if (stack->second->GetRoot()->GetPushCount() == 0) {
                     m_PushProcessingArea.push_back(stack->second->GetRoot());

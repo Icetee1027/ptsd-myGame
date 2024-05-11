@@ -37,17 +37,23 @@ namespace card {
             m_SFXs[1]->Play();
         }
     }
+
     void Card::Clicking() {
 
     }
+
     void Card::Update() {
         UpdateCard();
         PositionUpdate();
         if (m_Parent != nullptr) {m_Parent->Update();}
 
 
-        if (m_SynthesisTime != 0 && App::m_IsPlayButton==App::PauseOrPlay::Play) {
+        if (m_SynthesisTime != 0 && App::m_IsPlayButton==App::PauseOrPlay::Play && m_SyntheticStop == false) {
             SynthesisUpdate();
+        }
+        if (m_SyntheticStop == true && (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB))) {
+            m_CanSynthetic = true;
+            m_SyntheticStop = false;
         }
         if (StatusStackRootUpDate) {
             StackRootUpdate();
@@ -60,6 +66,7 @@ namespace card {
 
         ChildUpdate();
     }
+
     void Card::SynthesisUpdate() {
 
         m_ProgressTime += Util::Time::GetDeltaTime()* (Util::Input::IsKeyPressed(Util::Keycode::X)?10:1);
@@ -73,14 +80,17 @@ namespace card {
             SyntheticDone();
         }
     }
+
     void Card::ChildUpdate() {
         for (auto child : m_Children) {
             child->SetZIndex(m_ZIndex);
             child->Update();
         }
     }
+
     void Card::GenerateCard(std::vector<std::string>& cards) {
         for (auto& cardname: cards) {
+            if (cardname == "")continue;
             std::random_device rd;
             std::mt19937 rng(rd());
             std::uniform_int_distribution<int> distribution(1, 360);
@@ -97,6 +107,7 @@ namespace card {
         }
         
     }
+
     void Card::PositionUpdate() {
         if (m_Parent != nullptr) {
             m_Transform.translation = m_Parent->GetTransform().translation + glm::vec3(0, -47, 0);
@@ -124,6 +135,7 @@ namespace card {
             GetChildren()[2]->SetVisible(m_Child->GetChildren()[2]->GetVisible());
         }
     }
+
     void Card::SetSynthesisTime(float time) {
         m_SynthesisTime = time;
         m_ProgressTime = 0;
@@ -244,15 +256,33 @@ namespace card {
         }
         return cards;
     }
+
     void Card::CanSynthetic() {
+
         auto [a,b]=SynthesisTable::SyntheticCheck(GetCardsName());
         if (a != -1) {
-            GetRoot()->SetSynthesisTime(SynthesisTable::m_SynthesisTable[a].time / b);
-            GetRoot()->m_SyntheticTableid = a;
-            LOG_DEBUG("index:{}:{}", SynthesisTable::m_SynthesisTable[a].time / b,a);
+
+            if (GetRoot()->m_SyntheticTableid != a) {
+                GetRoot()->SetSynthesisTime(SynthesisTable::m_SynthesisTable[a].time / b);
+                GetRoot()->m_SyntheticTableid = a;
+                LOG_DEBUG("index:{}:{}", SynthesisTable::m_SynthesisTable[a].time / b,a);
+            }
+
+           if (GetRoot() != shared_from_this() && GetRoot()->m_SyntheticTableid == m_SyntheticTableid && GetRoot()->m_SyntheticTableid != -1) {
+                GetRoot()->m_ProgressTime = m_ProgressTime;
+                CancelComposition();
+            }
+        }
+        else if(m_SyntheticStop==false){
+            if (!weak_from_this().expired())
+                CancelComposition();
+        }
+        else if(m_SyntheticStop == true) {
+
         }
 
     }
+
     void Card::SyntheticDone() {
         m_SynthesisTime = 0;
         auto t_id = m_SyntheticTableid;
@@ -289,10 +319,16 @@ namespace card {
         if (SynthesisTable::m_SynthesisTable[t_id].random == false) {
             GenerateCard(std::vector<std::string>({SynthesisTable::m_SynthesisTable[t_id].name }));
         }
+        else if (SynthesisTable::m_SynthesisTable[t_id].name == "TreasureChest") {
+            for (int i = 0; i < 4; i++) {
+                GenerateCard(std::vector<std::string>({ ShopRandom::drawLottery(SynthesisTable::m_SynthesisTable[t_id].name) }));
+            }
+        }
         else {
             GenerateCard(std::vector<std::string>({ ShopRandom::drawLottery(SynthesisTable::m_SynthesisTable[t_id].name) }));
         }
     }
+
     std::vector<std::shared_ptr<Card>> Card::GetAllCardsInStack() {
 
         auto root = GetRoot();
@@ -312,8 +348,8 @@ namespace card {
             num = 0;
         }
         int num2 = (isPrefab ? 1 : (otherCard->GetStackSize()));
-        if (num + num2 > 10)
-        {
+        if (num + num2 > GetRoot()->m_MaxAnimalCount)
+        {   
             //LOG_DEBUG("CanHaveCardOnTop out of size");
             return false;
         }

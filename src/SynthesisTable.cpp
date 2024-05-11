@@ -45,6 +45,10 @@ std::vector<SynthesisTable::Table> SynthesisTable::m_SynthesisTable = {
     {"Graveyard",{"Corpse","Corpse"},{"Corpse","Corpse"},15.0,false},//34
     {"Spear",{"Wood","Stick","Stick"},{"Wood","Stick","Stick"},15.0,false},//35
     {"Sword",{"IronBar","Stick","Stick"},{"IronBar","Stick","Stick"},15.0,false},//36
+    {"Dog",{"wolf","Bone"},{"wolf","Bone"},15.0,false},//37
+    {"Market",{"Market"},{},60.0,false},//38
+    {"",{"Graveyard","Corpse"},{"Corpse"},0.1,false},//39
+    {"TreasureChest",{"TreasureChest","Key"},{"TreasureChest","Key"},0.1,true},//0--
     {"BerryBush", {"BerryBush"}, {"BerryBush"}, 10.0, true,"Villager" },//1--
     {"AppleTree", {"AppleTree"}, {"AppleTree"}, 10.0, true,"Villager" },//2--
     {"IronDeposit", {"IronDeposit"}, {"IronDeposit"}, 10.0, true,"Villager" },//2--

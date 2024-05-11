@@ -83,6 +83,7 @@ namespace card {
         glm::vec2 m_PushVector = { 0.0,0.0 };
         void GenerateCard(std::vector<std::string>& cards);
     public:
+        int m_MaxAnimalCount = 10;
         int m_UsageCount = 1;
         bool StatusStackRootUpDate = false;
         virtual void UpdateCard(){}
@@ -96,13 +97,14 @@ namespace card {
         void CheckRoot();
     public:
         bool m_CanSynthetic=false;
+        bool m_SyntheticStop = false;
         int m_SyntheticTableid = -1;
         virtual bool CanHaveCard(std::shared_ptr<Card>  otherCard);
         void CancelComposition();
         bool CanHaveCardOnTop(std::shared_ptr<Card>  otherCard, bool isPrefab =false );
         std::vector<std::string> GetCardsName();
         void CanSynthetic();
-        void SyntheticDone();
+        virtual void SyntheticDone();
         std::vector<std::shared_ptr<Card>> GetAllCardsInStack();
         void RemoveStack();
         void RemoveCard();

@@ -236,6 +236,42 @@ std::vector<RandomElementsy> ShopRandom::databasesy{
             {"Milk", 7},
             {"Soil", 14}
         }
+    },
+    {
+        "TreasureChest",
+        {
+            {"Apple",3},
+            {"Berry",3},
+            {"Carrot",3},
+            {"Egg",3},
+            {"Milk",3},
+            {"Mushroom",3},
+            {"Onion",3},
+            {"Potato",3},
+            { "RawMeat",3},
+            {"CookedMeat",3},
+            {"Frittata",3},
+            {"FruitSalad",3},
+            {"Milkshake",3},
+            {"Omelette",3},
+            {"Stew",3},
+            {"Bone",3},
+            {"Brick",3},
+            {"Flint",3},
+            {"IronBar",3},
+            {"IronOre",3},
+            {"Map",3},
+            {"OldTome",3},
+            {"Plank",3},
+            {"Poop",3},
+            {"Stick",3},
+            {"Stone",3},
+            {"Sword",3},
+            {"Wood",3},
+            {"Coin",3},
+            {"Corpse",3},
+            {"Spear",1}
+        }
     }
 
 };
@@ -345,6 +381,17 @@ std::vector<RandomElement> ShopRandom::database = {
             {{"Berry Bush", 33}, {"Rock", 33}, {"Tree", 33}},
             {{"Berry Bush", 33}, {"Rock", 33}, {"Tree", 33}},
             {{"Brick", 33}, {"Iron Ore", 33}, {"Plank", 33}}
+        }
+    },
+    {
+        "TravellingCart",
+        {
+            {},{},{}
+        },
+        {
+            {{"Bone",20},{"IronBar",20},{"Spear",20},{"Brick",20},{"Plank",20}},
+            {{"Map",20},{"OldTome",20},{"Apple",20},{"Frittata",20},{"Soil",20}},
+            {{"Key",20},{"Treasure",20},{"TreasureChest",20},{"Golden",20},{"GoldenGoblet",20}}
         }
     }
    

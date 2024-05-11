@@ -11,4 +11,5 @@ namespace card {
         // 如果 otherCard 的 Id 等于 "key"，则返回 true
         return true;
     }
+   
 }

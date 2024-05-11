@@ -3,16 +3,10 @@
 namespace card {
     AnimalPen::AnimalPen(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image, const bool iconcolor)
         : Card(type, name, id, sfxs, image, iconcolor) {
+		m_MaxAnimalCount = 4;
     }
     bool AnimalPen::CanHaveCard(std::shared_ptr<Card> otherCard){
-		if (m_Name == "AnimalCage" && otherCard->GetCardName() == "AnimalCage")
-		{
-			return true;
-		}
-		if (otherCard->GetCardName() == "Wheat")
-		{
-			return true;
-		}
+
 		if (otherCard->GetCardName() == "Egg")
 		{
 			return true;
@@ -21,10 +15,11 @@ namespace card {
 		{
 			return true;
 		}
-		int num = GetStackSize() + otherCard->GetStackSize();
+		int num = GetStackSize()-1 + otherCard->GetStackSize();
 		
 		if (std::dynamic_pointer_cast<Animal>(otherCard))
-		{
+		{    
+
 			return num <= m_MaxAnimalCount;
 		}
 		return false;

@@ -16,7 +16,7 @@ void App::Start() {
 
     auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
     //cardpack->SetCards(std::vector<std::string>({"Villager","BerryBush","Rock","Wood","Coin"}));
-    cardpack->SetCards(std::vector<std::string>({ "Apple", "Soil","Wood","Wood","IronBar","Villager"}));
+    cardpack->SetCards(std::vector<std::string>({ "Graveyard","Corpse", "TravellingCart","Cow","Cow","Cow","Cow","Villager","Rat"}));
 
     AddCard(cardpack);
     for (int i = 0; i < m_Shops.size(); i++) {
@@ -202,3 +202,4 @@ App::PauseOrPlay App::m_IsPlayButton = PauseOrPlay::Play;
 std::multimap<int, std::shared_ptr<card::Card>> App::m_WorldCards = {};
 Util::Root App::m_Root;
 std::list<std::weak_ptr<card::Card>> App::m_PushProcessingArea = {};
+std::vector<glm::vec2> App::VillagerLocation = {};
