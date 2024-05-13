@@ -8,18 +8,17 @@ void App::Origin() {
                 m_Modle = Modle::Playing;
                 m_Background = nullptr;
                 
-                m_MenuElement[0]->SetText(RESOURCE_DIR"/fonts/Welatte Brush.ttf", 90, "menU!",
+                m_MenuElement[0]->InitText(RESOURCE_DIR"/fonts/Welatte Brush.ttf", 90, "menU!",
                     glm::vec3(0, 0, 0));
                 m_MenuElement[0]->SetTranslation(glm::vec3(0, 185, 0));
                 m_MenuElement[0]->SetZIndex(1.5);
 
-                m_MenuElement[1]->SetText(RESOURCE_DIR"/fonts/Welatte Brush.ttf", 75, "continue",
+                m_MenuElement[1]->InitText(RESOURCE_DIR"/fonts/Welatte Brush.ttf", 75, "continue",
                     glm::vec3(0, 0, 0));
                 m_MenuElement[1]->SetTranslation(glm::vec3(0, 30, 0));
                 m_MenuElement[1]->SetZIndex(1.5);
                 m_SideElement[0]->SetVisible(1);
                 m_SideElement[1]->SetVisible(1);
-                m_SideTitle->SetVisible(1);
                 for (auto t : m_MenuElement) {
                     t->SetVisible(0);
                 }

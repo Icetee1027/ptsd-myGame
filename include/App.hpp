@@ -32,6 +32,7 @@ public:
         END,
     };
     State GetCurrentState() const { return m_CurrentState; }
+    ~App()= default;
 
     void Start();
 
@@ -46,6 +47,7 @@ public:
     static PauseOrPlay m_IsPlayButton; 
     static std::list<std::weak_ptr<card::Card>> m_PushProcessingArea;
     static std::vector<glm::vec2> VillagerLocation;
+    static std::shared_ptr<GiraffeText > m_SideText;
 private:
     void Play();
     void Pause();
@@ -63,8 +65,7 @@ private:
     std::vector<std::shared_ptr<Background>> m_SideElement = { std::make_shared<Background>(),std::make_shared<Background>(),std::make_shared<Background>() };
     std::vector<std::shared_ptr<GiraffeText>> m_MenuElement = { std::make_shared<GiraffeText>() ,std::make_shared<GiraffeText>() ,std::make_shared<GiraffeText>() };
 
-    std::shared_ptr<GiraffeText> m_SideTitle= std::make_shared<GiraffeText>();
-    std::shared_ptr<GiraffeText > m_SideText = std::make_shared<GiraffeText>();
+
 
     std::shared_ptr<Background> m_Background = std::make_shared<Background>();
     std::shared_ptr<Background> m_Menu = std::make_shared<Background>();
@@ -82,7 +83,7 @@ private:
                                                          card::CardMaker::MakeCard("LogicandReason") ,//
                                                          card::CardMaker::MakeCard("TheArmory") ,//
                                                          card::CardMaker::MakeCard("Explorers") ,//
-                                                         card::CardMaker::MakeCard("OrderandStructure") ,//
+                                                         //card::CardMaker::MakeCard("OrderandStructure") ,
                                                         };
     std::shared_ptr<Board> m_Board = std::make_shared<Board>();
     std::vector<std::string> files = { "AnimalPen", "Apple", "AppleTree", "Baby", "Bear", "Berry", "BerryBush",//

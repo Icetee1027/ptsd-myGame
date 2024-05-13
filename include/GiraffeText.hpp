@@ -17,12 +17,19 @@ public:
    
     void Start();
     void SetScale(glm::vec2 s) { m_Transform.scale = s; }
-    void SetText(std::string path,int t,std::string str, glm::vec3 c);
+    void InitText(std::string path,int t,std::string str, glm::vec3 c=glm::vec3());
+    void SetText(std::string str) {
+        auto a = std::dynamic_pointer_cast<Util::Text>(m_Drawable);
+        if (a)a->SetText(str);
+        else LOG_ERROR("GiraffeText->SetText() ERROR!!");
+    }
     void Update() override;
     void ClickDown() override;
     void ClickUp() override;
+    void BluePrintINIT();
+    void AddBluePrint(std::string str);
 private:
-    
+    std::vector<std::string> ShowBluePrint = {};
 };
 
 #endif

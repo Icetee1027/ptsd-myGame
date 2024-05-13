@@ -258,8 +258,8 @@ namespace card {
     }
 
     void Card::CanSynthetic() {
-
-        auto [a,b]=SynthesisTable::SyntheticCheck(GetCardsName());
+        auto name=GetCardsName();
+        auto [a,b]=SynthesisTable::SyntheticCheck(name);
         if (a != -1) {
 
             if (GetRoot()->m_SyntheticTableid != a) {
@@ -317,15 +317,18 @@ namespace card {
             stack[0]->m_CanSynthetic = true;
         }
         if (SynthesisTable::m_SynthesisTable[t_id].random == false) {
-            GenerateCard(std::vector<std::string>({SynthesisTable::m_SynthesisTable[t_id].name }));
+            auto vt=std::vector<std::string>({SynthesisTable::m_SynthesisTable[t_id].name });
+            GenerateCard(vt);
         }
         else if (SynthesisTable::m_SynthesisTable[t_id].name == "TreasureChest") {
             for (int i = 0; i < 4; i++) {
-                GenerateCard(std::vector<std::string>({ ShopRandom::drawLottery(SynthesisTable::m_SynthesisTable[t_id].name) }));
+                auto vt=std::vector<std::string>({ ShopRandom::drawLottery(SynthesisTable::m_SynthesisTable[t_id].name) });
+                GenerateCard(vt);
             }
         }
         else {
-            GenerateCard(std::vector<std::string>({ ShopRandom::drawLottery(SynthesisTable::m_SynthesisTable[t_id].name) }));
+            auto vt=std::vector<std::string>({ ShopRandom::drawLottery(SynthesisTable::m_SynthesisTable[t_id].name) });
+            GenerateCard(vt);
         }
     }
 

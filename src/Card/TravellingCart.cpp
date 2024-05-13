@@ -6,6 +6,7 @@ namespace card {
     TravellingCart::TravellingCart(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image, const bool iconcolor)
         :Card(type, name, id, sfxs, image, iconcolor) {
         m_BasicPrice = 5;
+        m_Price = 0;
     }
     bool TravellingCart::CanHaveCard(std::shared_ptr<Card> otherCard) {
         m_dic = otherCard->GetTransform().translation;

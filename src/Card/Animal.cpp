@@ -25,10 +25,13 @@ namespace card {
     void Animal::UpdateCard() {
         if (m_RawCardsTime >= 120) {
             if (m_Name == "Chicken") {
-                   GenerateCard(std::vector<std::string>({ "Egg" }));
+                std::vector<std::string> cardList = { "Egg" };
+                GenerateCard(cardList);
+
             }
             else if (m_Name == "Cow") {
-                GenerateCard(std::vector<std::string>({ "Milk" }));
+                std::vector<std::string> cardList = { "Milk" };
+                GenerateCard(cardList);
             }
             m_RawCardsTime = 0;
         }

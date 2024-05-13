@@ -355,7 +355,7 @@ std::vector<RandomElement> ShopRandom::database = {
         },
         {
             {{"BerryBush", 33}, {"Rock", 33}, {"Tree", 33}},
-            {{"Bear", 12.5}, {"Rat", 12.5}, {"GiantRat", 12.5}, {"Goblin", 12.5}, {"Mimic", 12.5}, {"Skeleton", 12.5}, {"Skeleton", 12.5}, {"Wolf", 12.5}},
+            {{"Bear", 12.5}, {"Rat", 12.5}, {"GiantRat", 12.5}, {"Goblin", 12.5}, {"Skeleton", 12.5}, {"Skeleton", 12.5}, {"Wolf", 12.5}},
             {{"Brick", 33}, {"IronOre", 33}, {"Plank", 33}}
         }
     },
@@ -366,7 +366,7 @@ std::vector<RandomElement> ShopRandom::database = {
         },
         {
             {{"BerryBush", 33}, {"Rock", 33}, {"Tree", 33}},
-            {{"Bear", 12.5}, {"Rat", 12.5}, {"GiantRat", 12.5}, {"Goblin", 12.5}, {"Mimic", 12.5}, {"Skeleton", 12.5}, {"Skeleton", 12.5}, {"Wolf", 12.5}},
+            {{"Bear", 12.5}, {"Rat", 12.5}, {"GiantRat", 12.5}, {"Goblin", 12.5}, {"Skeleton", 12.5}, {"Skeleton", 12.5}, {"Wolf", 12.5}},//{"Mimic", 12.5}, 
             {{"Forest", 25}, {"Mountain", 25}, {"OldVillage", 25}, {"Plains", 25}}
         }
     },

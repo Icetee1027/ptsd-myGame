@@ -16,7 +16,7 @@ void App::Start() {
 
     auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
     //cardpack->SetCards(std::vector<std::string>({"Villager","BerryBush","Rock","Wood","Coin"}));
-    cardpack->SetCards(std::vector<std::string>({ "Graveyard","Corpse", "TravellingCart","Cow","Cow","Cow","Cow","Villager","Rat"}));
+    cardpack->SetCards(std::vector<std::string>({ "House","Baby", "TravellingCart","Cow","Cow","Cow","Cow","Villager","Rat"}));
 
     AddCard(cardpack);
     for (int i = 0; i < m_Shops.size(); i++) {
@@ -25,7 +25,7 @@ void App::Start() {
         AddCard(m_Shops[i]);
     }
     m_GiraffeText->SetZIndex(-1);
-    m_GiraffeText->SetText(RESOURCE_DIR"/fonts/Inter.ttf", 75, "Pause",
+    m_GiraffeText->InitText(RESOURCE_DIR"/fonts/Inter.ttf", 75, "Pause",
        glm::vec3(255,255,255));
     m_GiraffeText->SetVisible(0);
 
@@ -34,6 +34,7 @@ void App::Start() {
     m_SideElement[0]->SetImage(RESOURCE_DIR"/sprites/SideBlock.png");
     m_SideElement[0]->SetMoveable(1);
     m_SideElement[0]->SetTranslation(glm::vec3(-520, 0, 0));
+    m_SideElement[0]->SetScaledSize(glm::vec2({ 1, 1.1 }));
     m_SideElement[0]->SetMoveable(0);
     m_SideElement[0]->SetZIndex(1);
     m_SideElement[0]->SetVisible(0);
@@ -52,31 +53,28 @@ void App::Start() {
     m_SideElement[2]->SetZIndex(2);
     m_SideElement[2]->SetVisible(0);
 
-    m_SideTitle->SetText(RESOURCE_DIR"/fonts/Inter.ttf", 40, "Blue Print",glm::vec3(0, 0, 0));
-    m_SideTitle->SetTranslation(glm::vec3(-520, 335, 0));
-    m_SideTitle->SetZIndex(2);
-    m_SideTitle->SetVisible(0);
 
-    m_SideText->SetText(RESOURCE_DIR"/fonts/Inter.ttf", 20, "Blue Print", glm::vec3(0, 0, 0));
-    m_SideText->SetTranslation(glm::vec3(-520, 120, 0));
+    m_SideText->InitText(RESOURCE_DIR"/fonts/Inter.ttf", 16, "Blue Print", glm::vec3(0, 0, 0));
+    m_SideText->BluePrintINIT();
+    m_SideText->SetTranslation(glm::vec3(-610, 18, 0));
     m_SideText->SetZIndex(2);
     m_SideText->SetVisible(0);
-
+    
     m_Menu->SetImage(RESOURCE_DIR"/sprites/Menu.png");
     m_Menu->SetZIndex(1);
     m_Menu->SetVisible(1);
     
-    m_MenuElement[0]->SetText(RESOURCE_DIR"/fonts/Welatte Brush.ttf", 90, "stackland!",
+    m_MenuElement[0]->InitText(RESOURCE_DIR"/fonts/Welatte Brush.ttf", 90, "stackland!",
         glm::vec3(0, 0, 0));
     m_MenuElement[0]->SetTranslation(glm::vec3(0, 185, 0));
     m_MenuElement[0]->SetZIndex(1.5);
 
-    m_MenuElement[1]->SetText(RESOURCE_DIR"/fonts/Welatte Brush.ttf", 75, "start",
+    m_MenuElement[1]->InitText(RESOURCE_DIR"/fonts/Welatte Brush.ttf", 75, "start",
         glm::vec3(0, 0, 0));
     m_MenuElement[1]->SetTranslation(glm::vec3(0, 30, 0));
     m_MenuElement[1]->SetZIndex(1.5);
 
-    m_MenuElement[2]->SetText(RESOURCE_DIR"/fonts/Welatte Brush.ttf", 75, "quit",
+    m_MenuElement[2]->InitText(RESOURCE_DIR"/fonts/Welatte Brush.ttf", 75, "quit",
         glm::vec3(0, 0, 0));
     m_MenuElement[2]->SetTranslation(glm::vec3(0, -100, 0));
     m_MenuElement[2]->SetZIndex(1.5);
@@ -93,7 +91,7 @@ void App::Start() {
     m_Root.AddChild(m_Board);
     m_Root.AddChild(m_GiraffeText); 
     m_Root.AddChild(m_Mouse);
-    m_Root.AddChild(m_SideTitle);
+
     m_Root.AddChild(m_SideText);
     for (auto m : m_SideElement) {
         m_Root.AddChild(m);
@@ -144,6 +142,7 @@ void App::Update() {
 void App::End() { // NOLINT(this method will mutate members in the future)
     LOG_TRACE("End");
     m_WorldCards.clear();
+    m_SideText.reset();
 }
 
 void App::AddCard(std::shared_ptr<card::Card> NewCard) {
@@ -203,3 +202,4 @@ std::multimap<int, std::shared_ptr<card::Card>> App::m_WorldCards = {};
 Util::Root App::m_Root;
 std::list<std::weak_ptr<card::Card>> App::m_PushProcessingArea = {};
 std::vector<glm::vec2> App::VillagerLocation = {};
+std::shared_ptr<GiraffeText > App::m_SideText = std::make_shared<GiraffeText>();

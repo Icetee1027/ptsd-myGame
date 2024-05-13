@@ -61,14 +61,14 @@ void App::Playing() {
                         m_SideElement[1]->SetVisible(0);
                         m_SideElement[0]->SetVisible(0);
                         m_SideText->SetVisible(0);
-                        m_SideTitle->SetVisible(0);
+
                     }
                     else if (it == 2) {
                         m_SideElement[2]->SetVisible(0);
                         m_SideElement[1]->SetVisible(1);
                         m_SideElement[0]->SetVisible(1);
                         m_SideText->SetVisible(1);
-                        m_SideTitle->SetVisible(1);
+
 
                     }
                 }
@@ -111,6 +111,22 @@ void App::Playing() {
     if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
         mouseUp();
         //LOG_DEBUG("Right button up");
+    }
+
+    if (Util::Input::IsKeyUp(Util::Keycode::Z)) {
+        if (m_SideElement[1]->GetVisible() == 1) {
+            m_SideElement[2]->SetVisible(1);
+            m_SideElement[1]->SetVisible(0);
+            m_SideElement[0]->SetVisible(0);
+            m_SideText->SetVisible(0);
+
+        }
+        else{
+            m_SideElement[2]->SetVisible(0);
+            m_SideElement[1]->SetVisible(1);
+            m_SideElement[0]->SetVisible(1);
+            m_SideText->SetVisible(1);
+        }
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::K)) {
