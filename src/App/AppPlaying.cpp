@@ -271,7 +271,7 @@ void App::mouseUp() {
         for (auto stack : stacks) {
             if (ShapeHelper::IsCardInStack(stack->second, object) && stack->second != object->GetLast() && stack->second->CanHaveCardOnTop(object)) {
                 object->BindParent(stack->second);
-                object->m_CanSynthetic = true;//
+                stack->second->m_CanSynthetic = true;//
                 stack->second = object->GetLast();
                 if (stack->second->GetRoot()->GetPushCount() == 0) {
                     m_PushProcessingArea.push_back(stack->second->GetRoot());

@@ -46,8 +46,9 @@ public:
     static void ChangeCard(const std::shared_ptr<card::Card>& specifiedObj,  const std::shared_ptr<card::Card> toChange, int X = 0);
     static PauseOrPlay m_IsPlayButton; 
     static std::list<std::weak_ptr<card::Card>> m_PushProcessingArea;
-    static std::vector<glm::vec2> VillagerLocation;
+    static std::vector<std::shared_ptr<card::BaseVillager>> VillagerLocation;
     static std::shared_ptr<GiraffeText > m_SideText;
+    static std::shared_ptr<Mouse> m_Mouse;
 private:
     void Play();
     void Pause();
@@ -73,7 +74,7 @@ private:
     std::shared_ptr<GiraffeText> m_GiraffeText = std::make_shared<GiraffeText>();
     std::shared_ptr<Camera> m_Camera = std::make_shared<Camera>();
     
-    std::shared_ptr<Mouse> m_Mouse = std::make_shared<Mouse>();
+   
     static Util::Root m_Root;
     std::vector<std::shared_ptr<card::Card>> m_Shops = { card::CardMaker::MakeCard("Sell") ,
                                                          card::CardMaker::MakeCard("HumbleBegining") ,//

@@ -73,6 +73,7 @@ namespace card {
         
         virtual void Update() override;
         virtual void SynthesisUpdate();
+        virtual void SpecialSynthesis(){}
         void ChildUpdate();
     protected:
         std::shared_ptr<Card> m_Child;
@@ -81,8 +82,8 @@ namespace card {
         std::shared_ptr<Card> m_last;
         unsigned int m_PushCount = 0;
         glm::vec2 m_PushVector = { 0.0,0.0 };
-        void GenerateCard(std::vector<std::string>& cards);
     public:
+        void GenerateCard(std::vector<std::string>& cards);
         int m_MaxAnimalCount = 10;
         int m_UsageCount = 1;
         bool StatusStackRootUpDate = false;
@@ -99,6 +100,7 @@ namespace card {
         bool m_CanSynthetic=false;
         bool m_SyntheticStop = false;
         int m_SyntheticTableid = -1;
+        bool m_IsCanPush = true;
         virtual bool CanHaveCard(std::shared_ptr<Card>  otherCard);
         void CancelComposition();
         bool CanHaveCardOnTop(std::shared_ptr<Card>  otherCard, bool isPrefab =false );

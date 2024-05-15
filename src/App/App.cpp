@@ -16,7 +16,7 @@ void App::Start() {
 
     auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
     //cardpack->SetCards(std::vector<std::string>({"Villager","BerryBush","Rock","Wood","Coin"}));
-    cardpack->SetCards(std::vector<std::string>({ "House","Baby", "TravellingCart","Cow","Cow","Cow","Cow","Villager","Rat"}));
+    cardpack->SetCards(std::vector<std::string>({ "Dog","Villager","Rat"}));
 
     AddCard(cardpack);
     for (int i = 0; i < m_Shops.size(); i++) {
@@ -58,7 +58,7 @@ void App::Start() {
     m_SideText->BluePrintINIT();
     m_SideText->SetTranslation(glm::vec3(-610, 18, 0));
     m_SideText->SetZIndex(2);
-    m_SideText->SetVisible(0);
+    m_SideText->SetVisible(1);
     
     m_Menu->SetImage(RESOURCE_DIR"/sprites/Menu.png");
     m_Menu->SetZIndex(1);
@@ -142,6 +142,7 @@ void App::Update() {
 void App::End() { // NOLINT(this method will mutate members in the future)
     LOG_TRACE("End");
     m_WorldCards.clear();
+    VillagerLocation.clear();
     m_SideText.reset();
 }
 
@@ -201,5 +202,6 @@ App::PauseOrPlay App::m_IsPlayButton = PauseOrPlay::Play;
 std::multimap<int, std::shared_ptr<card::Card>> App::m_WorldCards = {};
 Util::Root App::m_Root;
 std::list<std::weak_ptr<card::Card>> App::m_PushProcessingArea = {};
-std::vector<glm::vec2> App::VillagerLocation = {};
+std::vector<std::shared_ptr<card::BaseVillager>> App::VillagerLocation = {};
 std::shared_ptr<GiraffeText > App::m_SideText = std::make_shared<GiraffeText>();
+std::shared_ptr<Mouse> App::m_Mouse = std::make_shared<Mouse>();

@@ -61,6 +61,9 @@ namespace card {
         if (m_CanSynthetic == true) {
             m_CanSynthetic = false;
             CanSynthetic();
+            if(GetRoot()->m_SyntheticTableid==-1){
+                SpecialSynthesis();
+            }
         }
 
 
@@ -113,7 +116,7 @@ namespace card {
             m_Transform.translation = m_Parent->GetTransform().translation + glm::vec3(0, -47, 0);
         }
         else {
-            if (m_PushCount != 0 ) {
+            if (m_PushCount != 0 && m_CanPush) {
                 m_Transform.translation += glm::vec3(m_PushVector.x * m_PushCount, m_PushVector.y * m_PushCount, 0);
                 m_PushCount--;
             }
@@ -188,7 +191,7 @@ namespace card {
     }
 
     void Card::RemoveStack() {
-       
+        
         if(m_Child!= nullptr) {
             auto Child = m_Child;
             UnBindChild();
@@ -203,7 +206,11 @@ namespace card {
             UnBindParent();
             parent->RemoveStack();
         }
-      
+        else if (!weak_from_this().expired()&& App::m_Mouse->GetBindObject() == shared_from_this()) {
+            App::m_Mouse->ObjectUmBind();
+        }
+       
+        
     }
 
     void Card::RemoveCard() {

@@ -93,7 +93,8 @@ namespace card {
             { "Building",createCardFunction<Building>() },
             { "TreasureChest",createCardFunction<TreasureChest>() },
             { "Shop",createCardFunction<Shop>() },
-            {"Sell",createCardFunction<Sell>()}
+            {"Sell",createCardFunction<Sell>()},
+            {"Arena",createCardFunction<Arena>()}
         };
 
         auto it = cardCreators.find(attribute["class"]);
@@ -108,13 +109,16 @@ namespace card {
         else {
             LOG_ERROR("card class is not found");
         }
+        if (name == "Arena") {
+            m_Title->SetVisible(0);
+        }
         m_Title->SetCard(temp);
         temp->AddChild(m_Title);
-
         m_CardDrop->SetCard(temp);
         temp->AddChild(m_CardDrop);
 
         m_CardLine->SetCard(temp);
+        m_CardLine->SetVisible(0);
         temp->AddChild(m_CardLine);
 
         m_CardBar->SetCard(temp);
