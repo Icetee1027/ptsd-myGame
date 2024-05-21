@@ -7,7 +7,7 @@
 
 class GiraffeText : public Util::GameObject {
 public:
-    GiraffeText() = default;
+    GiraffeText() {};
 
    /* GiraffeText(std::string font, const int size)
         : m_Font(std::move(font)),
@@ -23,6 +23,10 @@ public:
         if (a)a->SetText(str);
         else LOG_ERROR("GiraffeText->SetText() ERROR!!");
     }
+    void SetColor(glm::vec3 c = glm::vec3()) {
+        auto a = std::dynamic_pointer_cast<Util::Text>(m_Drawable);
+        if (a)a->SetColor(Util::Color::FromRGB(c.x, c.y, c.z));
+    };
     void Update() override;
     void ClickDown() override;
     void ClickUp() override;

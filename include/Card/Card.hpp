@@ -32,9 +32,9 @@ namespace card {
         std::string m_Name;
         unsigned int m_Id;
         std::vector<std::shared_ptr<Util::SFX>> m_SFXs;
-        unsigned short m_Price = NULL;
-        unsigned short m_Satiety = NULL;
-        unsigned short m_HP = NULL;
+        short m_Price = NULL;
+        short m_Satiety = NULL;
+        short m_HP = NULL;
         bool m_HasPrice = 0;
         bool m_HasSatiety = 0;
         bool m_HasHP = 0;
@@ -55,7 +55,7 @@ namespace card {
         int IsCanPush() { return m_CanPush; }
 
         void SetCanPush(bool in) { m_CanPush = in; }
-        void SetSatiety(const unsigned short satiety){m_Satiety = m_Satiety;}
+        void SetSatiety(short satiety){m_Satiety = satiety;}
         void SetHP(const unsigned short hp) { m_HP = hp; }
         void SetPrice(const unsigned short price) { m_Price = price; }
         void SetHasPreice(bool in) { m_HasPrice = in; }
@@ -64,7 +64,7 @@ namespace card {
 
         unsigned short GetPrice() { return m_Price; }
         unsigned short GetSatiety() { return m_Satiety; }
-        unsigned short GetHP() { return m_HP; }
+        short GetHP() { return m_HP; }
         std::string GetCardName() { return m_Name; }
         Type GetCardType() { return m_Type; }
         unsigned int GetCardId() { return m_Id; }
@@ -84,6 +84,7 @@ namespace card {
         glm::vec2 m_PushVector = { 0.0,0.0 };
     public:
         void GenerateCard(std::vector<std::string>& cards);
+        void Card::GenerateCard(std::string& cards);
         int m_MaxAnimalCount = 10;
         int m_UsageCount = 1;
         bool StatusStackRootUpDate = false;

@@ -12,7 +12,6 @@ void Camera::MoveCamera(float x, float y, float z) {
 }
 void Camera::Update() {
     auto shake_offset = ShakeUpdate();
-
     Core::Drawable::SetView(m_Transform.translation + shake_offset);
 }
 double rand_normal(double mean, double stddev) {

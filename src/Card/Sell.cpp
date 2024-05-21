@@ -4,6 +4,7 @@
 #include "Card/CardMaker.hpp"
 #include "Card/CardElementPool.hpp"
 #include "ShopRandom.hpp"
+#include "SystemSettlementUI.hpp"
 #include "App.hpp"
 #include "Card/Chest.hpp"
 namespace card {
@@ -19,6 +20,7 @@ namespace card {
     }
 
     void Sell::CreatCoinStack() {
+
         std::vector<std::shared_ptr<Card>> cards = {};
         for (int i = 0; i < m_Price; i++) {
             cards.push_back(card::CardMaker::MakeCard("Coin"));
@@ -30,6 +32,9 @@ namespace card {
         App::AddCard(cards.back());
     }
     void Sell::UpdateCard() {
+        if (SystemSettlementUI::IsSystemUpdta) {
+            SystemSettlementUI::CurrentStorageCapacity--;
+        }
 
         auto childCards = GetAllCardsInStack();
 

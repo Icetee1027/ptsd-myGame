@@ -8,6 +8,7 @@
 #include "Card/CardBar.hpp"
 #include "Util/Input.hpp"
 #include "SynthesisTable.hpp"
+#include "SystemSettlementUI.hpp"
 #include "ShopRandom.hpp"
 #include <random>
 namespace card {
@@ -43,6 +44,9 @@ namespace card {
     }
 
     void Card::Update() {
+        if (SystemSettlementUI::IsSystemUpdta) {
+            SystemSettlementUI::CurrentStorageCapacity++;
+        }
         UpdateCard();
         PositionUpdate();
         if (m_Parent != nullptr) {m_Parent->Update();}
@@ -61,11 +65,11 @@ namespace card {
         if (m_CanSynthetic == true) {
             m_CanSynthetic = false;
             CanSynthetic();
-            if(GetRoot()->m_SyntheticTableid==-1){
+            GetRoot();
+            if(!weak_from_this().expired() &&GetRoot()->m_SyntheticTableid==-1){
                 SpecialSynthesis();
             }
         }
-
 
         ChildUpdate();
     }
@@ -110,7 +114,24 @@ namespace card {
         }
         
     }
+    void Card::GenerateCard(std::string& cardname) {
+        if (cardname == "")return;
+        std::random_device rd;
+        std::mt19937 rng(rd());
+        std::uniform_int_distribution<int> distribution(1, 360);
+        float randomNumber = distribution(rng);
+        float angleRadians = glm::radians(randomNumber);
+        float sineValue = glm::sin(angleRadians);
+        float cosineValue = glm::cos(angleRadians);
+        auto card = card::CardMaker::MakeCard(cardname);
+        bool moveable = card->CanMoveable();
+        card->SetMoveable(1);
+        card->SetTranslation(glm::vec3(sineValue * 150 + m_Transform.translation.x, cosineValue * 120 + m_Transform.translation.y, 0));
+        card->SetMoveable(moveable);
+        App::AddCard(card);
+        
 
+    }
     void Card::PositionUpdate() {
         if (m_Parent != nullptr) {
             m_Transform.translation = m_Parent->GetTransform().translation + glm::vec3(0, -47, 0);
@@ -121,15 +142,15 @@ namespace card {
                 m_PushCount--;
             }
 
-            if (m_Transform.translation.x < -1800+110 && m_Moveable==true) {
+            if (m_Transform.translation.x < -1800+110 && m_Type!= Type::Shop) {
                 m_Transform.translation.x = -1800+110;
             }
-            else if (m_Transform.translation.x > 1800-110&& m_Moveable == true) {
+            else if (m_Transform.translation.x > 1800-110&& m_Type != Type::Shop) {
                 m_Transform.translation.x = 1800-110;
             }
-            if (m_Transform.translation.y > 1100-135&& m_Moveable == true) {
+            if (m_Transform.translation.y > 1100-135&& m_Type != Type::Shop) {
                 m_Transform.translation.y = 1100-135;
-            }else if(m_Transform.translation.y - (GetStackSize() - 1) * 47 < -1100+135 && m_Moveable == true) {
+            }else if(m_Transform.translation.y - (GetStackSize() - 1) * 47 < -1100+135 && m_Type != Type::Shop) {
                 m_Transform.translation.y = -1100+135 + (GetStackSize() - 1) * 47;
             }
             

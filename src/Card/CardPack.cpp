@@ -2,6 +2,7 @@
 #include "Card/CardMaker.hpp"
 #include "App.hpp"
 #include "Util/Time.hpp"
+#include "SystemSettlementUI.hpp"
 #include <random>
 /*
 * #include "Card/Card.hpp"
@@ -67,6 +68,9 @@ namespace card {
         GenerateCard();
     }
     void CardPack::Update() {
+        if (SystemSettlementUI::IsSystemUpdta) {
+            SystemSettlementUI::CurrentStorageCapacity--;
+        }
         if (m_Children[0]!=nullptr&& m_Children[0]->GetVisible()==1) {
             m_Children[0]->SetVisible(0);
         }

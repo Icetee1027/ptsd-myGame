@@ -1,5 +1,5 @@
 #include "App.hpp"
-
+#include "SystemSettlementUI.hpp"
 #include "Util/Image.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -16,7 +16,7 @@ void App::Start() {
 
     auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
     //cardpack->SetCards(std::vector<std::string>({"Villager","BerryBush","Rock","Wood","Coin"}));
-    cardpack->SetCards(std::vector<std::string>({ "Dog","Villager","Rat"}));
+    cardpack->SetCards(std::vector<std::string>({ "villager","BerryBush","Rock","Wood","Coin"}));
 
     AddCard(cardpack);
     for (int i = 0; i < m_Shops.size(); i++) {
@@ -80,18 +80,19 @@ void App::Start() {
     m_MenuElement[2]->SetZIndex(1.5);
     //AddCard(card::CardMaker::MakeCard("CoinChest"));
     m_Mouse->Start();
-    m_Mouse->SetZIndex(4);
+    m_Mouse->SetZIndex(5);
 
     for (auto m : m_MenuElement) {
         m_Root.AddChild(m);
     }
-
+    m_InteractiveBox->SetVisible(0);
+    m_Root.AddChild(m_InteractiveBox);
     m_Root.AddChild(m_Menu);
     m_Root.AddChild(m_Background);
     m_Root.AddChild(m_Board);
     m_Root.AddChild(m_GiraffeText); 
     m_Root.AddChild(m_Mouse);
-
+    m_Root.AddChild(m_System);
     m_Root.AddChild(m_SideText);
     for (auto m : m_SideElement) {
         m_Root.AddChild(m);
@@ -202,6 +203,6 @@ App::PauseOrPlay App::m_IsPlayButton = PauseOrPlay::Play;
 std::multimap<int, std::shared_ptr<card::Card>> App::m_WorldCards = {};
 Util::Root App::m_Root;
 std::list<std::weak_ptr<card::Card>> App::m_PushProcessingArea = {};
-std::vector<std::shared_ptr<card::BaseVillager>> App::VillagerLocation = {};
+std::vector<std::weak_ptr<card::Card>> App::VillagerLocation = {};
 std::shared_ptr<GiraffeText > App::m_SideText = std::make_shared<GiraffeText>();
 std::shared_ptr<Mouse> App::m_Mouse = std::make_shared<Mouse>();

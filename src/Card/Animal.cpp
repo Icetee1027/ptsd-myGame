@@ -10,6 +10,9 @@ namespace card {
         m_CanPush = 1;
     }
     bool Animal::CanHaveCard(std::shared_ptr<Card> otherCard){
+        if (otherCard->GetCardType() == Type::Villager) {
+            return true;
+        }
         if (!std::dynamic_pointer_cast<Animal>(otherCard))
         {
             return false;
@@ -17,7 +20,7 @@ namespace card {
         if (m_Parent != nullptr) {
             return true;
         }
-        return Mob::CanHaveCard(otherCard);
+        return false;
     }
     void Animal::Clicking() {
         MobCardMoveing();

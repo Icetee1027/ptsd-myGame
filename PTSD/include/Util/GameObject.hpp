@@ -114,7 +114,7 @@ public:
      *
      * @param visible The new visibility of the game object.
      */
-    void SetVisible(const bool visible) { m_Visible = visible; }
+    virtual void SetVisible(const bool visible) { m_Visible = visible; }
     bool GetVisible() { return m_Visible; }
     /**
      * @brief Add a child to the game object.

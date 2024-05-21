@@ -21,18 +21,17 @@ bool customCompareDown(const std::multimap<int, std::shared_ptr<card::Card>>::it
 }
 void App::Playing() {
 
-    if (Util::Input::IsKeyUp(Util::Keycode::SPACE)) {
+    if (Util::Input::IsKeyUp(Util::Keycode::SPACE) && m_SystemMode == SystemStatus::play) {
         m_IsPlayButton = m_IsPlayButton == App::PauseOrPlay::Pause ? App::PauseOrPlay::Play : App::PauseOrPlay::Pause;
-        m_GiraffeText->SetVisible(!m_GiraffeText->GetVisible());
+        if (m_IsPlayButton == App::PauseOrPlay::Pause) m_GiraffeText->SetVisible(1);
+        else  m_GiraffeText->SetVisible(0);
     }
 
     switch (m_IsPlayButton)
     {
     case App::PauseOrPlay::Pause:
-        Pause();
         break;
     case App::PauseOrPlay::Play:
-        Play();
         break;
     }
 
@@ -49,7 +48,7 @@ void App::Playing() {
     }
 
     //--------------------------------------------------------------------
-    if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
+    if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
         //LOG_DEBUG("worldsize:{}", m_WorldCards.size());
         if (!m_Mouse->HasObjectBind()) {
             for (int it = 0; it < 3; it++) {
@@ -108,12 +107,12 @@ void App::Playing() {
        // LOG_DEBUG("Right button down");
     }
 
-    if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
+    if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
         mouseUp();
         //LOG_DEBUG("Right button up");
     }
 
-    if (Util::Input::IsKeyUp(Util::Keycode::Z)) {
+    if (Util::Input::IsKeyUp(Util::Keycode::E) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
         if (m_SideElement[1]->GetVisible() == 1) {
             m_SideElement[2]->SetVisible(1);
             m_SideElement[1]->SetVisible(0);
@@ -129,85 +128,50 @@ void App::Playing() {
         }
     }
 
-    if (Util::Input::IsKeyUp(Util::Keycode::K)) {
-        auto a = std::dynamic_pointer_cast<card::Card>(m_Mouse->GetBindObject());
-        if (a) {
-            a->SetSynthesisTime(3);
-        }
-       
-    }
-
-    if (Util::Input::IsKeyUp(Util::Keycode::F)) {
-        //std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard(files[m_WorldCards.size()]);
-        std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard("IronBar");
-        sem->SetTranslation(glm::vec3(200 * (m_WorldCards.size()-7) + 1, 0, 0));
-        AddCard(sem);
-
-    }
-
-    if (Util::Input::IsKeyUp(Util::Keycode::G)) {
-        //std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard(files[m_WorldCards.size()]);
-        std::shared_ptr<card::Card> sem = card::CardMaker::MakeCard("CoinChest");
-        sem->SetTranslation(glm::vec3(200 * m_WorldCards.size() + 1, 0, 0));
-        AddCard(sem);
-    }
-
-    if (Util::Input::IsKeyUp(Util::Keycode::C)) {
-        if (!m_WorldCards.empty()) {
-
-            auto lastElementIterator = std::prev(m_WorldCards.end());
-            // 删除最后一个元素
-            lastElementIterator->second->RemoveStack();
-        }
-
-    }
-
     //------------------------------------------------------------------
     CameraUpdate();
     m_Mouse->Update();
+    SystemUpdta();
     StackUpdate();
+    
 
 }
 void App::CameraUpdate() {
-    if (Util::Input::IfScroll()) {
+    if (Util::Input::IfScroll() && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play) ) {
         auto delta = Util::Input::GetScrollDistance();
         m_Camera->MoveCamera(0, 0, 30 * delta.y);
     }
 
-    if (Util::Input::IsKeyPressed(Util::Keycode::W)) {
+    if (Util::Input::IsKeyPressed(Util::Keycode::W) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play) ) {
         m_Camera->MoveCamera(0, 8, 0);
     }
 
-    if (Util::Input::IsKeyPressed(Util::Keycode::S)) {
+    if (Util::Input::IsKeyPressed(Util::Keycode::S) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
         m_Camera->MoveCamera(0, -8, 0);
     }
 
-
-    if (Util::Input::IsKeyPressed(Util::Keycode::A)) {
+    if (Util::Input::IsKeyPressed(Util::Keycode::A) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
         m_Camera->MoveCamera(-8, 0, 0);
     }
 
-
-    if (Util::Input::IsKeyPressed(Util::Keycode::D)) {
+    if (Util::Input::IsKeyPressed(Util::Keycode::D) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
         m_Camera->MoveCamera(8, 0, 0);
     }
+
     m_Camera->Update();
 }
 
 void App::StackUpdate() {
-
-
     std::vector<std::shared_ptr<card::Card>> cardsToUpdate;
     for (auto it = m_WorldCards.begin(); it != m_WorldCards.end(); ++it) {
         cardsToUpdate.push_back(it->second);
     }
     auto Cardobject = std::dynamic_pointer_cast<card::Card>(m_Mouse->GetBindObject());
     for (const auto& card : cardsToUpdate) {
-        if (Cardobject && card->CanHaveCardOnTop(Cardobject)&& m_Mouse->GetBindObject()!=card->GetRoot()) { card->GetChildren()[2]->SetVisible(1);}
+        if (Cardobject && card->CanHaveCardOnTop(Cardobject) && m_Mouse->GetBindObject() != card->GetRoot() && card->GetCardType() != card::Type::Mob && card->GetCardName() != "Arena")card->GetChildren()[2]->SetVisible(1);
         else { card->GetChildren()[2]->SetVisible(0); }
         card->Update();
     }
-
     std::vector<std::list<std::weak_ptr<card::Card>>::iterator> expiredIterators;
 
     auto run = m_PushProcessingArea.begin();
@@ -220,8 +184,8 @@ void App::StackUpdate() {
             App::MoveCardToNewX(run->lock()->GetLast(), int(run->lock()->GetLast()->GetTransform().translation.x));
             auto object = run->lock()->GetRoot();
             auto target = glm::vec2(object->GetRoot()->GetTransform().translation.x, object->GetRoot()->GetTransform().translation.y);
-            auto lowerBound = m_WorldCards.lower_bound(target.x - 220);
-            auto upperBound = m_WorldCards.upper_bound(target.x + 220);
+            auto lowerBound = m_WorldCards.lower_bound(target.x -5220);
+            auto upperBound = m_WorldCards.upper_bound(target.x + 5220);
             float distance = 0;
 
             for (auto st = lowerBound; st != upperBound; ++st) {
@@ -230,7 +194,8 @@ void App::StackUpdate() {
                         m_PushProcessingArea.push_back(st->second);
                     }
                     glm::vec2  itposition(st->second->GetRoot()->GetTransform().translation.x, st->second->GetRoot()->GetTransform().translation.y);
-                    if ((!distance || distance > glm::distance(itposition, target)) && st->second->IsCanPush() >= object->IsCanPush()) { distance = glm::distance(itposition, target); }
+                    if ((!distance || distance > glm::distance(itposition, target)) && st->second->IsCanPush() >= object->IsCanPush()) { distance = glm::distance(itposition, target); 
+                    }
                     else continue;
                     glm::vec2 direction = target - itposition;
                     glm::vec2 unitVector = glm::normalize(direction);
@@ -257,8 +222,8 @@ void App::mouseUp() {
     if (object&&object->CanMoveable()==1) {
         m_Mouse->GetBindObject()->SetTranslation(glm::vec3(m_Mouse->GetBindObject()->GetTransform().translation.x, m_Mouse->GetBindObject()->GetTransform().translation.y, 0));
         auto target = object->GetTransform().translation;
-        auto lowerBound = m_WorldCards.lower_bound(target.x - 200);
-        auto upperBound = m_WorldCards.upper_bound(target.x + 200);
+        auto lowerBound = m_WorldCards.lower_bound(target.x - 5200);
+        auto upperBound = m_WorldCards.upper_bound(target.x + 5200);
 
         std::vector<std::multimap<int, std::shared_ptr<card::Card>>::iterator> stacks;
         for (auto it = lowerBound; it != upperBound; ++it) {
@@ -290,4 +255,197 @@ void App::mouseUp() {
         }
     }
     m_Mouse->ObjectUmBind();
+}
+
+void App::SystemUpdta() {
+    m_System->Update();
+   
+    switch (m_SystemMode)
+    {
+    case App::SystemStatus::play:
+        if (m_System->IsSettlement()) {
+            m_SystemMode = SystemStatus::Settlement1;
+            m_IsPlayButton = PauseOrPlay::Pause;
+            m_GiraffeText->SetVisible(1);
+            m_InteractiveBox->SetVisible(1);
+            m_InteractiveBox->SetMoveable(1);
+            m_InteractiveBox->SetTranslation(glm::vec3(-380, -200, 0));
+            m_InteractiveBox->SetMoveable(0);
+
+        }
+        break;
+    case App::SystemStatus::Settlement1:
+        if (m_System->MaxStorageCapacity >= m_System->CurrentStorageCapacity) {
+            m_InteractiveBox->SetText(0, "The end of this month. \nYou can start feeding the villagers.");
+            m_InteractiveBox->SetText(1, "ok");
+            if (ShapeHelper::IsPonstInMenu(m_InteractiveBox->GetChildren()[1], Util::Input::GetCursorPosition())) {
+                m_InteractiveBox->GetChildren()[1]->SetScaledSize(glm::vec2(1.5, 1.5));
+                if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
+                    m_SystemMode = SystemStatus::Settlement2;
+                    m_InteractiveBox->SetVisible(0);
+                    m_SettlementVillage.clear();
+                    m_SettlementFood.clear();
+                    for (auto& c : m_WorldCards) {
+                        for (auto& a : c.second->GetAllCardsInStack()) {
+                            if (auto x = std::dynamic_pointer_cast<card::BaseVillager>(a)) {
+                                m_SettlementVillage.push_back(x);
+                            }
+                            else if (auto x = std::dynamic_pointer_cast<card::Food>(a)) {
+                                m_SettlementFood.push_back(x);
+
+                            }
+                            else if (auto x = std::dynamic_pointer_cast<card::Kid>(a)) {
+                                m_SettlementVillage.push_back(x);
+
+                            }
+                        }
+                    }
+                    if (!m_SettlementVillage.empty()) {
+                        m_EndPoint = { m_SettlementVillage.back()->GetTransform().translation.x,m_SettlementVillage.back()->GetTransform().translation.y };
+                        m_NeedFood = (m_SettlementVillage.back()->GetCardName() == "Dog" || m_SettlementVillage.back()->GetCardName() == "Baby")? 1:2;
+                    }
+                    if (!m_SettlementFood.empty()) {
+                        m_StartPoint = { m_SettlementFood.back()->GetTransform().translation.x ,m_SettlementFood.back()->GetTransform().translation.y };
+                        m_Food = m_SettlementFood.back()->GetSatiety();
+                    }
+                    LOG_DEBUG("ssss  {}:{}", m_NeedFood, m_Food);
+                }
+
+            }
+            else {
+                m_InteractiveBox->GetChildren()[1]->SetScaledSize(glm::vec2(1, 1));
+            }
+        }
+        else {
+            m_InteractiveBox->SetText(0, "There are too many cards on the field! \nPlease reduce the number of cards.");
+            m_InteractiveBox->SetText(1, " ");
+        }
+        m_InteractiveBox->Update();
+        break;
+    case App::SystemStatus::Settlement2:
+        Settlement1Updata();
+        break;
+    case App::SystemStatus::Settlement3:
+        if (ShapeHelper::IsPonstInMenu(m_InteractiveBox->GetChildren()[1], Util::Input::GetCursorPosition())) {
+            m_InteractiveBox->GetChildren()[1]->SetScaledSize(glm::vec2(1.5, 1.5));
+            
+            if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
+                m_InteractiveBox->SetText(0, "Start of a new month.");
+                
+                for (auto& a : m_SettlementVillage) {
+                    if (auto x = std::dynamic_pointer_cast<card::BaseVillager>(a)) {
+                        x->VillagerDead();
+                        x->RemoveCard();
+                    }
+                    else if (auto x = std::dynamic_pointer_cast<card::Kid>(a)) {
+                        x->VillagerDead();
+                        x->RemoveCard();
+
+                    }
+                }
+                m_SystemMode = SystemStatus::Settlement4;
+                m_SettlementVillage.clear();
+                m_SettlementFood.clear();
+               
+            }
+
+        }
+        else {
+            m_InteractiveBox->GetChildren()[1]->SetScaledSize(glm::vec2(1, 1));
+        }
+       
+        break;
+    case App::SystemStatus::Settlement4:
+        if (ShapeHelper::IsPonstInMenu(m_InteractiveBox->GetChildren()[1], Util::Input::GetCursorPosition())) {
+            m_InteractiveBox->GetChildren()[1]->SetScaledSize(glm::vec2(1.5, 1.5));
+            if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
+                m_System->m_MoonTimeCount = 0;
+                m_System->MoonCount++;
+                m_SystemMode = SystemStatus::play;
+                m_InteractiveBox->SetVisible(0);
+                m_IsPlayButton =App::PauseOrPlay::Play ;
+                m_System->Settlement = 0;
+                if (m_IsPlayButton == App::PauseOrPlay::Pause) m_GiraffeText->SetVisible(1);
+                else  m_GiraffeText->SetVisible(0);
+            }
+
+        }
+        else {
+            m_InteractiveBox->GetChildren()[1]->SetScaledSize(glm::vec2(1, 1));
+        }
+        break;
+    default:
+        break;
+    }
+
+}
+glm::vec2 lerp(const glm::vec2& start, const glm::vec2& end, float t) {
+    return (1.0f - t) * start + t * end;
+}
+
+// 函数：根据时间百分比移动圆球
+glm::vec2 moveCircle(const glm::vec2& startPoint, const glm::vec2& endPoint, float timePercentage) {
+    if (timePercentage < 0.0f || timePercentage > 1.0f) {
+        return endPoint;
+    }
+    return lerp(startPoint, endPoint, timePercentage);
+}
+void App::Settlement1Updata() {
+    if (m_TimeCount>0.5) {
+        m_TimeCount = 0;
+        int looe = m_NeedFood;
+        m_NeedFood -= m_Food;
+        m_Food -= looe;
+        if(m_NeedFood<=0){
+            if (!m_SettlementVillage.empty())m_SettlementVillage.pop_back();
+            if (!m_SettlementVillage.empty()) {
+                m_EndPoint = { m_SettlementVillage.back()->GetTransform().translation.x,m_SettlementVillage.back()->GetTransform().translation.y };
+                m_NeedFood = (m_SettlementVillage.back()->GetCardName() == "Dog" || m_SettlementVillage.back()->GetCardName() == "Baby") ? 1 : 2;
+
+            }
+            else {
+                m_SettlementFood.clear();
+                m_Camera->SetTranslation(glm::vec3(0, 0, -320));
+                m_InteractiveBox->SetVisible(1);
+                m_InteractiveBox->SetText(0, "This month, none of your villagers starved to death.");
+                m_SystemMode = SystemStatus::Settlement3;
+                return;
+            }
+        }
+        if(m_Food<=0){
+            if (!m_SettlementFood.empty())m_SettlementFood.pop_back();
+            if (!m_SettlementFood.empty()) {
+                m_StartPoint = { m_SettlementFood.back()->GetTransform().translation.x ,m_SettlementFood.back()->GetTransform().translation.y };
+                m_Food = m_SettlementFood.back()->GetSatiety();
+            }
+            else {
+                m_SettlementFood.clear();
+                m_InteractiveBox->SetText(0,"The village suffered from starvation deaths of " + std::to_string(m_SettlementVillage.size()) + " Village this month." );
+                m_InteractiveBox->SetVisible(1);
+                m_Camera->SetTranslation(glm::vec3(0, 0, -320));
+                m_SystemMode = SystemStatus::Settlement3;
+                return;
+            }
+        }
+        else {
+            m_StartPoint = { m_SettlementFood.back()->GetTransform().translation.x ,m_SettlementFood.back()->GetTransform().translation.y };
+        }
+        
+    }
+    else {
+        if (m_SettlementVillage.empty() || m_SettlementFood.empty()) {
+            m_TimeCount += 1;
+        }
+        else {
+            m_SettlementFood.back()->RemoveCard();
+            m_Camera->SetTranslation(glm::vec3(-m_SettlementFood.back()->GetTransform().translation.x, -m_SettlementFood.back()->GetTransform().translation.y, -120));
+            m_SettlementFood.back()->SetTranslation(glm::vec3(moveCircle(m_StartPoint, m_EndPoint, m_TimeCount / 0.5), 7));
+            m_TimeCount += Util::Time::GetDeltaTime();
+            m_SettlementFood.back()->Update();
+        }
+     
+
+
+    }
+
 }

@@ -5,6 +5,7 @@
 #include "Card/CardElementPool.hpp"
 #include "ShopRandom.hpp"
 #include "App.hpp"
+#include "SystemSettlementUI.hpp"
 #include "Card/Chest.hpp"
 namespace card {
     Shop::Shop(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image, const bool iconcolor)
@@ -40,7 +41,11 @@ namespace card {
             m_Children.back()->SetDrawable(CardElementPool::getNumberTextElement(m_Price, m_IconColor));
         }
         Card::Update();
+        if (SystemSettlementUI::IsSystemUpdta) {
+            SystemSettlementUI::CurrentStorageCapacity--;
+        }
     }
+
     void Shop::CreatCardPack() {
         std::shared_ptr<Card> card = CardMaker::MakeCard("Pack");
         auto pack = std::dynamic_pointer_cast<CardPack>(card);

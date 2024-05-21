@@ -1,11 +1,13 @@
 #ifndef APP_HPP
 #define APP_HPP
+#include "SystemSettlementUI.hpp"
 #include "Card/CardMaker.hpp"
 #include "Card/Card.hpp"
 #include "pch.hpp" // IWYU pragma: export
 #include "Util/Root.hpp"
 #include "Card/Shop.hpp"
 #include "Background.hpp"
+#include "InteractiveBox.hpp"
 #include "Giraffe.hpp"
 #include "GiraffeText.hpp"
 #include "Camera.hpp"
@@ -31,6 +33,13 @@ public:
         UPDATE,
         END,
     };
+    enum class SystemStatus {
+        play,
+        Settlement1,
+        Settlement2,
+        Settlement3,
+        Settlement4,
+    };
     State GetCurrentState() const { return m_CurrentState; }
     ~App()= default;
 
@@ -46,11 +55,13 @@ public:
     static void ChangeCard(const std::shared_ptr<card::Card>& specifiedObj,  const std::shared_ptr<card::Card> toChange, int X = 0);
     static PauseOrPlay m_IsPlayButton; 
     static std::list<std::weak_ptr<card::Card>> m_PushProcessingArea;
-    static std::vector<std::shared_ptr<card::BaseVillager>> VillagerLocation;
+    static std::vector<std::weak_ptr<card::Card>> VillagerLocation;
     static std::shared_ptr<GiraffeText > m_SideText;
     static std::shared_ptr<Mouse> m_Mouse;
+    static std::multimap<int, std::shared_ptr<card::Card>> m_WorldCards;
 private:
     void Play();
+    void Settlement1Updata();
     void Pause();
     void CameraUpdate();
     void StackUpdate();
@@ -58,16 +69,23 @@ private:
     void Menu();
     void Playing();
     void mouseUp();
-
+    void SystemUpdta();
     
 private:
+    std::vector<std::shared_ptr<card::Card>> m_SettlementVillage = {};
+    std::vector<std::shared_ptr<card::Card>> m_SettlementFood = {};
+    std::shared_ptr<InteractiveBox> m_InteractiveBox = std::make_shared< InteractiveBox>();
     State m_CurrentState = State::START;
     Modle m_Modle = Modle::Origin;
+    SystemStatus m_SystemMode = SystemStatus::play;
     std::vector<std::shared_ptr<Background>> m_SideElement = { std::make_shared<Background>(),std::make_shared<Background>(),std::make_shared<Background>() };
     std::vector<std::shared_ptr<GiraffeText>> m_MenuElement = { std::make_shared<GiraffeText>() ,std::make_shared<GiraffeText>() ,std::make_shared<GiraffeText>() };
-
-
-
+    std::shared_ptr< SystemSettlementUI> m_System = std::make_shared< SystemSettlementUI>();
+    int m_Food = 0;
+    int m_NeedFood = 0;
+    float m_TimeCount=0;
+    glm::vec2 m_StartPoint;
+    glm::vec2  m_EndPoint;
     std::shared_ptr<Background> m_Background = std::make_shared<Background>();
     std::shared_ptr<Background> m_Menu = std::make_shared<Background>();
 
@@ -98,6 +116,5 @@ private:
         "TravellingCart", "TreasureChest", "Tree", "Villager", "Warehouse", "WickedWitch", "Wolf", "Wood" };
 
 
-    static std::multimap<int, std::shared_ptr<card::Card>> m_WorldCards;
 };
 #endif
