@@ -69,7 +69,6 @@ void SystemSettlementUI::SystemSettlementUIUpdata() {
 	
 	if (IsSystemUpdta == 1) {
 		if (Iseandt) {
-			LOG_DEBUG("123    {}", AmountFoodRequired);
 			if (AmountFoodRequired == 0) {
 				bool is = 0;
 				for (auto& a : App::m_WorldCards) {

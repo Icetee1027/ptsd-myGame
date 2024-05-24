@@ -111,7 +111,7 @@ namespace card {
             card->SetMoveable(1);
             card->SetTranslation(glm::vec3(sineValue * 150 + m_Transform.translation.x, cosineValue * 120 + m_Transform.translation.y, 0));
             card->SetMoveable(moveable);
-            App::AddCard(card);
+            App::AddCardForG(card);
         }
         
     }

@@ -24,7 +24,9 @@ public:
                                 const glm::vec2 mouse);
     static bool IsPonstInMenu(const std::shared_ptr< Util::GameObject>& text, const glm::vec2 mouse);
     static bool IsCardInStack(const std::shared_ptr<card::Card>& stack,
-        const std::shared_ptr<card::Card>& card);
+        const std::shared_ptr<card::Card>& card); 
+    static bool IsCardNearStack(const std::shared_ptr<card::Card>& stack,
+            const std::shared_ptr<card::Card>& card);
     static bool IsStackInStack(const std::shared_ptr<card::Card>& stack1,
         const std::shared_ptr<card::Card>& stack2);
     static bool ShapeHelper::IsCardInCard(const std::shared_ptr<card::Card>& card1, const std::shared_ptr<card::Card>& card2);

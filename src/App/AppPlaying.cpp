@@ -8,7 +8,7 @@
 #include "GiraffeText.hpp"
 #include "ShapeHelper.hpp"
 #include "Util/Time.hpp"
-bool customCompare(const std::multimap<int, std::shared_ptr<card::Card>>::iterator& a,
+bool customCompare1(const std::multimap<int, std::shared_ptr<card::Card>>::iterator& a,
     const std::multimap<int, std::shared_ptr<card::Card>>::iterator& b,
     const glm::vec3& targetPosition) {
     glm::vec3 distanceA = a->second->GetTransform().translation - targetPosition;
@@ -239,7 +239,7 @@ void App::mouseUp() {
             stacks.push_back(it);
         }
         std::sort(stacks.begin(), stacks.end(), [&target](const auto& a, const auto& b) {
-            return customCompare(a, b, target);
+            return customCompare1(a, b, target);
             });
 
         for (auto stack : stacks) {

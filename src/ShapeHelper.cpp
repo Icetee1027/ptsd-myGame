@@ -26,6 +26,30 @@ bool ShapeHelper::IsPonstInMenu(const std::shared_ptr< Util::GameObject>& text, 
     bool fy = mouse.y > text->GetTransform().translation.y - text->GetScaledSize().y / 2 && mouse.y < text->GetTransform().translation.y + text->GetScaledSize().y / 2;
     return fx && fy;
 }
+bool ShapeHelper::IsCardNearStack(const std::shared_ptr<card::Card>& stack,
+    const std::shared_ptr<card::Card>& card) {
+    auto pos1 = stack->GetTransform().translation;
+    auto size1 = stack->GetScaledSize();
+    auto pos2 = card->GetTransform().translation;
+    auto size2 = card->GetScaledSize();
+    int height1 = stack->GetStackSize();
+
+    // Calculate the bounds of stack1
+
+    float bottom1 = pos1.y - size1.y / 2-600;
+    float top1 = pos1.y + size1.y / 2 + (height1 - 1) * 47+600;
+
+    // Calculate the bounds of stack2
+
+    float bottom2 = pos2.y - size2.y / 2;
+    float top2 = pos2.y + size2.y / 2;
+
+    // Check if the stacks' positions overlap
+
+    bool isInY = top1 > bottom2 && bottom1 < top2;
+
+    return isInY;
+}
 bool ShapeHelper::IsCardInStack(const std::shared_ptr<card::Card>& stack,
     const std::shared_ptr<card::Card>& card) {
     auto pos1 = stack->GetTransform().translation;

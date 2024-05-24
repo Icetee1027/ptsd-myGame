@@ -12,13 +12,17 @@
 #include "Card/CardPack.hpp"
 void App::Start() {
    // LOG_TRACE("Start");
-    std::shared_ptr<card::Card> m_cardpack2= card::CardMaker::MakeCard("Pack");
-
-    auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
+    //auto cardpack1 = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
+    ////cardpack->SetCards(std::vector<std::string>({"Villager","BerryBush","Rock","Wood","Coin"}));
+    //cardpack1->SetCards(std::vector<std::string>({ "Villager","BerryBush","Rock","Wood","Coin" }));
     //cardpack->SetCards(std::vector<std::string>({"Villager","BerryBush","Rock","Wood","Coin"}));
-    cardpack->SetCards(std::vector<std::string>({ "Villager","BerryBush","Rock","Wood","Coin"}));
+    //m_CardPacks.push_back(cardpack1);
 
+    std::shared_ptr<card::Card> m_cardpack2= card::CardMaker::MakeCard("Pack");
+    auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
+    cardpack->SetCards(std::vector<std::string>({ "Villager","BerryBush","Rock","Wood","Coin"}));
     AddCard(cardpack);
+
     for (int i = 0; i < m_Shops.size(); i++) {
         
         if (auto a = std::dynamic_pointer_cast<card::Shop>(m_Shops[i])) {
@@ -153,6 +157,40 @@ void App::End() { // NOLINT(this method will mutate members in the future)
     m_SideText.reset();
 }
 
+
+void App::AddCardForG(std::shared_ptr<card::Card> NewCard) {
+    
+    if (NewCard != nullptr) {
+        auto target = NewCard->GetTransform().translation;
+        auto lowerBound = m_WorldCards.lower_bound(target.x - 600);
+        auto upperBound = m_WorldCards.upper_bound(target.x + 600);
+
+        std::vector<std::multimap<int, std::shared_ptr<card::Card>>::iterator> stacks;
+        for (auto it = lowerBound; it != upperBound; ++it) {
+            stacks.push_back(it);
+        }
+      
+
+        for (auto stack : stacks) {
+            if (stack->second->GetCardName()==NewCard->GetCardName()  && ShapeHelper::IsCardNearStack(stack->second, NewCard) && stack->second != NewCard->GetLast() && stack->second->CanHaveCardOnTop(NewCard)) {
+
+                NewCard->BindParent(stack->second);
+                stack->second->m_CanSynthetic = true;
+                stack->second = NewCard->GetLast();
+                stack->second->StackRootUpdate();
+                if (stack->second->GetRoot()->GetPushCount() == 0) {
+                    m_PushProcessingArea.push_back(stack->second->GetRoot());
+                }
+                return ;
+            }
+        }
+        
+        m_WorldCards.emplace(NewCard->GetTransform().translation.x, NewCard);
+        if (NewCard->GetRoot()->GetPushCount() == 0) {
+            m_PushProcessingArea.push_back(NewCard->GetRoot());
+        }
+    }
+}
 void App::AddCard(std::shared_ptr<card::Card> NewCard) {
     if (NewCard != nullptr) {
         m_WorldCards.emplace(NewCard->GetTransform().translation.x, NewCard);

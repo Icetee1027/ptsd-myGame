@@ -50,7 +50,8 @@ public:
     void Update();
 
     void End(); // NOLINT(readability-convert-member-functions-to-static)
-    static void AddCard(std::shared_ptr<card::Card> NewCard); 
+    static void AddCard(std::shared_ptr<card::Card> NewCard);
+    static void AddCardForG(std::shared_ptr<card::Card> NewCard);
     static void AddObjectToRoot(std::shared_ptr<Util::GameObject> object);
     static void MoveCardToNewX(const std::shared_ptr<card::Card>& specifiedObj, int oldX = 0); 
     static void RemoveCard(const std::shared_ptr<card::Card>& specifiedObj, int X = 0);
@@ -86,12 +87,13 @@ private:
 
     
 private:
+
     std::vector<std::shared_ptr<card::Card>> m_SettlementVillage = {};
     std::vector<std::shared_ptr<card::Card>> m_SettlementFood = {};
     std::shared_ptr<InteractiveBox> m_InteractiveBox = std::make_shared< InteractiveBox>();
     State m_CurrentState = State::START;
     Modle m_Modle = Modle::Origin;
-    
+    std::vector <std::shared_ptr<card::Card>> m_CardPacks = {};
     std::vector<std::shared_ptr<Background>> m_SideElement = { std::make_shared<Background>(),std::make_shared<Background>(),std::make_shared<Background>() };
     std::vector<std::shared_ptr<GiraffeText>> m_MenuElement = { std::make_shared<GiraffeText>() ,std::make_shared<GiraffeText>() ,std::make_shared<GiraffeText>() };
     std::shared_ptr< SystemSettlementUI> m_System = std::make_shared< SystemSettlementUI>();
