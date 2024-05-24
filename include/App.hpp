@@ -39,6 +39,8 @@ public:
         Settlement2,
         Settlement3,
         Settlement4,
+        Settlement5,
+        Settlement6,
     };
     State GetCurrentState() const { return m_CurrentState; }
     ~App()= default;
@@ -59,6 +61,17 @@ public:
     static std::shared_ptr<GiraffeText > m_SideText;
     static std::shared_ptr<Mouse> m_Mouse;
     static std::multimap<int, std::shared_ptr<card::Card>> m_WorldCards;
+    std::vector<std::shared_ptr<card::Card>> m_Shops = { card::CardMaker::MakeCard("Sell") ,
+                                                         card::CardMaker::MakeCard("HumbleBegining") ,//
+                                                         card::CardMaker::MakeCard("SeekingWisdom"), //
+                                                         card::CardMaker::MakeCard("ReapAndSow"),//
+                                                         card::CardMaker::MakeCard("CuriousCuisine") ,//
+                                                         card::CardMaker::MakeCard("LogicandReason") ,//
+                                                         card::CardMaker::MakeCard("TheArmory") ,//
+                                                         card::CardMaker::MakeCard("Explorers") ,//
+    //card::CardMaker::MakeCard("OrderandStructure") ,
+};
+    static SystemStatus m_SystemMode;
 private:
     void Play();
     void Settlement1Updata();
@@ -70,6 +83,7 @@ private:
     void Playing();
     void mouseUp();
     void SystemUpdta();
+
     
 private:
     std::vector<std::shared_ptr<card::Card>> m_SettlementVillage = {};
@@ -77,7 +91,7 @@ private:
     std::shared_ptr<InteractiveBox> m_InteractiveBox = std::make_shared< InteractiveBox>();
     State m_CurrentState = State::START;
     Modle m_Modle = Modle::Origin;
-    SystemStatus m_SystemMode = SystemStatus::play;
+    
     std::vector<std::shared_ptr<Background>> m_SideElement = { std::make_shared<Background>(),std::make_shared<Background>(),std::make_shared<Background>() };
     std::vector<std::shared_ptr<GiraffeText>> m_MenuElement = { std::make_shared<GiraffeText>() ,std::make_shared<GiraffeText>() ,std::make_shared<GiraffeText>() };
     std::shared_ptr< SystemSettlementUI> m_System = std::make_shared< SystemSettlementUI>();
@@ -92,18 +106,7 @@ private:
     std::shared_ptr<GiraffeText> m_GiraffeText = std::make_shared<GiraffeText>();
     std::shared_ptr<Camera> m_Camera = std::make_shared<Camera>();
     
-   
     static Util::Root m_Root;
-    std::vector<std::shared_ptr<card::Card>> m_Shops = { card::CardMaker::MakeCard("Sell") ,
-                                                         card::CardMaker::MakeCard("HumbleBegining") ,//
-                                                         card::CardMaker::MakeCard("SeekingWisdom"), //
-                                                         card::CardMaker::MakeCard("ReapAndSow"),//
-                                                         card::CardMaker::MakeCard("CuriousCuisine") ,//
-                                                         card::CardMaker::MakeCard("LogicandReason") ,//
-                                                         card::CardMaker::MakeCard("TheArmory") ,//
-                                                         card::CardMaker::MakeCard("Explorers") ,//
-                                                         //card::CardMaker::MakeCard("OrderandStructure") ,
-                                                        };
     std::shared_ptr<Board> m_Board = std::make_shared<Board>();
     std::vector<std::string> files = { "AnimalPen", "Apple", "AppleTree", "Baby", "Bear", "Berry", "BerryBush",//
         "Bone", "Brick", "Brickyard", "Campfire", "Carrot", "Catacombs", "Chicken", "Coin", "CoinChest", "CookedMeat",//

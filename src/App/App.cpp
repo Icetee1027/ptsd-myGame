@@ -16,10 +16,15 @@ void App::Start() {
 
     auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
     //cardpack->SetCards(std::vector<std::string>({"Villager","BerryBush","Rock","Wood","Coin"}));
-    cardpack->SetCards(std::vector<std::string>({ "villager","BerryBush","Rock","Wood","Coin"}));
+    cardpack->SetCards(std::vector<std::string>({ "Villager","BerryBush","Rock","Wood","Coin"}));
 
     AddCard(cardpack);
     for (int i = 0; i < m_Shops.size(); i++) {
+        
+        if (auto a = std::dynamic_pointer_cast<card::Shop>(m_Shops[i])) {
+            a->ShopInit();
+            //LOG_ERROR("{}", m_Shops[i]->GetCardName());
+        }
         m_Shops[i]->SetTranslation(glm::vec3(-950 + i * 280, 1050, 0));
         m_Shops[i]->SetMoveable(0);
         AddCard(m_Shops[i]);
@@ -38,27 +43,28 @@ void App::Start() {
     m_SideElement[0]->SetMoveable(0);
     m_SideElement[0]->SetZIndex(1);
     m_SideElement[0]->SetVisible(0);
-
+    
     m_SideElement[1]->SetImage(RESOURCE_DIR"/sprites/Button0.png");
     m_SideElement[1]->SetMoveable(1);
     m_SideElement[1]->SetTranslation(glm::vec3(-408, 0, 0));
     m_SideElement[1]->SetMoveable(0);
     m_SideElement[1]->SetZIndex(2);
     m_SideElement[1]->SetVisible(0);
+    
 
     m_SideElement[2]->SetImage(RESOURCE_DIR"/sprites/Button1.png");
     m_SideElement[2]->SetMoveable(1);
     m_SideElement[2]->SetTranslation(glm::vec3(-625, 0, 0));
     m_SideElement[2]->SetMoveable(0);
     m_SideElement[2]->SetZIndex(2);
-    m_SideElement[2]->SetVisible(0);
-
+    m_SideElement[2]->SetVisible(1);
+   
 
     m_SideText->InitText(RESOURCE_DIR"/fonts/Inter.ttf", 16, "Blue Print", glm::vec3(0, 0, 0));
     m_SideText->BluePrintINIT();
     m_SideText->SetTranslation(glm::vec3(-610, 18, 0));
     m_SideText->SetZIndex(2);
-    m_SideText->SetVisible(1);
+    m_SideText->SetVisible(0);
     
     m_Menu->SetImage(RESOURCE_DIR"/sprites/Menu.png");
     m_Menu->SetZIndex(1);
@@ -107,7 +113,7 @@ void App::Update() {
         Camera::CameraShake();
         
     }*/
-   
+
     if (Util::Input::IfExit()) {
         m_CurrentState = State::END;
         return;
@@ -206,3 +212,5 @@ std::list<std::weak_ptr<card::Card>> App::m_PushProcessingArea = {};
 std::vector<std::weak_ptr<card::Card>> App::VillagerLocation = {};
 std::shared_ptr<GiraffeText > App::m_SideText = std::make_shared<GiraffeText>();
 std::shared_ptr<Mouse> App::m_Mouse = std::make_shared<Mouse>();
+App::SystemStatus App::m_SystemMode = App::SystemStatus::Settlement5;
+

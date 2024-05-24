@@ -10,6 +10,7 @@
 #include "SynthesisTable.hpp"
 #include "SystemSettlementUI.hpp"
 #include "ShopRandom.hpp"
+
 #include <random>
 namespace card {
     Card::Card(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image, const bool iconcolor)
@@ -312,6 +313,7 @@ namespace card {
     }
 
     void Card::SyntheticDone() {
+        auto thisCaard = shared_from_this();
         m_SynthesisTime = 0;
         auto t_id = m_SyntheticTableid;
         m_SyntheticTableid = -1;
@@ -352,6 +354,12 @@ namespace card {
             for (int i = 0; i < 4; i++) {
                 auto vt=std::vector<std::string>({ ShopRandom::drawLottery(SynthesisTable::m_SynthesisTable[t_id].name) });
                 GenerateCard(vt);
+            }
+        }
+        else if (auto a= std::dynamic_pointer_cast<Portal>(thisCaard)) {
+            for (int i = 0; i < (m_Name=="RarePortal"?2:3); i++) {
+                auto a = ShopRandom::drawLottery(m_Name);
+                GenerateCard(a);
             }
         }
         else {

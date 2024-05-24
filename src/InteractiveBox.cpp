@@ -7,7 +7,7 @@ InteractiveBox::InteractiveBox() {
 	m_Drawable->SetWorld(Core::Drawable::World::UI);
 	m_Transform.scale = { 0.5,0.5 };
 	m_GiraffeText[0]->InitText(RESOURCE_DIR"/fonts/Inter.ttf", 20, " ", glm::vec3(0, 0, 0));
-	m_GiraffeText[1]->InitText(RESOURCE_DIR"/fonts/Inter.ttf", 40, "o", glm::vec3(0, 0, 0));
+	m_GiraffeText[1]->InitText(RESOURCE_DIR"/fonts/Inter.ttf", 40, "OK", glm::vec3(0, 0, 0));
 	m_GiraffeText[0]->SetZIndex(4);
 	m_GiraffeText[1]->SetZIndex(4);
 	m_vec3s = { glm::vec3(),glm::vec3(0,-60,0) };

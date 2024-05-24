@@ -2,6 +2,9 @@
 #include "Card/AllCardPch.hpp"
 
 std::vector<SynthesisTable::Table> SynthesisTable::m_SynthesisTable = {
+    {"RarePortal", {"RarePortal"}, {"RarePortal"}, 30.0, true},//0
+    {"StrangePortal", {"StrangePortal"}, {"StrangePortal"}, 30.0, true},//0
+    {"Baby", { "House"}, {}, 20.0, false,"Villager",2},//0
     {"Villager", {"Baby", "House"}, {"Baby"}, 20.0, false},//0
     {"AnimalPen", {"Plank", "Plank","Wood","Wood","IronBar"}, {"Plank", "Plank","Wood","Wood","IronBar"}, 30.0, false,"Villager"},//1
     {"AppleTree", {"Apple"}, {"Apple"}, 120.0, false,"Soil"},//2

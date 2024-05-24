@@ -12,6 +12,7 @@ void Mouse::Start() {
     std::vector<std::string> images = { RESOURCE_DIR "/sprites/mouse2.png",
                                        RESOURCE_DIR "/sprites/mouse.png"};
     m_Drawable = std::make_shared<Util::Animation>(images,0,0,0,0);
+    m_Transform.scale = { 0.5,0.5 };
     m_Drawable->SetWorld(Core::Drawable::World::UI);
 }
 void Mouse::Update() {

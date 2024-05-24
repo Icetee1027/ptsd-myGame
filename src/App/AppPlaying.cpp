@@ -1,5 +1,5 @@
 #include "App.hpp"
-
+#include <random>
 #include "Util/Image.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -172,6 +172,15 @@ void App::StackUpdate() {
         else { card->GetChildren()[2]->SetVisible(0); }
         card->Update();
     }
+    if (card::Shop::statusUPdata) {
+        card::Shop::statusUPdata == false;
+        for (int i = 0; i < m_Shops.size(); i++) {
+            if (auto a = std::dynamic_pointer_cast<card::Shop>(m_Shops[i])) {
+                a->ShopInit();
+            }
+         
+        }
+    }
     std::vector<std::list<std::weak_ptr<card::Card>>::iterator> expiredIterators;
 
     auto run = m_PushProcessingArea.begin();
@@ -256,7 +265,25 @@ void App::mouseUp() {
     }
     m_Mouse->ObjectUmBind();
 }
+void GeneratePortal(std::string& cardname) {
+    if (cardname == "")return;
+    std::random_device rd;
+    std::mt19937 rng(rd());
+    std::uniform_int_distribution<int> distribution(1, 360);
+    float randomNumber = distribution(rng);
+    float angleRadians = glm::radians(randomNumber);
+    float sineValue = glm::sin(angleRadians);
+    float cosineValue = glm::cos(angleRadians);
+    auto card = card::CardMaker::MakeCard(cardname);
+    bool moveable = card->CanMoveable();
+    card->SetMoveable(1);
+    card->SetTranslation(glm::vec3(sineValue * 3000 , cosineValue * 2500 , 0));
+    card->SetMoveable(moveable);
+    card->m_CanSynthetic = true;
+    App::AddCard(card);
 
+
+}
 void App::SystemUpdta() {
     m_System->Update();
    
@@ -289,13 +316,18 @@ void App::SystemUpdta() {
                         for (auto& a : c.second->GetAllCardsInStack()) {
                             if (auto x = std::dynamic_pointer_cast<card::BaseVillager>(a)) {
                                 m_SettlementVillage.push_back(x);
+                                c.second->m_CanSynthetic = true;
                             }
                             else if (auto x = std::dynamic_pointer_cast<card::Food>(a)) {
                                 m_SettlementFood.push_back(x);
+                                c.second->m_CanSynthetic = true;
+
 
                             }
                             else if (auto x = std::dynamic_pointer_cast<card::Kid>(a)) {
                                 m_SettlementVillage.push_back(x);
+                                c.second->m_CanSynthetic = true;
+
 
                             }
                         }
@@ -308,7 +340,6 @@ void App::SystemUpdta() {
                         m_StartPoint = { m_SettlementFood.back()->GetTransform().translation.x ,m_SettlementFood.back()->GetTransform().translation.y };
                         m_Food = m_SettlementFood.back()->GetSatiety();
                     }
-                    LOG_DEBUG("ssss  {}:{}", m_NeedFood, m_Food);
                 }
 
             }
@@ -330,14 +361,27 @@ void App::SystemUpdta() {
             m_InteractiveBox->GetChildren()[1]->SetScaledSize(glm::vec2(1.5, 1.5));
             
             if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
-                m_InteractiveBox->SetText(0, "Start of a new month.");
+                std::string text = "";
+                if (m_System->MoonCount > 5&& (m_System->MoonCount+2) % 4 == 0) {
+                    if ((m_System->MoonCount+2)%12 ==0 ){
+                        text = "A wild rare portal appeared!!\n";
+                        GeneratePortal(std::string("RarePortal"));
+                    }
+                    else {
+                        text = "A wild strange portal appeared!!\n";
+                        GeneratePortal(std::string("StrangePortal"));
+                    }
+                }
+                m_InteractiveBox->SetText(0, text+"Start of a new month.");
                 
                 for (auto& a : m_SettlementVillage) {
                     if (auto x = std::dynamic_pointer_cast<card::BaseVillager>(a)) {
+                        x->GetRoot()->m_CanSynthetic = true;
                         x->VillagerDead();
                         x->RemoveCard();
                     }
                     else if (auto x = std::dynamic_pointer_cast<card::Kid>(a)) {
+                        x->GetRoot()->m_CanSynthetic = true;
                         x->VillagerDead();
                         x->RemoveCard();
 
@@ -365,6 +409,52 @@ void App::SystemUpdta() {
                 m_InteractiveBox->SetVisible(0);
                 m_IsPlayButton =App::PauseOrPlay::Play ;
                 m_System->Settlement = 0;
+                if (m_IsPlayButton == App::PauseOrPlay::Pause) m_GiraffeText->SetVisible(1);
+                else  m_GiraffeText->SetVisible(0);
+            }
+
+        }
+        else {
+            m_InteractiveBox->GetChildren()[1]->SetScaledSize(glm::vec2(1, 1));
+        }
+        break;
+    case App::SystemStatus::Settlement5:
+        m_GiraffeText->SetVisible(1);
+        m_InteractiveBox->SetVisible(1);
+        m_InteractiveBox->SetMoveable(1);
+        m_InteractiveBox->SetTranslation(glm::vec3(-380, -200, 0));
+        m_InteractiveBox->SetMoveable(0);
+        m_InteractiveBox->Update();
+        m_InteractiveBox->SetText(0, "Click on the card pack to start the game.");
+        if (ShapeHelper::IsPonstInMenu(m_InteractiveBox->GetChildren()[1], Util::Input::GetCursorPosition())) {
+            m_InteractiveBox->GetChildren()[1]->SetScaledSize(glm::vec2(1.5, 1.5));
+            if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
+                m_System->start = true;
+                m_SystemMode = SystemStatus::play;
+                m_InteractiveBox->SetVisible(0);
+                m_IsPlayButton = App::PauseOrPlay::Play;
+                m_System->Settlement = 0;
+                if (m_IsPlayButton == App::PauseOrPlay::Pause) m_GiraffeText->SetVisible(1);
+                else  m_GiraffeText->SetVisible(0);
+            }
+
+        }
+        else {
+            m_InteractiveBox->GetChildren()[1]->SetScaledSize(glm::vec2(1, 1));
+        }
+        break;
+    case App::SystemStatus::Settlement6:
+        m_GiraffeText->SetVisible(1);
+        m_InteractiveBox->SetVisible(1);
+        m_InteractiveBox->SetMoveable(1);
+        m_InteractiveBox->SetTranslation(glm::vec3(-380, -200, 0));
+        m_InteractiveBox->SetMoveable(0);
+        m_InteractiveBox->Update();
+        m_InteractiveBox->SetText(0, "You Lose!\nAll the villagers died.\nGame is over!");
+        if (ShapeHelper::IsPonstInMenu(m_InteractiveBox->GetChildren()[1], Util::Input::GetCursorPosition())) {
+            m_InteractiveBox->GetChildren()[1]->SetScaledSize(glm::vec2(1.5, 1.5));
+            if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
+                m_CurrentState = State::END;
                 if (m_IsPlayButton == App::PauseOrPlay::Pause) m_GiraffeText->SetVisible(1);
                 else  m_GiraffeText->SetVisible(0);
             }
@@ -405,9 +495,9 @@ void App::Settlement1Updata() {
             }
             else {
                 m_SettlementFood.clear();
-                m_Camera->SetTranslation(glm::vec3(0, 0, -320));
+                m_Camera->SetTranslation(glm::vec3(0, 0, -520));
                 m_InteractiveBox->SetVisible(1);
-                m_InteractiveBox->SetText(0, "This month, none of your villagers starved to death.");
+                m_InteractiveBox->SetText(0, " This month, none of your villagers starved to death.");
                 m_SystemMode = SystemStatus::Settlement3;
                 return;
             }
@@ -420,7 +510,7 @@ void App::Settlement1Updata() {
             }
             else {
                 m_SettlementFood.clear();
-                m_InteractiveBox->SetText(0,"The village suffered from starvation deaths of " + std::to_string(m_SettlementVillage.size()) + " Village this month." );
+                m_InteractiveBox->SetText(0," The village suffered from starvation deaths of " + std::to_string(m_SettlementVillage.size()) + " Village this month." );
                 m_InteractiveBox->SetVisible(1);
                 m_Camera->SetTranslation(glm::vec3(0, 0, -320));
                 m_SystemMode = SystemStatus::Settlement3;

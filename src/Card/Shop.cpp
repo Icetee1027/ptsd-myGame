@@ -7,6 +7,7 @@
 #include "App.hpp"
 #include "SystemSettlementUI.hpp"
 #include "Card/Chest.hpp"
+#include "Card/CardElementPool.hpp"
 namespace card {
     Shop::Shop(Type type, std::string name, unsigned int id, const std::vector<std::shared_ptr<Util::SFX>> sfxs, const std::shared_ptr<Util::Image> image, const bool iconcolor)
         :Card(type, name, id, sfxs, image, iconcolor) {
@@ -29,8 +30,44 @@ namespace card {
         }
         m_Transform.scale = { 0.6,0.6 };
         m_CanPush = 10;
+
+    }
+    void Shop::ShopInit() {
+        
+        if ((m_Name == "HumbleBegining" && ShopStatus[0]) ||//
+            (m_Name == "SeekingWisdom" && ShopStatus[1]) ||//
+            (m_Name == "ReapAndSow" && ShopStatus[2]) ||//
+            (m_Name == "CuriousCuisine" && ShopStatus[3]) ||//
+            (m_Name == "LogicandReason" && ShopStatus[4]) ||//
+            (m_Name == "TheArmory" && ShopStatus[5]) ||//
+            (m_Name == "Explorers" && ShopStatus[6])
+            ) {
+            
+            m_Children[0]->SetVisible(1);
+            m_Children.back()->SetVisible(1);
+        }
+        else {
+            m_Children[0]->SetVisible(0);
+            m_Children.back()->SetVisible(0);
+        }
+
+       
+        
     }
     bool Shop::CanHaveCard(std::shared_ptr<Card> otherCard) {
+        if ((m_Name == "HumbleBegining" && ShopStatus[0]) ||//
+            (m_Name == "SeekingWisdom" && ShopStatus[1]) ||//
+            (m_Name == "ReapAndSow" && ShopStatus[2]) ||//
+            (m_Name == "CuriousCuisine" && ShopStatus[3]) ||//
+            (m_Name == "LogicandReason" && ShopStatus[4]) ||//
+            (m_Name == "TheArmory" && ShopStatus[5]) ||//
+            (m_Name == "Explorers" && ShopStatus[6])
+            ) {
+           
+        }
+        else {
+            return false;
+        }
         m_dic = otherCard->GetTransform().translation;
         m_StatusUpdteCard = otherCard->GetCardName() == "Coin" || otherCard->GetCardName() == "CoinChest"?1:0;
         return otherCard->GetCardName() == "Coin" || otherCard->GetCardName() == "CoinChest";
@@ -47,9 +84,21 @@ namespace card {
     }
 
     void Shop::CreatCardPack() {
+        count++;
+        if (count == 2) {
+            for (auto a : ShopStatus) {
+                if (a == 0) {
+                    a = 1;
+                    statusUPdata = true;
+                    break;
+                }
+            }
+        }
         std::shared_ptr<Card> card = CardMaker::MakeCard("Pack");
         auto pack = std::dynamic_pointer_cast<CardPack>(card);
-        pack->SetCards(ShopRandom::DrawCardPack(m_Name));
+        auto v = ShopRandom::DrawCardPack(m_Name);
+        if (m_Name == "HumbleBegining" &&count == 3)v.push_back("Villager");
+        pack->SetCards(v);
         card->SetTranslation(m_Transform.translation - glm::vec3(0, 200,0));
         App::AddCard(card);
 
@@ -120,4 +169,6 @@ namespace card {
         if (m_Child != nullptr) { m_Child->SetTranslation(m_dic); m_Child->RemoveFromParent(); }
         Card::UpdateCard();
     }
+    std::vector<bool> Shop::ShopStatus = { 1,0,0,0,0,0,0 };
+    bool Shop::statusUPdata = false;
 }

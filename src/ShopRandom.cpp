@@ -118,6 +118,31 @@ std::string ShopRandom::drawLottery(const std::string& lotterySystemName) {
 
 std::vector<RandomElementsy> ShopRandom::databasesy{
     {
+        "Demon",
+        {
+            {"YouWin",100},
+        }
+    },
+    {
+        "RarePortal",
+        {
+            {"Rat",30},
+            {"Skeleton",30},
+            {"Goblin",30},
+            {"Slime",10},
+        }
+    },
+    {
+        "StrangePortal",
+        {
+            {"GiantRat",20},
+            {"Skeleton",20},
+            {"Wolf",20},
+            {"Bear",20},
+            {"Slime",20},
+        }
+    },
+    {
         "Chicken",
         {
             {"Egg",100}
@@ -366,12 +391,14 @@ std::vector<RandomElement> ShopRandom::database = {
         {
             {},
             {},
-            {"IdeaGrowth", "IdeaHouse", "IdeaOffspring", "IdeaStick"}//4
+            {"IdeaGrowth", "IdeaHouse", "IdeaOffspring", "IdeaStick"},//4
+            {}
         },
         {
             { {"Stone", 19},{"Wood", 19},{"BerryBush", 13},{"Rock", 13},{"Soil", 13},{"Tree", 13},{"Key", 3},{"Rabbit", 3},{"Rat", 3} },
             {{"Stone", 19},{"Wood", 19},{"BerryBush", 13},{"Rock", 13},{"Soil", 13},{"Tree", 13},{"Key", 3},{"Rabbit", 3},{"Rat", 3}},
-            {{"Stone", 19},{"Wood", 19},{"BerryBush", 13},{"Rock", 13},{"Soil", 13},{"Tree", 13},{"Key", 3},{"Rabbit", 3},{"Rat", 3}}
+            {{"Stone", 19},{"Wood", 19},{"BerryBush", 13},{"Rock", 13},{"Soil", 13},{"Tree", 13},{"Key", 3},{"Rabbit", 3},{"Rat", 3}},
+            {{"BerryBush", 100}}
         }
     },
     {

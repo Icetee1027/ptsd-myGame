@@ -20,9 +20,9 @@ namespace card {
             createCardFunction();
 
         static std::shared_ptr<Card> MakeCard(std::string name);
-
         static std::vector<std::string> GetCardSFX(Type type);
     private:
+        //static bool strat;
         static const std::map<int, Type> typeMapping;
         static const std::unordered_map<Type, std::vector<std::string>> cardSFXMap;
     };

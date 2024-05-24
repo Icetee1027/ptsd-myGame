@@ -1,6 +1,7 @@
 #include "Card/CardMaker.hpp"
 #include "Util/Animation.hpp"
 #include "App.hpp"
+#include "SystemSettlementUI.hpp"
 namespace card {
 
     Type CardMaker::GetJosnToType(int t) {
@@ -23,6 +24,10 @@ namespace card {
     }
 
     std::shared_ptr<Card> CardMaker::MakeCard(std::string name) {
+        if (SystemSettlementUI::Iseandt==0 && name=="Villager") {
+            SystemSettlementUI::Iseandt = 1;
+        }
+        //LOG_DEBUG("{}", name);
         std::ifstream file(RESOURCE_DIR "/json/" + name + ".json");
         json attribute;
         attribute << file;
@@ -172,7 +177,7 @@ namespace card {
             return std::vector<std::string>();
         }
     }
-
+    //bool CardMaker::strat = false;
     const std::map<int, Type> CardMaker::typeMapping = {
         {0, Type::Villager},
         {1, Type::Equipment},

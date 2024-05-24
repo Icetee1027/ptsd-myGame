@@ -11,6 +11,7 @@ private:
 	const float m_MoonTime = 150;
 public:
 	bool Settlement = 0;
+	static bool Iseandt;
 	float m_MoonTimeCount = 0;
 	static int MoonCount;
 	static int MaxStorageCapacity;
@@ -24,6 +25,7 @@ public:
 	~SystemSettlementUI() = default;
 	void SystemSettlementUIUpdata();
 	void Update() override;
+	bool start = false;
 
 
 

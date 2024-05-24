@@ -3,6 +3,7 @@
 #include "Background.hpp"
 #include "Util/Image.hpp"
 #include "Util/Input.hpp"
+#include "App.hpp"
 
 SystemSettlementUI::SystemSettlementUI() {
 	m_Transform.scale = { 0.5,0.5 };
@@ -44,6 +45,7 @@ SystemSettlementUI::SystemSettlementUI() {
 	m_Children.push_back(m_GiraffeText[2]);
 }
 void SystemSettlementUI::Update() {
+	
 	if (m_TimeCount >= m_Time) {
 		SystemSettlementUIUpdata();
 	}
@@ -56,14 +58,31 @@ void SystemSettlementUI::Update() {
 	else {
 		m_TimeProgressBar[0]->SetScaledSize(glm::vec2(0.7*(m_MoonTimeCount/ m_MoonTime),1.1));
 		m_TimeProgressBar[0]->SetTranslation(glm::vec3(562-(119-m_TimeProgressBar[0]->GetScaledSize().x)/2, 333, -1));
-		m_MoonTimeCount += Util::Time::GetDeltaTime()* (Util::Input::IsKeyPressed(Util::Keycode::X) ? 10 : 1);
+		m_MoonTimeCount += Util::Time::GetDeltaTime()* (Util::Input::IsKeyPressed(Util::Keycode::X) ? 10 : 1) * (start ? 1 : 0);
 	}
 	for (auto& a : m_Children) {
 		a->Update();
 	}
 }
 void SystemSettlementUI::SystemSettlementUIUpdata() {
+
+	
 	if (IsSystemUpdta == 1) {
+		if (Iseandt) {
+			LOG_DEBUG("123    {}", AmountFoodRequired);
+			if (AmountFoodRequired == 0) {
+				bool is = 0;
+				for (auto& a : App::m_WorldCards) {
+					if (a.second->GetCardName() == "Arena") {
+						is = 1;
+						break;
+					}
+				}
+				if (is == 0) {
+					App::m_SystemMode = App::SystemStatus::Settlement6;
+				}
+			}
+		}
 		if (MaxStorageCapacity <CurrentStorageCapacity) {
 			m_GiraffeText[1]->SetColor(glm::vec3(255, 0, 0));
 		}
@@ -99,3 +118,4 @@ int SystemSettlementUI::AmountfoodCurrentAvailable=0;
 float SystemSettlementUI::m_TimeCount = 0;
 bool SystemSettlementUI::IsSystemUpdta=0;
 int SystemSettlementUI::MoonCount=1;
+bool SystemSettlementUI::Iseandt = 0;
