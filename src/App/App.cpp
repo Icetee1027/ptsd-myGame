@@ -20,7 +20,8 @@ void App::Start() {
 
     std::shared_ptr<card::Card> m_cardpack2= card::CardMaker::MakeCard("Pack");
     auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
-    cardpack->SetCards(std::vector<std::string>({ "Villager","BerryBush","Rock","Wood","Coin"}));
+    auto vstr = std::vector<std::string>({ "Villager","BerryBush","Rock","Wood","Coin" });
+    cardpack->SetCards(vstr);
     AddCard(cardpack);
 
     for (int i = 0; i < m_Shops.size(); i++) {

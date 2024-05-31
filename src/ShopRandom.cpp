@@ -398,7 +398,7 @@ std::vector<RandomElement> ShopRandom::database = {
             { {"Stone", 19},{"Wood", 19},{"BerryBush", 13},{"Rock", 13},{"Soil", 13},{"Tree", 13},{"Key", 3},{"Rabbit", 3},{"Rat", 3} },
             {{"Stone", 19},{"Wood", 19},{"BerryBush", 13},{"Rock", 13},{"Soil", 13},{"Tree", 13},{"Key", 3},{"Rabbit", 3},{"Rat", 3}},
             {{"Stone", 19},{"Wood", 19},{"BerryBush", 13},{"Rock", 13},{"Soil", 13},{"Tree", 13},{"Key", 3},{"Rabbit", 3},{"Rat", 3}},
-            {{"BerryBush", 100}}
+            {{"BerryBush", 33},{"Tree", 33},{"Rock", 33}}
         }
     },
     {

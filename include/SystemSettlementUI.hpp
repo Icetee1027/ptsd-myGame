@@ -10,6 +10,8 @@ private:
 	float m_Time = 0.5;
 	const float m_MoonTime = 150;
 public:
+	int maxhas = 0;
+	int nowhas = 0;
 	bool Settlement = 0;
 	static bool Iseandt;
 	float m_MoonTimeCount = 0;

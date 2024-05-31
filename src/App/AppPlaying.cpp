@@ -302,7 +302,7 @@ void App::SystemUpdta() {
         }
         break;
     case App::SystemStatus::Settlement1:
-        if (m_System->MaxStorageCapacity >= m_System->CurrentStorageCapacity) {
+        if (m_System->maxhas >= m_System->nowhas) {
             m_InteractiveBox->SetText(0, "The end of this month. \nYou can start feeding the villagers.");
             m_InteractiveBox->SetText(1, "ok");
             if (ShapeHelper::IsPonstInMenu(m_InteractiveBox->GetChildren()[1], Util::Input::GetCursorPosition())) {
@@ -320,6 +320,7 @@ void App::SystemUpdta() {
                             }
                             else if (auto x = std::dynamic_pointer_cast<card::Food>(a)) {
                                 m_SettlementFood.push_back(x);
+                                c.second->GetRoot()->StatusStackRootUpDate = true;
                                 c.second->m_CanSynthetic = true;
 
 

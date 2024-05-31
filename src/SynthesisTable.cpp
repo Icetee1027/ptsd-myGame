@@ -85,13 +85,15 @@ bool isSubset(const std::vector<std::string>& a, const std::vector<std::string>&
     return true;
 }
 int isVillager(const std::vector<std::string>& a, const int count=1) {
-    std::vector<std::string> Villager = { "Villager","Explorer","Militia","Swordsman" };
+    std::vector<std::string> Villager = { "Villager", "Explorer", "Militia", "Swordsman" };
     int m_count = 0;
     float time = 0;
     for (const auto& elem : Villager) {
-        if (std::find(a.begin(), a.end(), elem) != a.end()) {
-            m_count +=1;
-            time++;
+        for(const auto& x:a){
+            if (x == elem) {
+                m_count += 1;
+                time++;
+            }
         }
     }
     if (std::find(a.begin(), a.end(), "Dog") != a.end()) {
@@ -121,7 +123,7 @@ std::pair<int,int> SynthesisTable::SyntheticCheck(std::vector<std::string> &card
     for (int it = 0; it < m_SynthesisTable.size(); ++it) {
         if (isSubset(cards, m_SynthesisTable[it].need)) {
             if (m_SynthesisTable[it].medium == "Villager") {
-                if (isVillager(cards) != -1) {
+                if (isVillager(cards, m_SynthesisTable[it].mediumInt) != -1) {
                     efficiency = isVillager(cards);
                     if (size <= m_SynthesisTable[it].need.size()) {
                         conSynthetic = it;

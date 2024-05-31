@@ -97,6 +97,8 @@ void SystemSettlementUI::SystemSettlementUIUpdata() {
 		m_GiraffeText[0]->SetText(std::to_string(AmountfoodCurrentAvailable) + "/" + std::to_string(AmountFoodRequired));
 		m_GiraffeText[1]->SetText(std::to_string(CurrentStorageCapacity) + "/" + std::to_string(MaxStorageCapacity));
 		m_GiraffeText[2]->SetText("moon " + std::to_string(MoonCount));
+		maxhas = MaxStorageCapacity;
+		nowhas = CurrentStorageCapacity;
 		MaxStorageCapacity = 20;
 		CurrentStorageCapacity = 0;
 		AmountFoodRequired = 0;

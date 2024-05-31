@@ -52,7 +52,7 @@ namespace card {
                 App::m_SideText->AddBluePrint(card->GetCardName());
             }
 
-            App::AddCard(card);
+            App::AddCardForG(card);
 
         }
         catch (const std::exception&)
