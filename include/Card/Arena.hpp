@@ -45,26 +45,26 @@ namespace card {
 			Villager
 		};
 		Mode m_mode = Mode::Villager;
-		const std::map<std::string, float> Villager_harm = {{"Dog",1.0f},{"Militia",2.0f},{"Villager",2.0f},{"Explorer",3.0f},{"Swordsman",3.0f}};
+		const std::map<std::string, float> Villager_harm = {{"Dog",1.0f},{"Militia",2.0f},{"Villager",2.0f},{"Explorer",3.0f},{"Swordsman",4.0f}};
 		const std::map<std::string, float> Mob_harm = { {"Chicken",1.0f} ,{"Cow",1.0f} ,{"Rabbit",1.0f} ,//
 														{"Rat",1.0f},{"SmallSlime",2.0f},//
 														{"Skeleton",2.0f},{"Goblin",2.0f},{"Slime",2.0f},//
 														{"GiantRat",3.0f},{"Wolf",3.0f},{"Bear",3.0f},//
-														{ "Demom", 3.0f } };	
+														{ "Demon", 3.0f } };	
 
 		const std::map<std::string, int> Villager_HitRate = { {"Dog",70},{"Militia",80},{"Villager",80},{"Explorer",85},{"Swordsman",85} };
 		const std::map<std::string, int> Mob_HitRate = { {"Chicken",60} ,{"Cow",60} ,{"Rabbit",60} ,//
 														{"Rat",65},{"SmallSlime",65},//
 														{"Skeleton",70},{"Goblin",70},{"Slime",70},//
 														{"GiantRat",70},{"Wolf",70},{"Bear",70},//
-														{ "Demom", 80 } };
+														{ "Demon", 80 } };
 
 		const std::map<std::string, int> Villager_DodgeRate = { {"Dog",20},{"Militia",20},{"Villager",20},{"Explorer",25},{"Swordsman",25} };
 		const std::map<std::string, int> Mob_DodgeRate = { {"Chicken",10} ,{"Cow",0} ,{"Rabbit",10} ,
 														{"Rat",10},{"SmallSlime",10},//
-														{"Skeleton",15},{"Goblin",15},{"Slime",15},//
-														{"GiantRat",15},{"Wolf",20},{"Bear",15},//
-														{ "Demom", 15 } };
+														{"Skeleton",10},{"Goblin",10},{"Slime",10},//
+														{"GiantRat",10},{"Wolf",10},{"Bear",10},//
+														{ "Demon", 10 } };
 
 		
 	public:

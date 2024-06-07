@@ -45,7 +45,7 @@ namespace card {
 
         for (auto& childCard : childCards) {
             if (childCard->HasPrice() && childCard->GetCardName() != "TravellingCart" && childCard->GetCardName() != "Coin" && (childCard->GetCardName() != "CoinChest" || childCard->GetPrice() == 0)) {
-                if (m_Price+childCard->GetPrice() >10) {
+                if (m_Price+childCard->GetPrice() >20) {
                     continue;
                 }
                 childCard->RemoveCard();

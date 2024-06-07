@@ -25,7 +25,7 @@ namespace card {
         std::shared_ptr<Card> card = CardMaker::MakeCard("Pack");
         auto pack = std::dynamic_pointer_cast<CardPack>(card);
         auto a = ShopRandom::DrawCardPack(m_Name);
-        if (count == 6)a.push_back("GoldenGoblet");
+        if (count == 3)a.push_back("GoldenGoblet");
         pack->SetCards(a);
         card->SetTranslation(m_Transform.translation - glm::vec3(0, 200, 0));
         App::AddCard(card);

@@ -6,7 +6,7 @@ namespace card {
 	class Chest :public Card {
 	private:
 		std::string m_HeldCardName = "Coin";
-		int m_MaxCoinCount = 5;
+		int m_MaxCoinCount = 50;
 		bool m_StatusUpdteCard = 0;
 	public:
 		int m_StaticUpdate = false;

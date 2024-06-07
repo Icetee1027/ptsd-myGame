@@ -4,6 +4,6 @@ namespace card {
         :Card(type, name, id, sfxs, image, iconcolor) {
     }
     bool Temple::CanHaveCard(std::shared_ptr<Card> otherCard) {
-        return otherCard->GetCardName() == "Goblet";
+        return otherCard->GetCardName() == "GoldenGoblet";
     }
 }

@@ -34,6 +34,70 @@ void App::Playing() {
     case App::PauseOrPlay::Play:
         break;
     }
+    if (Util::Input::IsKeyUp(Util::Keycode::F1) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
+        std::shared_ptr<card::Card> m_cardpack2 = card::CardMaker::MakeCard("Pack");
+        auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
+        auto vstr = std::vector<std::string>({ "BerryBush","BerryBush","AppleTree","AppleTree","IronDeposit"});
+        cardpack->SetCards(vstr);
+        cardpack->SetTranslation(glm::vec3(100,0,0));
+        AddCard(cardpack);
+    }
+    if (Util::Input::IsKeyUp(Util::Keycode::F2) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
+        std::shared_ptr<card::Card> m_cardpack2 = card::CardMaker::MakeCard("Pack");
+        auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
+        auto vstr = std::vector<std::string>({ "Villager","House" });
+        cardpack->SetTranslation(glm::vec3(200, 0, 0));
+        cardpack->SetCards(vstr);
+    }
+    if (Util::Input::IsKeyUp(Util::Keycode::F3) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
+        std::shared_ptr<card::Card> m_cardpack2 = card::CardMaker::MakeCard("Pack");
+        auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
+        auto vstr = std::vector<std::string>({ "IronBar","Stone","Coin","Coin","Coin","Plank","Brick","Coin","Wood","Wood"});
+        cardpack->SetCards(vstr);
+        cardpack->SetTranslation(glm::vec3(220, 0, 0));
+        AddCard(cardpack); 
+    }
+    if (Util::Input::IsKeyUp(Util::Keycode::F4) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
+        std::shared_ptr<card::Card> m_cardpack2 = card::CardMaker::MakeCard("Pack");
+        auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
+        auto vstr = std::vector<std::string>({ "Stove","RawMeat","Stove","Egg","Egg","Wood","Stick","Stick"});
+        cardpack->SetCards(vstr);
+        cardpack->SetTranslation(glm::vec3(300, 0, 0));
+        AddCard(cardpack);
+    }
+
+    if (Util::Input::IsKeyUp(Util::Keycode::F5) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
+        std::shared_ptr<card::Card> m_cardpack2 = card::CardMaker::MakeCard("Pack");
+        auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
+        auto vstr = std::vector<std::string>({ "Demon","Militia","Swordsman","Dog","Swordsman","Swordsman","Bear","Wolf","Slime"});
+        cardpack->SetCards(vstr);
+        cardpack->SetTranslation(glm::vec3(400, 0, 0));
+        AddCard(cardpack);
+    }
+    if (Util::Input::IsKeyUp(Util::Keycode::F6) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
+        std::shared_ptr<card::Card> m_cardpack2 = card::CardMaker::MakeCard("Pack");
+        auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
+        auto vstr = std::vector<std::string>({ "TravellingCart","Plank","Plank","Plank","Brick","Brick","Brick","IronBar","IronBar","IronBar","Villager" ,"Villager" ,"Villager" ,"Villager" ,"Villager" ,"Villager" ,"Villager"});
+        cardpack->SetCards(vstr);
+        cardpack->SetTranslation(glm::vec3(500, 0, 0));
+        AddCard(cardpack);
+    }
+    if (Util::Input::IsKeyUp(Util::Keycode::F7) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
+        std::shared_ptr<card::Card> m_cardpack2 = card::CardMaker::MakeCard("Pack");
+        auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
+        auto vstr = std::vector<std::string>({ "Stew","Stew","Stew","Stew","Stew","Stew","Stew","Stew","Stew","Stew","Stew","Stew","Stew","Stew","Stew","Stew","Stew","Stew","Stew" });
+        cardpack->SetCards(vstr);
+        cardpack->SetTranslation(glm::vec3(600, 0, 0));
+        AddCard(cardpack);
+    }
+    if (Util::Input::IsKeyUp(Util::Keycode::F8) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
+        std::shared_ptr<card::Card> m_cardpack2 = card::CardMaker::MakeCard("Pack");
+        auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
+        auto vstr = std::vector<std::string>({"Temple","GoldenGoblet","Swordsman"});
+        cardpack->SetCards(vstr);
+        cardpack->SetTranslation(glm::vec3(650, 0, 0));
+        AddCard(cardpack);
+    }
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE)) {
         mouseUp();

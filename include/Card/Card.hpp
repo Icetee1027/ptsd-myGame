@@ -85,7 +85,7 @@ namespace card {
     public:
         void GenerateCard(std::vector<std::string>& cards);
         void Card::GenerateCard(std::string& cards);
-        int m_MaxAnimalCount = 10;
+        int m_MaxAnimalCount = 20;
         int m_UsageCount = 1;
         bool StatusStackRootUpDate = false;
         virtual void UpdateCard(){}

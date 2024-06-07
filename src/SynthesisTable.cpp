@@ -25,7 +25,7 @@ std::vector<SynthesisTable::Table> SynthesisTable::m_SynthesisTable = {
     {"Smelter",{"Flint","Flint","Brick","Brick","Plank"},{"Flint","Flint","Brick","Brick","Plank"},30.0,false,"Villager"},//17
     {"Smithy",{"IronBar","IronBar","Brick","Brick"},{"IronBar","IronBar","Brick","Brick"},30.0,false,"Villager"},//18
     {"Stove",{"Flint","Brick","IronBar"},{"Flint","Brick","IronBar"},30.0,false,"Villager"},//19
-    {"Temple",{"Plank","Plank","Plank","Plank","Plank","Brick","Brick","Brick","Brick","Brick","IronBar","IronBar","IronBar"},{"Plank","Plank","Plank","Plank","Plank","Brick","Brick","Brick","Brick","Brick","IronBar","IronBar","IronBar"},180.0,false,"Villager",3},//20
+    {"Temple",{"Plank","Plank","Plank","Brick","Brick","Brick","IronBar","IronBar","IronBar"},{"Plank","Plank","Plank","Brick","Brick","Brick","IronBar","IronBar","IronBar"},180.0,false,"Villager",3},//20
     {"Warehouse",{"IronBar","Stone"},{"IronBar","Stone"},30.0,false,"Villager"},//21
     {"Demon",{"Temple","GoldenGoblet"},{"GoldenGoblet"},30.0,false},//22
     {"IronBar",{"IronOre","Wood","Smelter"},{"IronOre","Wood"},10.0,false,"Villager"},//23

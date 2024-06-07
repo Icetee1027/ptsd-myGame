@@ -143,9 +143,11 @@ namespace card {
 				m_attack = 0;
 			}
 			Villagers_index++;
-			if (Villagers_index >= m_BaseVillagers.size())Villagers_index = 0;
+			if (Villagers_index >= m_BaseVillagers.size()) {
+				Villagers_index = 0;
+				m_mode = Mode::t_Mob;
+			}
 			m_circle->CircleMove(vi, (*min_hp_mob));
-			m_mode = Mode::t_Mob;
 		}
 		else {
 			if (Villagers_index >= m_BaseVillagers.size())Villagers_index = 0;
@@ -161,9 +163,11 @@ namespace card {
 				m_attack = 0;
 			}
 			Mobs_index++;
-			if (Mobs_index >= m_Mobs.size())Mobs_index = 0;
+			if (Mobs_index >= m_Mobs.size()) {
+				Mobs_index = 0;
+				m_mode = Mode::Villager;
+			}
 			m_circle->CircleMove(mob, vi);
-			m_mode = Mode::Villager;
 		}
 		m_circle->Attack = m_attack;
 	}
