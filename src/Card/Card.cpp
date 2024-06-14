@@ -289,7 +289,6 @@ namespace card {
     void Card::CanSynthetic() {
         auto name=GetCardsName();
         auto [a,b]=SynthesisTable::SyntheticCheck(name);
-        LOG_DEBUG("{}", a);
         if (a != -1) {
             if (m_Name == "Market") {
                 if (m_Child != nullptr && m_Child->HasPrice()) {

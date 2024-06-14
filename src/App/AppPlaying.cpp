@@ -268,7 +268,7 @@ void App::StackUpdate() {
                     glm::vec2 direction = target - itposition;
                     glm::vec2 unitVector = glm::normalize(direction);
                     float proportion = st->second->IsCanPush() == object->IsCanPush()?float(st->second->GetStackSize())/ float(object->GetStackSize() + st->second->GetStackSize()):1;
-                    object->SetPushing(unitVector * (0.08f *  proportion), 33);
+                    object->SetPushing(unitVector * (0.52f *  proportion), 15);
                 }
             }
             if (object->GetPushCount() == 0) {
