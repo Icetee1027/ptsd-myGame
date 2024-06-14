@@ -422,7 +422,7 @@ std::vector<RandomElement> ShopRandom::database = {
             {}, {}, {"IdeaChicken",  "IdeaLumberCamp", "IdeaQuarry"}, {}//3
         },
         {
-            {{"Apple", 25}, {"Berry", 25}, {"Carrot", 25}, {"Raw Meat", 25}},
+            {{"Apple", 25}, {"Berry", 25}, {"Carrot", 25}, {"RawMeat", 25}},
             {{"Chicken", 25}, {"Cow", 25}, {"Rabbit", 25}, {"Soil", 25}},
             {{"BerryBush", 33}, {"Rock", 33}, {"Tree", 33}},
             {{"BerryBush", 33}, {"Rock", 33}, {"Tree", 33}}

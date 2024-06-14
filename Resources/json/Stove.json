@@ -1,8 +1,8 @@
 {
-  "name": "Campfire",
+  "name": "Stove",
   "id": 0,
   "class": "Garden",
   "type": 6,
-  "price": 1,
+  "price": 5,
   "textcolor": 0
-} 
+}

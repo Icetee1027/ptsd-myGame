@@ -91,19 +91,19 @@ bool ShapeHelper::IsStackInStack(const std::shared_ptr<card::Card>& stack1,
     // Calculate the bounds of stack1
     float left1 = pos1.x - size1.x / 2 - extendedMargin;
     float right1 = pos1.x + size1.x / 2 + extendedMargin;
-    float bottom1 = pos1.y - size1.y / 2 - extendedMargin;
-    float top1 = pos1.y + size1.y / 2 + (height1 - 1) * 47 + extendedMargin;
+    float bottom1 = pos1.y - size1.y / 2 - extendedMargin - (height1 - 1) * 47 + extendedMargin;
+    float top1 = pos1.y + size1.y / 2;
 
     // Calculate the bounds of stack2
     float left2 = pos2.x - size2.x / 2 - extendedMargin;
     float right2 = pos2.x + size2.x / 2 + extendedMargin;
-    float bottom2 = pos2.y - size2.y / 2 - extendedMargin;
-    float top2 = pos2.y + size2.y / 2 + (height2 - 1) * 47 + extendedMargin;
+    float bottom2 = pos2.y - size2.y / 2 - extendedMargin - (height2 - 1) * 47 + extendedMargin;
+    float top2 = pos2.y + size2.y / 2 ;
 
     // Check if the stacks' positions overlap
     bool isInX = right1 > left2 && left1 < right2;
     bool isInY = top1 > bottom2 && bottom1 < top2;
-
+ 
     return isInX && isInY;
 }
 bool ShapeHelper::IsCardInCard(const std::shared_ptr<card::Card>& card1, const std::shared_ptr<card::Card>& card2) {

@@ -37,7 +37,7 @@ void App::Playing() {
     if (Util::Input::IsKeyUp(Util::Keycode::F1) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
         std::shared_ptr<card::Card> m_cardpack2 = card::CardMaker::MakeCard("Pack");
         auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
-        auto vstr = std::vector<std::string>({ "BerryBush","BerryBush","AppleTree","AppleTree","IronDeposit"});
+        auto vstr = std::vector<std::string>({ "Villager","BerryBush","BerryBush","AppleTree","AppleTree","IronDeposit"});
         cardpack->SetCards(vstr);
         cardpack->SetTranslation(glm::vec3(100,0,0));
         AddCard(cardpack);
@@ -46,8 +46,9 @@ void App::Playing() {
         std::shared_ptr<card::Card> m_cardpack2 = card::CardMaker::MakeCard("Pack");
         auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
         auto vstr = std::vector<std::string>({ "Villager","House" });
-        cardpack->SetTranslation(glm::vec3(200, 0, 0));
+        cardpack->SetTranslation(glm::vec3(201, 0, 0));
         cardpack->SetCards(vstr);
+        AddCard(cardpack);
     }
     if (Util::Input::IsKeyUp(Util::Keycode::F3) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
         std::shared_ptr<card::Card> m_cardpack2 = card::CardMaker::MakeCard("Pack");
@@ -60,7 +61,7 @@ void App::Playing() {
     if (Util::Input::IsKeyUp(Util::Keycode::F4) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
         std::shared_ptr<card::Card> m_cardpack2 = card::CardMaker::MakeCard("Pack");
         auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
-        auto vstr = std::vector<std::string>({ "Stove","RawMeat","Stove","Egg","Egg","Wood","Stick","Stick"});
+        auto vstr = std::vector<std::string>({ "Stove","RawMeat","Stove","Egg","Egg","Berry","Soil","Farm","Apple"});
         cardpack->SetCards(vstr);
         cardpack->SetTranslation(glm::vec3(300, 0, 0));
         AddCard(cardpack);
@@ -69,17 +70,9 @@ void App::Playing() {
     if (Util::Input::IsKeyUp(Util::Keycode::F5) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
         std::shared_ptr<card::Card> m_cardpack2 = card::CardMaker::MakeCard("Pack");
         auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
-        auto vstr = std::vector<std::string>({ "Demon","Militia","Swordsman","Dog","Swordsman","Swordsman","Bear","Wolf","Slime"});
+        auto vstr = std::vector<std::string>({ "Militia","Swordsman","Dog","Swordsman","Swordsman","Bear","Wolf","Slime","Slime"});
         cardpack->SetCards(vstr);
         cardpack->SetTranslation(glm::vec3(400, 0, 0));
-        AddCard(cardpack);
-    }
-    if (Util::Input::IsKeyUp(Util::Keycode::F6) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
-        std::shared_ptr<card::Card> m_cardpack2 = card::CardMaker::MakeCard("Pack");
-        auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
-        auto vstr = std::vector<std::string>({ "TravellingCart","Plank","Plank","Plank","Brick","Brick","Brick","IronBar","IronBar","IronBar","Villager" ,"Villager" ,"Villager" ,"Villager" ,"Villager" ,"Villager" ,"Villager"});
-        cardpack->SetCards(vstr);
-        cardpack->SetTranslation(glm::vec3(500, 0, 0));
         AddCard(cardpack);
     }
     if (Util::Input::IsKeyUp(Util::Keycode::F7) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
@@ -90,10 +83,10 @@ void App::Playing() {
         cardpack->SetTranslation(glm::vec3(600, 0, 0));
         AddCard(cardpack);
     }
-    if (Util::Input::IsKeyUp(Util::Keycode::F8) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
+    if (Util::Input::IsKeyUp(Util::Keycode::F6) && (m_SystemMode == SystemStatus::Settlement1 || m_SystemMode == SystemStatus::play)) {
         std::shared_ptr<card::Card> m_cardpack2 = card::CardMaker::MakeCard("Pack");
         auto cardpack = std::dynamic_pointer_cast<card::CardPack>(m_cardpack2);
-        auto vstr = std::vector<std::string>({"Temple","GoldenGoblet","Swordsman"});
+        auto vstr = std::vector<std::string>({ "Villager","Villager","Villager","Villager","Sword","Sword","Sword","Sword","Villager","Villager","Villager","Villager","Sword","Sword","Sword","Sword","Temple","GoldenGoblet"});
         cardpack->SetCards(vstr);
         cardpack->SetTranslation(glm::vec3(650, 0, 0));
         AddCard(cardpack);
@@ -246,9 +239,8 @@ void App::StackUpdate() {
         }
     }
     std::vector<std::list<std::weak_ptr<card::Card>>::iterator> expiredIterators;
-
+   
     auto run = m_PushProcessingArea.begin();
-
     while (run != m_PushProcessingArea.end()) {
         if (run->expired() || run->lock() == m_Mouse->GetBindObject()) {
             expiredIterators.push_back(run);
@@ -257,14 +249,17 @@ void App::StackUpdate() {
             App::MoveCardToNewX(run->lock()->GetLast(), int(run->lock()->GetLast()->GetTransform().translation.x));
             auto object = run->lock()->GetRoot();
             auto target = glm::vec2(object->GetRoot()->GetTransform().translation.x, object->GetRoot()->GetTransform().translation.y);
-            auto lowerBound = m_WorldCards.lower_bound(target.x -5220);
-            auto upperBound = m_WorldCards.upper_bound(target.x + 5220);
+            auto lowerBound = m_WorldCards.lower_bound(target.x -1400);
+            auto upperBound = m_WorldCards.upper_bound(target.x + 1400);
             float distance = 0;
 
             for (auto st = lowerBound; st != upperBound; ++st) {
+                    //LOG_DEBUG("123  {}    {}     {}", ShapeHelper::IsStackInStack(st->second->GetRoot(), object), st->second != object->GetLast(), st->second->GetRoot() != m_Mouse->GetBindObject());
                 if (ShapeHelper::IsStackInStack(st->second->GetRoot(), object) && st->second != object->GetLast() && st->second->GetRoot() != m_Mouse->GetBindObject()) {
-                    if (st->second->GetPushCount() == 0) {
-                        m_PushProcessingArea.push_back(st->second);
+                    //LOG_ERROR("name {}", st->second->GetRoot()->GetCardName());
+
+                    if (st->second->GetPushCount() == 0 && st->second->IsCanPush() <= object->IsCanPush()) {
+                        m_PushProcessingArea.insert(std::next(run), st->second);
                     }
                     glm::vec2  itposition(st->second->GetRoot()->GetTransform().translation.x, st->second->GetRoot()->GetTransform().translation.y);
                     if ((!distance || distance > glm::distance(itposition, target)) && st->second->IsCanPush() >= object->IsCanPush()) { distance = glm::distance(itposition, target); 
@@ -282,8 +277,6 @@ void App::StackUpdate() {
         }
         run++;
     }
-
-    
     for (auto it : expiredIterators) {
         m_PushProcessingArea.erase(it);
     }
@@ -310,6 +303,9 @@ void App::mouseUp() {
             if (ShapeHelper::IsCardInStack(stack->second, object) && stack->second != object->GetLast() && stack->second->CanHaveCardOnTop(object)) {
                 object->BindParent(stack->second);
                 stack->second->m_CanSynthetic = true;//
+                if(stack->second->GetRoot()->GetPushCount() == 0) {
+                    stack->second->SetPushing(glm::vec2(), 2);
+                }
                 stack->second = object->GetLast();
                 if (stack->second->GetRoot()->GetPushCount() == 0) {
                     m_PushProcessingArea.push_back(stack->second->GetRoot());
@@ -324,6 +320,8 @@ void App::mouseUp() {
             object->m_CanSynthetic = true;
             if (object->GetRoot()->GetPushCount() == 0) {
                 m_PushProcessingArea.push_back(object->GetRoot());
+                object->SetPushing(glm::vec2(), 2);
+
             }
         }
     }
@@ -366,12 +364,12 @@ void App::SystemUpdta() {
         }
         break;
     case App::SystemStatus::Settlement1:
-        if (m_System->maxhas >= m_System->nowhas) {
+        if (m_System->maxhas >= m_System->nowhas || (Util::Input::IsKeyUp(Util::Keycode::Q))) {
             m_InteractiveBox->SetText(0, "The end of this month. \nYou can start feeding the villagers.");
             m_InteractiveBox->SetText(1, "ok");
-            if (ShapeHelper::IsPonstInMenu(m_InteractiveBox->GetChildren()[1], Util::Input::GetCursorPosition())) {
+            if (ShapeHelper::IsPonstInMenu(m_InteractiveBox->GetChildren()[1], Util::Input::GetCursorPosition())|| (Util::Input::IsKeyUp(Util::Keycode::Q))) {
                 m_InteractiveBox->GetChildren()[1]->SetScaledSize(glm::vec2(1.5, 1.5));
-                if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
+                if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB) || (Util::Input::IsKeyUp(Util::Keycode::Q))) {
                     m_SystemMode = SystemStatus::Settlement2;
                     m_InteractiveBox->SetVisible(0);
                     m_SettlementVillage.clear();
@@ -393,8 +391,14 @@ void App::SystemUpdta() {
                                 m_SettlementVillage.push_back(x);
                                 c.second->m_CanSynthetic = true;
 
-
                             }
+
+                        }
+                    }
+                    for (auto& c : m_WorldCards) {
+                        if (c.second->GetCardName() == "TravellingCart") {
+                            c.second->RemoveCard();
+                            break;
                         }
                     }
                     if (!m_SettlementVillage.empty()) {
@@ -436,6 +440,11 @@ void App::SystemUpdta() {
                         text = "A wild strange portal appeared!!\n";
                         GeneratePortal(std::string("StrangePortal"));
                     }
+                }
+                if (m_System->MoonCount > 2 && (m_System->MoonCount) % 3 == 0) {
+                    text += "A Travelling Car appeared!!\n";
+                    GeneratePortal(std::string("TravellingCart"));
+
                 }
                 m_InteractiveBox->SetText(0, text+"Start of a new month.");
                 

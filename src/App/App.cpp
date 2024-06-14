@@ -32,8 +32,9 @@ void App::Start() {
         }
         m_Shops[i]->SetTranslation(glm::vec3(-950 + i * 280, 1050, 0));
         m_Shops[i]->SetMoveable(0);
-        AddCard(m_Shops[i]);
+        AddCard(m_Shops[i]); 
     }
+
     m_GiraffeText->SetZIndex(-1);
     m_GiraffeText->InitText(RESOURCE_DIR"/fonts/Inter.ttf", 75, "Pause",
        glm::vec3(255,255,255));
@@ -181,6 +182,7 @@ void App::AddCardForG(std::shared_ptr<card::Card> NewCard) {
                 stack->second->StackRootUpdate();
                 if (stack->second->GetRoot()->GetPushCount() == 0) {
                     m_PushProcessingArea.push_back(stack->second->GetRoot());
+                    stack->second->GetRoot()->SetPushing(glm::vec2(), 2);
                 }
                 return ;
             }
@@ -189,6 +191,8 @@ void App::AddCardForG(std::shared_ptr<card::Card> NewCard) {
         m_WorldCards.emplace(NewCard->GetTransform().translation.x, NewCard);
         if (NewCard->GetRoot()->GetPushCount() == 0) {
             m_PushProcessingArea.push_back(NewCard->GetRoot());
+            NewCard->GetRoot()->SetPushing(glm::vec2(), 2);
+
         }
     }
 }
@@ -197,6 +201,8 @@ void App::AddCard(std::shared_ptr<card::Card> NewCard) {
         m_WorldCards.emplace(NewCard->GetTransform().translation.x, NewCard);
         if (NewCard->GetRoot()->GetPushCount() == 0) {
             m_PushProcessingArea.push_back(NewCard->GetRoot());
+            NewCard->GetRoot()->SetPushing(glm::vec2(), 2);
+
         }
     }
 }

@@ -32,7 +32,7 @@ namespace card {
     }
 
     void Card::ClickUp() {
-        if (Util::Time::GetElapsedTimeMs() - m_ClickTime < 120) {
+        if (Util::Time::GetElapsedTimeMs() - m_ClickTime < 180) {
             Clicking();
         }
         if (m_SFXs.size() > 1) {
@@ -289,25 +289,38 @@ namespace card {
     void Card::CanSynthetic() {
         auto name=GetCardsName();
         auto [a,b]=SynthesisTable::SyntheticCheck(name);
+        LOG_DEBUG("{}", a);
         if (a != -1) {
-
+            if (m_Name == "Market") {
+                if (m_Child != nullptr && m_Child->HasPrice()) {
+                    
+                }
+                else {
+                    if (!weak_from_this().expired())
+                        CancelComposition();
+                    return;
+                }
+            }
             if (GetRoot()->m_SyntheticTableid != a) {
                 GetRoot()->SetSynthesisTime(SynthesisTable::m_SynthesisTable[a].time / b);
                 GetRoot()->m_SyntheticTableid = a;
-                LOG_DEBUG("index:{}:{}", SynthesisTable::m_SynthesisTable[a].time / b,a);
             }
 
            if (GetRoot() != shared_from_this() && GetRoot()->m_SyntheticTableid == m_SyntheticTableid && GetRoot()->m_SyntheticTableid != -1) {
                 GetRoot()->m_ProgressTime = m_ProgressTime;
                 CancelComposition();
-            }
+           }
+           else if(GetRoot() != shared_from_this() && GetRoot()->m_SyntheticTableid != m_SyntheticTableid && GetRoot()->m_SyntheticTableid != -1){
+               CancelComposition();
+           }
         }
         else if(m_SyntheticStop==false){
             if (!weak_from_this().expired())
                 CancelComposition();
+            
         }
         else if(m_SyntheticStop == true) {
-
+           
         }
 
     }
